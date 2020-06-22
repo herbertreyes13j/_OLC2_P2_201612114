@@ -1,0 +1,372 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    and
+    andb
+    andbasigna
+    char
+    condicional
+    decimal
+    decremento
+    diferente
+    direccion
+    divasigna
+    division
+    entero
+    flecha
+    igual
+    incremento
+    mas
+    masasigna
+    mayor
+    mayori
+    menor
+    menori
+    menos
+    menosasigna
+    modasigna
+    modulo
+    not
+    notb
+    or
+    orb
+    orbasigna
+    par1
+    par2
+    por
+    porasigna
+    puntero
+    punto
+    shifizqtasigna
+    shiftder
+    shiftderasigna
+    shiftizq
+    string
+    t_auto
+    t_break
+    t_case
+    t_const
+    t_continue
+    t_default
+    t_do
+    t_else
+    t_enum
+    t_extern
+    t_for
+    t_goto
+    t_if
+    t_printf
+    t_register
+    t_return
+    t_scanf
+    t_sizeof
+    t_struct
+    t_switch
+    t_void
+    t_while
+    xorb
+    xorbasinga
+
+Grammar
+
+Rule 0     S' -> S
+Rule 1     S -> Sentencias_G
+Rule 2     S -> <empty>
+Rule 3     Sentencias_G -> Sentencias_G Sentencia_G
+Rule 4     Sentencias_G -> Sentencia_G
+Rule 5     Sentencia_G -> Declaracion
+Rule 6     Declaracion -> Tipos L_Dec pyc
+Rule 7     L_Dec -> L_Dec coma Dec
+Rule 8     L_Dec -> Dec
+Rule 9     Dec -> iden
+Rule 10    Dec -> iden asigna
+Rule 11    Tipos -> t_char
+Rule 12    Tipos -> t_int
+Rule 13    Tipos -> t_double
+Rule 14    Tipos -> t_float
+Rule 15    Dimen -> Dimen cor1 cor1
+Rule 16    Dimen -> cor1 cor2
+
+Terminals, with rules where they appear
+
+and                  : 
+andb                 : 
+andbasigna           : 
+asigna               : 10
+char                 : 
+coma                 : 7
+condicional          : 
+cor1                 : 15 15 16
+cor2                 : 16
+decimal              : 
+decremento           : 
+diferente            : 
+direccion            : 
+divasigna            : 
+division             : 
+entero               : 
+error                : 
+flecha               : 
+iden                 : 9 10
+igual                : 
+incremento           : 
+mas                  : 
+masasigna            : 
+mayor                : 
+mayori               : 
+menor                : 
+menori               : 
+menos                : 
+menosasigna          : 
+modasigna            : 
+modulo               : 
+not                  : 
+notb                 : 
+or                   : 
+orb                  : 
+orbasigna            : 
+par1                 : 
+par2                 : 
+por                  : 
+porasigna            : 
+puntero              : 
+punto                : 
+pyc                  : 6
+shifizqtasigna       : 
+shiftder             : 
+shiftderasigna       : 
+shiftizq             : 
+string               : 
+t_auto               : 
+t_break              : 
+t_case               : 
+t_char               : 11
+t_const              : 
+t_continue           : 
+t_default            : 
+t_do                 : 
+t_double             : 13
+t_else               : 
+t_enum               : 
+t_extern             : 
+t_float              : 14
+t_for                : 
+t_goto               : 
+t_if                 : 
+t_int                : 12
+t_printf             : 
+t_register           : 
+t_return             : 
+t_scanf              : 
+t_sizeof             : 
+t_struct             : 
+t_switch             : 
+t_void               : 
+t_while              : 
+xorb                 : 
+xorbasinga           : 
+
+Nonterminals, with rules where they appear
+
+Dec                  : 7 8
+Declaracion          : 5
+Dimen                : 15
+L_Dec                : 6 7
+S                    : 0
+Sentencia_G          : 3 4
+Sentencias_G         : 1 3
+Tipos                : 6
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . S
+    (1) S -> . Sentencias_G
+    (2) S -> .
+    (3) Sentencias_G -> . Sentencias_G Sentencia_G
+    (4) Sentencias_G -> . Sentencia_G
+    (5) Sentencia_G -> . Declaracion
+    (6) Declaracion -> . Tipos L_Dec pyc
+    (11) Tipos -> . t_char
+    (12) Tipos -> . t_int
+    (13) Tipos -> . t_double
+    (14) Tipos -> . t_float
+
+    $end            reduce using rule 2 (S -> .)
+    t_char          shift and go to state 6
+    t_int           shift and go to state 7
+    t_double        shift and go to state 8
+    t_float         shift and go to state 9
+
+    S                              shift and go to state 1
+    Sentencias_G                   shift and go to state 2
+    Sentencia_G                    shift and go to state 3
+    Declaracion                    shift and go to state 4
+    Tipos                          shift and go to state 5
+
+state 1
+
+    (0) S' -> S .
+
+
+
+state 2
+
+    (1) S -> Sentencias_G .
+    (3) Sentencias_G -> Sentencias_G . Sentencia_G
+    (5) Sentencia_G -> . Declaracion
+    (6) Declaracion -> . Tipos L_Dec pyc
+    (11) Tipos -> . t_char
+    (12) Tipos -> . t_int
+    (13) Tipos -> . t_double
+    (14) Tipos -> . t_float
+
+    $end            reduce using rule 1 (S -> Sentencias_G .)
+    t_char          shift and go to state 6
+    t_int           shift and go to state 7
+    t_double        shift and go to state 8
+    t_float         shift and go to state 9
+
+    Sentencia_G                    shift and go to state 10
+    Declaracion                    shift and go to state 4
+    Tipos                          shift and go to state 5
+
+state 3
+
+    (4) Sentencias_G -> Sentencia_G .
+
+    t_char          reduce using rule 4 (Sentencias_G -> Sentencia_G .)
+    t_int           reduce using rule 4 (Sentencias_G -> Sentencia_G .)
+    t_double        reduce using rule 4 (Sentencias_G -> Sentencia_G .)
+    t_float         reduce using rule 4 (Sentencias_G -> Sentencia_G .)
+    $end            reduce using rule 4 (Sentencias_G -> Sentencia_G .)
+
+
+state 4
+
+    (5) Sentencia_G -> Declaracion .
+
+    t_char          reduce using rule 5 (Sentencia_G -> Declaracion .)
+    t_int           reduce using rule 5 (Sentencia_G -> Declaracion .)
+    t_double        reduce using rule 5 (Sentencia_G -> Declaracion .)
+    t_float         reduce using rule 5 (Sentencia_G -> Declaracion .)
+    $end            reduce using rule 5 (Sentencia_G -> Declaracion .)
+
+
+state 5
+
+    (6) Declaracion -> Tipos . L_Dec pyc
+    (7) L_Dec -> . L_Dec coma Dec
+    (8) L_Dec -> . Dec
+    (9) Dec -> . iden
+    (10) Dec -> . iden asigna
+
+    iden            shift and go to state 13
+
+    L_Dec                          shift and go to state 11
+    Dec                            shift and go to state 12
+
+state 6
+
+    (11) Tipos -> t_char .
+
+    iden            reduce using rule 11 (Tipos -> t_char .)
+
+
+state 7
+
+    (12) Tipos -> t_int .
+
+    iden            reduce using rule 12 (Tipos -> t_int .)
+
+
+state 8
+
+    (13) Tipos -> t_double .
+
+    iden            reduce using rule 13 (Tipos -> t_double .)
+
+
+state 9
+
+    (14) Tipos -> t_float .
+
+    iden            reduce using rule 14 (Tipos -> t_float .)
+
+
+state 10
+
+    (3) Sentencias_G -> Sentencias_G Sentencia_G .
+
+    t_char          reduce using rule 3 (Sentencias_G -> Sentencias_G Sentencia_G .)
+    t_int           reduce using rule 3 (Sentencias_G -> Sentencias_G Sentencia_G .)
+    t_double        reduce using rule 3 (Sentencias_G -> Sentencias_G Sentencia_G .)
+    t_float         reduce using rule 3 (Sentencias_G -> Sentencias_G Sentencia_G .)
+    $end            reduce using rule 3 (Sentencias_G -> Sentencias_G Sentencia_G .)
+
+
+state 11
+
+    (6) Declaracion -> Tipos L_Dec . pyc
+    (7) L_Dec -> L_Dec . coma Dec
+
+    pyc             shift and go to state 14
+    coma            shift and go to state 15
+
+
+state 12
+
+    (8) L_Dec -> Dec .
+
+    pyc             reduce using rule 8 (L_Dec -> Dec .)
+    coma            reduce using rule 8 (L_Dec -> Dec .)
+
+
+state 13
+
+    (9) Dec -> iden .
+    (10) Dec -> iden . asigna
+
+    pyc             reduce using rule 9 (Dec -> iden .)
+    coma            reduce using rule 9 (Dec -> iden .)
+    asigna          shift and go to state 16
+
+
+state 14
+
+    (6) Declaracion -> Tipos L_Dec pyc .
+
+    t_char          reduce using rule 6 (Declaracion -> Tipos L_Dec pyc .)
+    t_int           reduce using rule 6 (Declaracion -> Tipos L_Dec pyc .)
+    t_double        reduce using rule 6 (Declaracion -> Tipos L_Dec pyc .)
+    t_float         reduce using rule 6 (Declaracion -> Tipos L_Dec pyc .)
+    $end            reduce using rule 6 (Declaracion -> Tipos L_Dec pyc .)
+
+
+state 15
+
+    (7) L_Dec -> L_Dec coma . Dec
+    (9) Dec -> . iden
+    (10) Dec -> . iden asigna
+
+    iden            shift and go to state 13
+
+    Dec                            shift and go to state 17
+
+state 16
+
+    (10) Dec -> iden asigna .
+
+    pyc             reduce using rule 10 (Dec -> iden asigna .)
+    coma            reduce using rule 10 (Dec -> iden asigna .)
+
+
+state 17
+
+    (7) L_Dec -> L_Dec coma Dec .
+
+    pyc             reduce using rule 7 (L_Dec -> L_Dec coma Dec .)
+    coma            reduce using rule 7 (L_Dec -> L_Dec coma Dec .)
+
