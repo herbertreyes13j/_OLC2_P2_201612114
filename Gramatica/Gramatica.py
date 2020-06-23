@@ -1,24 +1,19 @@
 import Errores.N_Error as err
 
 reservadas = {
-    'auto':'t_auto',
     'break':'t_break',
     'case': 't_case',
     'char': 't_char',
-    'const': 't_const',
     'continue':'t_continue',
     'default':'t_default',
     'do':'t_do',
     'double':'t_double',
     'else':'t_else',
-    'enum':'t_enum',
-    'extern':'t_extern',
     'float':'t_float',
     'for':'t_for',
     'goto':'t_goto',
     'if':'t_if',
     'int':'t_int',
-    'register':'t_register',
     'return':'t_return',
     'sizeof':'t_sizeof',
     'struct':'t_struct',
@@ -32,14 +27,11 @@ tokens = [
             'par2',
             'cor1',
             'cor2',
-            'flecha',
             'punto',
             'mas',
             'menos',
             'not',
             'notb',
-            'puntero',
-            'direccion',
             'incremento',
             'decremento',
             'por',
@@ -59,6 +51,7 @@ tokens = [
             'and',
             'or',
             'condicional',
+            'bipunto',
             'asigna',
             'porasigna',
             'divasigna',
@@ -88,14 +81,11 @@ t_par1 = r'\('
 t_par2 = r'\)'
 t_cor1 = r'\['
 t_cor2 = r'\]'
-t_flecha = r'->'
 t_punto = r'\.'
 t_mas = r'\+'
 t_menos = r'-'
 t_not = r'!'
 t_notb = r'~'
-t_puntero = r'\*'
-t_direccion = r'&'
 t_incremento = r'\+\+'
 t_decremento = r'--'
 t_por = r'\*'
@@ -114,7 +104,8 @@ t_xorb = r'\^'
 t_orb = r'\|'
 t_and = r'&&'
 t_or = r'\|\|'
-t_condicional = r'\?:'
+t_condicional = r'\?'
+t_bipunto=r':'
 t_asigna = r'='
 t_porasigna = r'\*='
 t_divasigna = r'/='
@@ -219,7 +210,7 @@ precedence = (
     ('right','asigna','porasigna','divasigna','modasigna','masasigna',
             'menosasigna','shiftizqasigna','shiftderasigna',
             'andbasigna','orbasigna','xorbasinga'),
-    ('right', 'condicional'),
+    ('right', 'condicional','bipunto'),
     ('left', 'or'),
     ('left','and'),
     ('left','orb'),
@@ -230,9 +221,9 @@ precedence = (
     ('left','shiftder','shiftizq'),
     ('left','mas','menos'),
     ('left','por','division','modulo'),
-    ('right','t_sizeof','incremento','decremento','direccion','puntero',
+    ('right','t_sizeof','incremento','decremento',
      'not','notb'),
-    ('left','par1','par2','cor1','cor2','flecha','punto')
+    ('left','par1','par2','cor1','cor2','punto')
 )
 
 from AST import *
@@ -245,11 +236,20 @@ from AST.Asignacion import *
 from AST.Atributo import *
 from AST.Struct import *
 from AST.Lista import *
-from AST.Puntero import *
+from AST.Acceso_Struct import *
+from AST.Break import *
 from AST.Funcion import *
 from AST.IF import *
+from AST.Switch import *
 from AST.Llamada import *
+from AST.While import *
+from AST.DoWhile import *
+from AST.For import *
+from AST.Etiqueta import *
+from AST.Return import *
 from TS.Tipos import *
+
+
 
 
 def p_inicio(t):
@@ -306,29 +306,9 @@ def p_Dec2(t):
     else:
         t[0] = Declaracion(t[-1], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))
 
-def p_Dec_Pointer_Arr(t):
-    'Dec : POINTERS iden LACCESO'
-    if type(t[-1]) == str:tipo=t[-3]
-    else:tipo=t[-1]
-    t[0]=Puntero(tipo,t[2],None,t.slice[2].lineno,find_column(input,t.slice[2]),t[3],t[1])
 
-def p_Dec2_Pointer_Arr_EXP(t):
-    'Dec : POINTERS iden LACCESO asigna EXP'
-    if type(t[-1]) == str:tipo=t[-3]
-    else:tipo=t[-1]
-    t[0]=Puntero(tipo,t[2],t[5],t.slice[2].lineno,find_column(input,t.slice[2]),[3],t[1])
 
-def p_Dec_Pointer(t):
-    'Dec : POINTERS iden'
-    if type(t[-1]) == str:tipo=t[-3]
-    else:tipo=t[-1]
-    t[0]=Puntero(tipo,t[2],None,t.slice[2].lineno,find_column(input,t.slice[2]),[],t[1])
 
-def p_Dec2_Pointer_EXP(t):
-    'Dec : POINTERS iden asigna EXP'
-    if type(t[-1]) == str:tipo=t[-3]
-    else:tipo=t[-1]
-    t[0]=Puntero(tipo,t[2],t[4],t.slice[2].lineno,find_column(input,t.slice[2]),[],t[1])
 
 def p_Dec_ArraySimple_Exp(t):
     ' Dec : iden cor1 cor2 asigna EXP'
@@ -389,6 +369,14 @@ def p_ASIGNACION_ARREGLO_OP(t):
     ' ASIGNACION : iden LACCESO OP EXP'
     t[0]=Asignacion_Arreglo_Op(t[1],t[3],t[4],t[2],t.slice[1].lineno,find_column(input,t.slice[1]))
 
+def p_ASIGNACION_STRU(t):
+    ' ASIGNACION : ACCESO_STRUCT OP EXP'
+    t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))
+
+def p_ASIGNACION_STRU_NONE(t):
+    ' ASIGNACION : ACCESO_STRUCT'
+    t[0]=Asignacion(t[1],t[1].fila,t[1].columna)
+
 def p_OPERADOR_ASIGNA(t):
     ''' OP :  andbasigna
             | divasigna
@@ -407,9 +395,6 @@ def p_struct(t):
     'STRUCT : t_struct iden llav1 ATRIBUTOS llav2'
     t[0]= [Struct(t[2],t[4],t.slice[1].lineno,find_column(input,t.slice[1]))]
 
-def p_struct2(t):
-    'STRUCT : t_struct iden llav1 ATRIBUTOS llav2 LItemsStruct'
-    t[0] = [Struct(t[2], t[4], t.slice[1].lineno, find_column(input, t.slice[1]),t[6])]
 
 def p_LATT(t):
     'ATRIBUTOS : ATRIBUTOS ATRIBUTO'
@@ -435,33 +420,23 @@ def p_atributo_id(t):
     else:tipo=t[-1]
     t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
 
-def p_atributo_p_arr(t):
-    'ItemsStruct : POINTERS iden LACCESO'
-    if type(t[-1]) == str:tipo=t[-3]
-    else:tipo=t[-1]
-    t[0]=Atributo(tipo,t[2],t.slice[2].lineno,find_column(input,t.slice[2]),t[3],t[1])
-
-def p_atributo_p(t):
-    'ItemsStruct : POINTERS iden'
-    if type(t[-1]) == str:tipo=t[-3]
-    else:tipo=t[-1]
-    t[0]=Atributo(tipo,t[2],t.slice[2].lineno,find_column(input,t.slice[2]),[],t[1])
-
 def p_atributo_arr(t):
     'ItemsStruct : iden LACCESO'
     if type(t[-1]) == str:tipo=t[-3]
     else:tipo=t[-1]
     t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2])
 
-def p_pointer_list(t):
-    'POINTERS : POINTERS puntero'
-    t[1]+=1;
-    t[0]=t[1]
+def p_atributo_id2(t):
+    'ItemsStruct2 : iden'
+    t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
 
+def p_atributo_arr2(t):
+    'ItemsStruct2 : iden LACCESO'
+    t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2])
 
-def p_pointer_p(t):
-    'POINTERS : puntero'
-    t[0]=1;
+def p_acceso_struct(t):
+    'ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2'
+    t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))
 
 def p_Tipos1(t):
     'Tipos : t_char'
@@ -481,8 +456,14 @@ def p_Tipos4(t):
 
 
 def p_funcion(t):
-    'Funcion : Tipos iden par1 Parametros par2 llav1 SS_F llav2'
-    t[0]=[Funcion(t[1],t[2],t[4],t[7],t.slice[2].lineno,find_column(input,t.slice[2]))]
+    'Funcion : Tipos iden par1 Parametros par2 BLOQUE'
+    t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]
+
+def p_funcion_void(t):
+    'Funcion : t_void iden par1 Parametros par2 BLOQUE'
+    t[0]=[Funcion(TIPO(TIPO_DATOS.VOID),t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]
+
+
 
 def p_l_parametros_e(t):
     'Parametros :'
@@ -510,38 +491,103 @@ def p_sentencia_f(t):
          | LASIGNACION pyc
         | STRUCT pyc
         | IF
-        | LLAMADA pyc'''
+        | LLAMADA pyc
+        | BREAK pyc
+        | CONTINUE pyc
+        | SWITCH
+        | DO_WHILE pyc
+        | WHILE
+        | RETURN
+        | ETIQUETA
+        | GOTO pyc'''
     t[0]=t[1]
 
-def p_sentencia_f_e(t):
-    'S_F : '
+
+def p_bloque(t):
+    'BLOQUE : llav1 SS_F llav2'
+    t[0]=t[2]
+
+def p_bloque_e(t):
+    'BLOQUE : llav1 llav2 '
     t[0]=[]
 
+def p_etiqueta(t):
+    'ETIQUETA : iden bipunto'
+    t[0]=Etiqueta(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
 
+def p_goto(t):
+    'GOTO : t_goto iden'
+    t[0]=Goto(t[2],t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_do_while(t):
+    'DO_WHILE :  t_do BLOQUE t_while par1 EXP par2'
+    t[0]=DoWhile(t[5],t[2],t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_while(t):
+    'WHILE :  t_while  par1 EXP par2 BLOQUE'
+    t[0]=While(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_return(t):
+    'RETURN : t_return EXP'
+    t[0]=Return(t.slice[1].lineno,find_column(input,t.slice[1]),t[2])
+def p_return_s(t):
+    'RETURN : t_return'
+    t[0]=Return(t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_switch(t):
+    'SWITCH : t_switch par1 EXP par2 llav1 CASOS llav2'
+    t[0]=Switch(t[3],t[6],t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_switch_default(t):
+    'SWITCH : t_switch par1 EXP par2 llav1 CASOS DEFAULT llav2'
+    t[0]=Switch(t[3],t[6],t.slice[1].lineno,find_column(input,t.slice[1]),t[7])
+
+def p_casos(t):
+    'CASOS : CASOS CASO'
+    t[1].append(t[2])
+    t[0]=t[1]
+def p_casos_caso(t):
+    'CASOS : CASO'
+    t[0]=[t[1]]
+def p_caso(t):
+    'CASO : t_case EXP bipunto SS_F'
+    t[0]=Casos(t[2],t[4],t.slice[1].lineno,find_column(input,t.slice[1]))
+def p_caso_e(t):
+    'CASO : t_case EXP bipunto '
+    t[0]=Casos(t[2],[],t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_default(t):
+    'DEFAULT : t_default bipunto SS_F'
+    t[0]=Default(t[3],t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_default_e(t):
+    'DEFAULT : t_default bipunto '
+    t[0]=Default([],t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_break(t):
+    'BREAK : t_break'
+    t[0]=Break(t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_continue(t):
+    'CONTINUE : t_continue'
+    t[0]=Continue(t.slice[1].lineno,find_column(input,t.slice[1]))
 
 def p_if(t):
-    'IF : t_if par1 EXP par2 llav1 SS_F llav2'
-    t[0]= IF(t[3],t[6],t.slice[1].lineno,find_column(input,t.slice[1]))
+    'IF : t_if par1 EXP par2 BLOQUE'
+    t[0]= IF(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]))
 
 def p_if_elif(t):
-    'IF : t_if par1 EXP par2 llav1 SS_F llav2 t_else IF'
-    t[0]= IF(t[3],t[6],t.slice[1].lineno,find_column(input,t.slice[1]),[t[9]])
+    'IF : t_if par1 EXP par2 BLOQUE t_else IF'
+    t[0]= IF(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]),[t[7]])
 
 def p_if_else(t):
-    'IF : t_if par1 EXP par2 llav1 SS_F llav2 t_else llav1 SS_F llav2'
-    t[0]= IF(t[3],t[6],t.slice[1].lineno,find_column(input,t.slice[1]),t[10])
+    'IF : t_if par1 EXP par2 BLOQUE t_else BLOQUE'
+    t[0]= IF(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]),t[7])
 
 def p_parametro_id(t):
     'Parametro : Tipos iden'
     t[0]=Atributo(t[1],t[2],t.slice[2].lineno,find_column(input,t.slice[2]))
 
-def p_parametro_p_arr(t):
-    'Parametro : Tipos POINTERS iden LACCESO'
-    t[0]=Atributo(t[1],t[3],t.slice[3].lineno,find_column(input,t.slice[3]),t[4],t[2])
-
-def p_parametro_p(t):
-    'Parametro : Tipos POINTERS iden'
-    t[0]=Atributo(t[1],t[3],t.slice[3].lineno,find_column(input,t.slice[3]),[],t[2])
 
 def p_parametro_arr(t):
     'Parametro : Tipos iden LACCESO'
@@ -588,6 +634,10 @@ def p_primitivos(t):
            | char'''
     t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)
 
+def p_exp_id(t):
+    'EXP : iden'
+    t[0]=variable(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
+
 def p_exprpar(t):
     'EXP : par1 EXP par2'
     t[0]=t[1]
@@ -605,14 +655,17 @@ def p_unario(t):
            | menos EXP
            | not EXP
            | notb EXP
-           | puntero EXP
-           | direccion EXP'''
+           | andb EXP'''
     t[0]=unario(t[2],t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
 
 def p_inc_pre(t):
     ''' EXP : incremento EXP
             | decremento EXP'''
     t[0]=incremento(t[2],t[1],True,t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_ternario(t):
+    'EXP : EXP condicional EXP bipunto EXP'
+    t[0]=ternario(t[1],t[3],t[5],t.slice[2].lineno,find_column(input,t.slice[2]))
 
 def p_inc_post(t):
     ''' EXP :  EXP incremento
@@ -629,6 +682,16 @@ def p_ELEMS(t):
 def p_ELEMENTS(t):
     'ELEMENTS : EXP'
     t[0]=[t[1]]
+
+def p_EXPRESIONES_ESPECIALES(t):
+    '''EXP : ACCESO_STRUCT
+            | LLAMADA '''
+    t[0]=t[1]
+
+
+def p_sizeof(t):
+    'EXP : t_sizeof par1 EXP par2'
+    t[0]=sizeof(t[3],t.slice[1].lineno,find_column(input,t.slice[1]))
 
 def p_error(t):
     print(t)

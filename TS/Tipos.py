@@ -7,6 +7,7 @@ class TIPO_DATOS(Enum):
     FLOAT = 3
     CHAR = 4
     STRING = 5
+    VOID = 6
 
 
 class TIPO:

@@ -28,6 +28,12 @@ class primitivo(Nodo.Nodo):
         elif tipo == "char": self.tipo = Tipos.TIPO(Tipos.TIPO_DATOS.CHAR)
         elif tipo == "string":self.tipo = Tipos.TIPO(Tipos.TIPO_DATOS.STRING)
 
+class variable(Nodo.Nodo):
+    def __init__(self,nombre,fila,col):
+        self.fila=fila
+        self.columna=col
+        self.nombre=nombre
+
 class bitabit(Nodo.Nodo):
     def __init__(self,Exp1,Exp2,op,fila,col):
         self.fila=fila
@@ -58,3 +64,18 @@ class unario(Nodo.Nodo):
         self.columna=col
         self.Exp=Exp
         self.op=op
+
+
+class ternario(Nodo.Nodo):
+    def __init__(self,Cond,Exp1,Exp2,fila,col):
+        self.fila=fila
+        self.columna=col
+        self.Cond=Cond
+        self.Exp1=Exp1
+        self.Exp2=Exp2
+
+class sizeof(Nodo.Nodo):
+    def __init__(self,Exp,fila,col):
+        self.fila=fila
+        self.columna=col
+        self.Exp=Exp
