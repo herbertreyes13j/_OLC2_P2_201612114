@@ -23,10 +23,27 @@ class primitivo(Nodo.Nodo):
         self.fila=fila
         self.columna=col
         self.valor=Valor
+        self.temporal=""
         if tipo == "decimal": self.tipo=Tipos.TIPO(Tipos.TIPO_DATOS.FLOAT)
         elif tipo == "entero": self.tipo=Tipos.TIPO(Tipos.TIPO_DATOS.INT)
         elif tipo == "char": self.tipo = Tipos.TIPO(Tipos.TIPO_DATOS.CHAR)
         elif tipo == "string":self.tipo = Tipos.TIPO(Tipos.TIPO_DATOS.STRING)
+
+    def getC3D(self,TS,Global,Traductor):
+        self.temporal=str(self.valor)
+        return ""
+        pass
+
+    def analizar(self,TS,Global):
+        return self.tipo.tipo
+
+    def graficarasc(self,padre,grafica):
+        nombrehijo='Node'+str(id(self))
+        grafica.node(nombrehijo,label=('Exp'))
+        grafica.edge(padre,nombrehijo)
+        grafica.node('NodeV'+str(id(self)),label=(str(self.valor)))
+        grafica.edge(nombrehijo,'NodeV'+str(id(self)))
+        pass
 
 class variable(Nodo.Nodo):
     def __init__(self,nombre,fila,col):

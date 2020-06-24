@@ -306,10 +306,6 @@ def p_Dec2(t):
     else:
         t[0] = Declaracion(t[-1], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))
 
-
-
-
-
 def p_Dec_ArraySimple_Exp(t):
     ' Dec : iden cor1 cor2 asigna EXP'
     if type(t[-1]) == str:
@@ -480,12 +476,14 @@ def p_l_parametros_p(t):
 
 def p_sentencias_f(t):
     'SS_F : SS_F S_F'
-    t[1].append(t[2])
+    t[1].extend(t[2])
     t[0]=t[1]
+    print('hola')
 
 def p_sentencias_s_f(t):
     'SS_F : S_F'
-    t[0]=[t[1]]
+    t[0]=t[1]
+    print('hola')
 def p_sentencia_f(t):
     '''S_F : Declaracion
          | LASIGNACION pyc
@@ -499,7 +497,8 @@ def p_sentencia_f(t):
         | WHILE
         | RETURN
         | ETIQUETA
-        | GOTO pyc'''
+        | GOTO pyc
+        | FOR'''
     t[0]=t[1]
 
 
@@ -509,6 +508,31 @@ def p_bloque(t):
 
 def p_bloque_e(t):
     'BLOQUE : llav1 llav2 '
+    t[0]=[]
+
+
+def p_for_e(t):
+    'FOR : t_for par1 INICIO EXP pyc INCDC BLOQUE'
+    t[0]=For(t[3],t[4],t[6],t[7],t.slice[1].lineno,find_column(input,t.slice[1]))
+
+def p_Inicio(t):
+    'INICIO : Tipos Dec pyc'
+    t[0]=t[2]
+
+def p_Inicio2(t):
+    'INICIO : ASIGNACION pyc'
+    t[0]=t[1]
+
+def p_Inicio_e(t):
+    'INICIO : pyc'
+    t[0]=[]
+
+def p_cremetno(t):
+    'INCDC : EXP par2'
+    t[0]=t[1]
+
+def p_cremetno2(t):
+    'INCDC : par2'
     t[0]=[]
 
 def p_etiqueta(t):

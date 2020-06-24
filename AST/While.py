@@ -8,3 +8,5 @@ class While(Nodo.Nodo):
         self.columna = columna
         self.EXP=EXP
         self.SENTENCIAS=SENTENCIAS
+
+

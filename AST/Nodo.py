@@ -1,9 +1,9 @@
-from abc import ABC,abstractmethod
-class Nodo(ABC):
-    def __init__(self,fila,columna):
-        self.fila=fila
-        self.columna=columna
-    def analizar(self):
+import abc
+class Nodo(metaclass=abc.ABCMeta):
+
+    @abc.abstractmethod
+    def getC3D(self,TS,Global,Traductor):
         pass
-    def getC3D(self):
+    @abc.abstractmethod
+    def graficarasc(self,padre,grafica):
         pass

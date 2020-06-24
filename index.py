@@ -13,7 +13,10 @@ import threading
 import Errores.N_Error as error
 import Errores.L_Error as lista_err
 from tkinter import colorchooser
-
+from TS.TS import *
+from AST.Declaracion import *
+from AST.Funcion import *
+from TS.Generador import *
 if __name__=='__main__':
 	from LineNumber import LineMain
 	from Graphics import Tkinter
@@ -160,6 +163,26 @@ def analizar():
     input = txtarea.get(1.0, END)
 
     resultado = g.parse(input)
+    print(resultado)
+    f = graphviz.Digraph(filename='Reporte_AST.gv')
+    f.node('Node0',label='RAIZ')
+    for nodo in resultado:
+        nodo.graficarasc('Node0',f)
+    f.view()
+    pila=TablaDeSimbolos("global")
+    generador=Generador3D()
+    codigo="main: \n" \
+           "$s0 = array(); \n" \
+           "$sp=1;\n"
+    for nodo in resultado:
+        if isinstance(nodo,Funcion):
+            pila.agregarfunc(nodo)
+
+    for nodo in resultado:
+        if isinstance(nodo,Declaracion):
+            codigo+=nodo.getC3D(None,pila,generador)
+
+    consola.insert(INSERT,codigo)
     '''
         if interprete.errores.principio is not None:
         errores(interprete.errores.principio)
