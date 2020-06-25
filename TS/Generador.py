@@ -17,3 +17,6 @@ class Generador3D:
 
     def getfromP(self,destino,pos):
         return str(destino) + "= $sp+" + str(pos) + ";\n"
+
+    def make3d(self,asignacion,ins1,op,ins2):
+        return str(asignacion) + " = " + str(ins1) + " " + str(op) + " " + str(ins2) + ";\n"

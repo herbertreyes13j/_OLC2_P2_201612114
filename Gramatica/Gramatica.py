@@ -672,7 +672,7 @@ def p_bitabit(t):
            | EXP andb EXP
            | EXP xorb EXP
            | EXP orb EXP'''
-    t[0]=bitabit(t[1],t[3],t[1],t.slice[2].lineno,find_column(input,t.slice[2]))
+    t[0]=bitabit(t[1],t[3],t[2],t.slice[2].lineno,find_column(input,t.slice[2]))
 
 def p_unario(t):
     '''EXP : mas EXP
