@@ -1,0 +1,10 @@
+digraph g {
+	node [height=.1 shape=plaintext]
+	table [label=<<TABLE>
+                            <TR>
+                                <TD>No</TD>
+                                <TD>Tipo Error</TD>
+                                <TD>Descripcion</TD>
+                                <TD>Linea</TD>
+                            </TR><TR><TD>1</TD><TD>Semantico</TD><TD>No se pueden imprimir arreglos: $t1</TD><TD>7</TD></TR><TR><TD>2</TD><TD>Semantico</TD><TD>No se pueden imprimir arreglos: $t2</TD><TD>10</TD></TR><TR><TD>3</TD><TD>Semantico</TD><TD>No se pueden imprimir arreglos: $t0</TD><TD>11</TD></TR></TABLE>>]
+}

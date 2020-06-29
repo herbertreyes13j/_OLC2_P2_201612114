@@ -20,3 +20,19 @@ class Generador3D:
 
     def make3d(self,asignacion,ins1,op,ins2):
         return str(asignacion) + " = " + str(ins1) + " " + str(op) + " " + str(ins2) + ";\n"
+
+    def makecomentario(self,comentario):
+        return "#" + comentario + "\n"
+
+    def getEtq(self):
+        etiqueta = self.etiquetas
+        self.etiquetas+=1
+        return "L" + str(etiqueta)
+
+    def incP(self,incremento):
+        return '$sp=$sp + ' + str(incremento) + ';\n'
+
+    def decP(self,decremento):
+        return '$sp=$sp - ' + str(decremento) + ';\n'
+
+

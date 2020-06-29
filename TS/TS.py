@@ -9,6 +9,29 @@ class TablaDeSimbolos():
         self.tmp = 0
         self.etq = 0
         self.funciones={}
+        self.escape=[]
+        self.continuel=[]
+        self.traducidas=[]
+        self.cuentatrad=0
+        self.codigofinal="retorno_final:\n"
+
+
+    def insercont(self,etq):
+        self.continuel.append(etq)
+
+    def getlastcont(self):
+        return self.continuel[len(self.continuel)-1]
+    def popc(self):
+        self.continuel.pop()
+
+    def inseres(self,etq):
+        self.escape.append(etq)
+
+    def getlastes(self):
+        return self.escape[len(self.escape)-1]
+
+    def popes(self):
+        self.escape.pop()
 
     def reiniciar(self):
         self.size=1
@@ -86,11 +109,23 @@ class TablaDeSimbolos():
     def agregarfunc(self,funcion):
         self.funciones[funcion.nombre]=funcion
 
+    def agregartrad(self,nombre):
+        self.traducidas.append(nombre)
+
     def obtenerfunc(self,nombre):
         if not nombre in self.funciones:
             print('Error')
-
+            return None
         return self.funciones[nombre]
+
+    def obtenertrad(self,nombre):
+        if not nombre in self.traducidas:
+            print('error')
+            return None
+        return self.traducidas[nombre]
+
+    def agregarcodigo(self,codigo):
+        self.codigofinal+=codigo
 
 
 

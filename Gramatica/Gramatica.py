@@ -144,7 +144,7 @@ def t_entero(t):
 def t_char(t):
     r'\'.\''
     t.value = t.value[1:-1]  # remuevo las comillas
-    t.value= t.value.replace("\\n","\n")
+    #t.value= t.value.replace("\\n","\n")
     t.value = t.value.replace("\\\\", "\\")
     t.value = t.value.replace("\\\'", "\'")
     t.value = t.value.replace("\\\"", "\"")
@@ -156,7 +156,7 @@ def t_char(t):
 def t_string(t):
     r'\".*?\"'
     t.value = t.value[1:-1]  # remuevo las comillas
-    t.value= t.value.replace("\\n","\n")
+    #t.value= t.value.replace("\\n","\n")
     t.value = t.value.replace("\\\\", "\\")
     t.value = t.value.replace("\\\'", "\'")
     t.value = t.value.replace("\\\"", "\"")
@@ -309,9 +309,9 @@ def p_Dec2(t):
 def p_Dec_ArraySimple_Exp(t):
     ' Dec : iden cor1 cor2 asigna EXP'
     if type(t[-1]) == str:
-        t[0] = ArregloSimple(t[-3], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))
+        t[0] = ArregloSimple(t[-3], t.slice[1].value, t[5], t.slice[1].lineno, find_column(input, t.slice[1]))
     else:
-        t[0] = ArregloSimple(t[-1], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))
+        t[0] = ArregloSimple(t[-1], t.slice[1].value, t[5], t.slice[1].lineno, find_column(input, t.slice[1]))
 
 def p_Dec_Array(t):
     ' Dec : iden LACCESO'
@@ -513,7 +513,7 @@ def p_bloque_e(t):
 
 def p_for_e(t):
     'FOR : t_for par1 INICIO EXP pyc INCDC BLOQUE'
-    t[0]=For(t[3],t[4],t[6],t[7],t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[For(t[3],t[4],t[6],t[7],t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_Inicio(t):
     'INICIO : Tipos Dec pyc'
@@ -525,7 +525,7 @@ def p_Inicio2(t):
 
 def p_Inicio_e(t):
     'INICIO : pyc'
-    t[0]=[]
+    t[0]=None
 
 def p_cremetno(t):
     'INCDC : EXP par2'
@@ -533,38 +533,38 @@ def p_cremetno(t):
 
 def p_cremetno2(t):
     'INCDC : par2'
-    t[0]=[]
+    t[0]=None
 
 def p_etiqueta(t):
     'ETIQUETA : iden bipunto'
-    t[0]=Etiqueta(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[Etiqueta(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_goto(t):
     'GOTO : t_goto iden'
-    t[0]=Goto(t[2],t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[Goto(t[2],t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_do_while(t):
     'DO_WHILE :  t_do BLOQUE t_while par1 EXP par2'
-    t[0]=DoWhile(t[5],t[2],t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[DoWhile(t[5],t[2],t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_while(t):
     'WHILE :  t_while  par1 EXP par2 BLOQUE'
-    t[0]=While(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[While(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_return(t):
     'RETURN : t_return EXP'
-    t[0]=Return(t.slice[1].lineno,find_column(input,t.slice[1]),t[2])
+    t[0]=[Return(t.slice[1].lineno,find_column(input,t.slice[1]),t[2])]
 def p_return_s(t):
     'RETURN : t_return'
-    t[0]=Return(t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[Return(t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_switch(t):
     'SWITCH : t_switch par1 EXP par2 llav1 CASOS llav2'
-    t[0]=Switch(t[3],t[6],t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[Switch(t[3],t[6],t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_switch_default(t):
     'SWITCH : t_switch par1 EXP par2 llav1 CASOS DEFAULT llav2'
-    t[0]=Switch(t[3],t[6],t.slice[1].lineno,find_column(input,t.slice[1]),t[7])
+    t[0]=[Switch(t[3],t[6],t.slice[1].lineno,find_column(input,t.slice[1]),t[7])]
 
 def p_casos(t):
     'CASOS : CASOS CASO'
@@ -590,23 +590,23 @@ def p_default_e(t):
 
 def p_break(t):
     'BREAK : t_break'
-    t[0]=Break(t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[Break(t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_continue(t):
     'CONTINUE : t_continue'
-    t[0]=Continue(t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[Continue(t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_if(t):
     'IF : t_if par1 EXP par2 BLOQUE'
-    t[0]= IF(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]= [IF(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_if_elif(t):
     'IF : t_if par1 EXP par2 BLOQUE t_else IF'
-    t[0]= IF(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]),[t[7]])
+    t[0]= [IF(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]),t[7])]
 
 def p_if_else(t):
     'IF : t_if par1 EXP par2 BLOQUE t_else BLOQUE'
-    t[0]= IF(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]),t[7])
+    t[0]= [IF(t[3],t[5],t.slice[1].lineno,find_column(input,t.slice[1]),t[7])]
 
 def p_parametro_id(t):
     'Parametro : Tipos iden'
@@ -620,7 +620,7 @@ def p_parametro_arr(t):
 
 def p_llamada(t):
     'LLAMADA : iden par1 ELEMENTS par2  '
-    t[0]=Llamada(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[3])
+    t[0]=[Llamada(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[3])]
 
 def p_llamada_sinp(t):
     'LLAMADA : iden par1 par2  '

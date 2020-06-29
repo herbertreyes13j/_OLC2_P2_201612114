@@ -16,6 +16,7 @@ class Declaracion(Nodo.Nodo):
 
     def getC3D(self,TS,Global,Traductor):
         codigo=""
+        codigo+=Traductor.makecomentario("Declaracion de "+str(self.nombre))
         if self.valor==None:
             if self.tipo.tipo==Tipos.TIPO_DATOS.INT:
                 val=0

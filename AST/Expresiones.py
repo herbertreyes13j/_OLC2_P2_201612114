@@ -70,7 +70,12 @@ class primitivo(Nodo.Nodo):
         elif tipo == "string":self.tipo = Tipos.TIPO(Tipos.TIPO_DATOS.STRING)
 
     def getC3D(self,TS,Global,Traductor):
-        self.temporal=str(self.valor)
+        if self.tipo.tipo==Tipos.TIPO_DATOS.CHAR:
+            self.temporal='\''+str(self.valor)+'\''
+        elif self.tipo.tipo==Tipos.TIPO_DATOS.STRING:
+            self.temporal='\"'+str(self.valor)+'\"'
+        else:
+            self.temporal=str(self.valor)
         return ""
 
     def graficarasc(self,padre,grafica):
@@ -91,16 +96,30 @@ class variable(Nodo.Nodo):
         codigo=""
         if TS is not None:
             simbolo=TS.obtener(self.nombre)
-            temp2=Traductor.getTemp()
-            temp=Traductor.getTemp()
-            codigo+=Traductor.getfromP(temp2,simbolo.posicion)
-            codigo+=Traductor.getfromStack(temp,temp2)
-            self.temporal=temp
-            return codigo
+            if simbolo!=None:
+                temp2=Traductor.getTemp()
+                temp=Traductor.getTemp()
+                codigo+=Traductor.getfromP(temp2,simbolo.posicion)
+                codigo+=Traductor.getfromStack(temp,temp2)
+                self.temporal=temp
+                return codigo
         simbolo = Global.obtener(self.nombre)
         temp = Traductor.getTemp()
         codigo += Traductor.getfromStack(temp, simbolo.posicion)
         self.temporal = temp
+        return codigo
+
+    def getPosicion(self,TS,Global,Traductor):
+        codigo=""
+        if TS is not None:
+            simbolo=TS.obtener(self.nombre)
+            if simbolo is not None:
+                temp2=Traductor.getTemp()
+                codigo+=Traductor.getfromP(temp2,simbolo.posicion)
+                self.temporal=temp2
+                return codigo
+        simbolo = Global.obtener(self.nombre)
+        self.temporal = simbolo.posicion
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -173,6 +192,41 @@ class incremento(Nodo.Nodo):
         self.Exp1=Exp1
         self.primero=primero
         self.op=op
+
+    def getC3D(self,TS,Global,Traductor):
+        codigo=""
+        if self.primero:
+            codigo+=self.Exp1.getC3D(TS,Global,Traductor)
+            temporal=self.Exp1.temporal;
+            codigo+=self.Exp1.getPosicion(TS,Global,Traductor)
+            codigo+=Traductor.make3d(temporal,temporal,'+',1)
+            codigo+=Traductor.changestack(self.Exp1.temporal,temporal)
+            self.temporal=temporal
+            return codigo
+        else:
+            codigo += self.Exp1.getC3D(TS, Global, Traductor)
+            temporal = self.Exp1.temporal;
+            temporal2=Traductor.getTemp()
+            codigo += self.Exp1.getPosicion(TS, Global, Traductor)
+            codigo += Traductor.make3d(temporal2, temporal, '+', 1)
+            codigo += Traductor.changestack(self.Exp1.temporal, temporal2)
+            self.temporal = temporal
+            return codigo
+
+
+    def graficarasc(self,padre,grafica):
+        nombrehijo = 'Node' + str(id(self))
+        grafica.node(nombrehijo, label=('Exp'))
+        grafica.edge(padre, nombrehijo)
+        if self.primero:
+            grafica.node('NodeE1' + str(id(self)), label=(str(self.op)))
+            grafica.edge(nombrehijo, 'NodeE1' + str(id(self)))
+            self.Exp1.graficarasc(nombrehijo, grafica)
+        else:
+            self.Exp1.graficarasc(nombrehijo, grafica)
+            grafica.node('NodeE1' + str(id(self)), label=(str(self.op)))
+            grafica.edge(nombrehijo, 'NodeE1' + str(id(self)))
+
 
 class unario(Nodo.Nodo):
     def __init__(self,Exp,op,fila,col):

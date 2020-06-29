@@ -1,5 +1,6 @@
 import AST.Nodo as Nodo
-
+from TS.Simbolo import *
+from TS.Tipos import *
 
 class ArregloSimple(Nodo.Nodo):
 
@@ -9,3 +10,42 @@ class ArregloSimple(Nodo.Nodo):
         self.fila = fila
         self.columna = columna
         self.tipo = tipo
+
+
+    def getC3D(self,TS,Global,Traductor):
+        codigo = ""
+        codigo += Traductor.makecomentario("Arreglo Simple [] de " + str(self.nombre))
+        if self.valor == None:
+            if self.tipo.tipo == TIPO_DATOS.INT:
+                val = 0
+            elif self.tipo.tipo == TIPO_DATOS.FLOAT:
+                val = 0.0
+            elif self.tipo.tipo == TIPO_DATOS.CHAR:
+                val = '0'
+        else:
+            codigo += self.valor.getC3D(TS, Global, Traductor)
+            val = self.valor.temporal
+        if TS is None:
+            sim = Simbolo(self.tipo.tipo, self.nombre, Global.size, Global.nombre,1)
+            Global.push(sim)
+            codigo += Traductor.changestack(sim.posicion, val)
+        else:
+            sim = Simbolo(self.tipo.tipo, self.nombre, TS.size, TS.nombre,1)
+            TS.push(sim)
+            temp = Traductor.getTemp()
+            codigo += Traductor.getfromP(temp, sim.posicion)
+            codigo += Traductor.changestack(temp, val)
+        return codigo
+
+    def graficarasc(self,padre,grafica):
+        nombrehijo = 'Node' + str(id(self))
+        grafica.node(nombrehijo, label=('Arreglo'))
+        grafica.edge(padre, nombrehijo)
+        grafica.node('Nodet' + str(id(self)), label=(str(self.tipo.tipo.name)))
+        grafica.edge(nombrehijo, 'Nodet' + str(id(self)))
+        grafica.node('Nodec' + str(id(self)), label=('[ ]'))
+        grafica.edge(nombrehijo, 'Nodec' + str(id(self)))
+        grafica.node('Noden' + str(id(self)), label=(str(self.nombre)))
+        grafica.edge(nombrehijo, 'Noden' + str(id(self)))
+        if self.valor is not None:
+            self.valor.graficarasc(nombrehijo, grafica)

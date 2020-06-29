@@ -1,0 +1,12 @@
+digraph g {
+	node [height=.1 shape=plaintext]
+	table [label=<<TABLE>
+                            <TR>
+                                <TD>ID</TD>
+                                <TD>TIPO</TD>
+                                <TD>DIMENSION</TD>
+                                <TD>VALOR</TD>
+                                <TD>DECLARADA EN</TD>
+                                <TD>REFERENCIAS</TD>
+                            </TR><TR><TD>$s0</TD><TD>TIPO_DATO.ARREGLO</TD><TD>1</TD><TD>{'0_': 1}</TD><TD>main</TD><TD>[1, 9, 15]</TD></TR><TR><TD>$ra</TD><TD>TIPO_DATO.ENTERO</TD><TD>0</TD><TD>-1</TD><TD>main</TD><TD>[2, 8, 13, 14, 19]</TD></TR><TR><TD>$a0</TD><TD>TIPO_DATO.ENTERO</TD><TD>0</TD><TD>42</TD><TD>MainTag</TD><TD>[10, 16]</TD></TR><TR><TD>main</TD><TD>procedimiento</TD><TD>[]</TD><TD></TD><TD></TD><TD>[1]</TD></TR><TR><TD>Tagsuma</TD><TD>procedimiento</TD><TD>['$a0']</TD><TD></TD><TD></TD><TD>[11, 17]</TD></TR></TABLE>>]
+}

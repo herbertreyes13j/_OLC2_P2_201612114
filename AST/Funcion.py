@@ -1,5 +1,5 @@
 import AST.Nodo as Nodo
-
+from TS.Tipos import *
 
 class Funcion(Nodo.Nodo):
 
@@ -11,11 +11,11 @@ class Funcion(Nodo.Nodo):
         self.parametros=parametros
         self.sentencias=sentencias
 
-    def getC3D(self):
-        pass
-
-    def analizar(self,TS):
-        pass
+    def getC3D(self,TS,Global,Traductor):
+        codigo=""
+        for nodo in self.sentencias:
+            codigo+=nodo.getC3D(TS,Global,Traductor)
+        return codigo
 
     def graficarasc(self,padre,grafica):
         nombrehijo='Node'+str(id(self))
@@ -33,3 +33,17 @@ class Funcion(Nodo.Nodo):
         grafica.edge(nombrehijo, 'Nodes' + str(id(self)))
         for node in self.sentencias:
             node.graficarasc('Nodes' + str(id(self)),grafica)
+
+    def nombrefunc(self):
+        nombre=self.nombre
+
+        for nodo in self.parametros:
+            if nodo.tipo.tipo==TIPO_DATOS.INT:
+                nombre+="_int"
+            elif nodo.tipo.tipo==TIPO_DATOS.FLOAT:
+                nombre+="_float"
+            elif nodo.tipo.tipo==TIPO_DATOS.CHAR:
+                nombre+="_char"
+            elif nodo.tipo.tipo==TIPO_DATOS.DOUBLE:
+                nombre+="_double"
+        return nombre

@@ -1,0 +1,3060 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> init
+Rule 1     init -> instrucciones
+Rule 2     def_etiqueta_instr -> ID DOSPTS
+Rule 3     instrucciones -> instrucciones instruccion
+Rule 4     instrucciones -> instruccion
+Rule 5     instruccion -> error
+Rule 6     instruccion -> asignacion_instr
+Rule 7     instruccion -> asignacion_arr_st
+Rule 8     instruccion -> dec_array_instr
+Rule 9     instruccion -> print_instr
+Rule 10    instruccion -> goto_instr
+Rule 11    instruccion -> unset_instr
+Rule 12    instruccion -> exit_instr
+Rule 13    instruccion -> def_etiqueta_instr
+Rule 14    instruccion -> if_instr
+Rule 15    asignacion_instr -> tipo_variable IGUAL expresion PTCOMA
+Rule 16    dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA
+Rule 17    asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA
+Rule 18    lista_parametros -> lista_parametros def_par
+Rule 19    lista_parametros -> def_par
+Rule 20    def_par -> CORIZQ expresion CORDER
+Rule 21    tipo_variable -> TEMPVAR
+Rule 22    tipo_variable -> PARAM
+Rule 23    tipo_variable -> FUNVAL
+Rule 24    tipo_variable -> RA
+Rule 25    tipo_variable -> STACK
+Rule 26    tipo_variable -> SP
+Rule 27    print_instr -> PRINT PARIZQ valor PARDER PTCOMA
+Rule 28    goto_instr -> GOTO ID PTCOMA
+Rule 29    unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA
+Rule 30    exit_instr -> EXIT PTCOMA
+Rule 31    expresion -> expresion_aritmetica
+Rule 32    expresion -> expresion_relacional
+Rule 33    expresion -> expresion_logica
+Rule 34    expresion -> expresion_bit_a_bit
+Rule 35    expresion -> expresion_unaria
+Rule 36    expresion -> valor
+Rule 37    expresion_aritmetica -> valor MAS valor
+Rule 38    expresion_aritmetica -> valor MENOS valor
+Rule 39    expresion_aritmetica -> valor MULTI valor
+Rule 40    expresion_aritmetica -> valor DIVISION valor
+Rule 41    expresion_aritmetica -> valor RESIDUO valor
+Rule 42    expresion_relacional -> valor IGUALQUE valor
+Rule 43    expresion_relacional -> valor DISTINTO valor
+Rule 44    expresion_relacional -> valor MAYORIG valor
+Rule 45    expresion_relacional -> valor MENORIG valor
+Rule 46    expresion_relacional -> valor MAYORQUE valor
+Rule 47    expresion_relacional -> valor MENORQUE valor
+Rule 48    expresion_logica -> valor AND valor
+Rule 49    expresion_logica -> valor OR valor
+Rule 50    expresion_logica -> valor XOR valor
+Rule 51    expresion_bit_a_bit -> valor ANDBB valor
+Rule 52    expresion_bit_a_bit -> valor ORBB valor
+Rule 53    expresion_bit_a_bit -> valor XORBB valor
+Rule 54    expresion_bit_a_bit -> valor SHIFTIZQ valor
+Rule 55    expresion_bit_a_bit -> valor SHIFTDER valor
+Rule 56    expresion_unaria -> MENOS valor
+Rule 57    expresion_unaria -> NOT valor
+Rule 58    expresion_unaria -> NOTBB valor
+Rule 59    expresion_unaria -> ANDBB valor
+Rule 60    valor -> PARIZQ tipo PARDER valor
+Rule 61    tipo -> INT
+Rule 62    tipo -> FLOAT
+Rule 63    tipo -> CHAR
+Rule 64    valor -> ENTERO
+Rule 65    valor -> DECIMAL
+Rule 66    valor -> CADENA
+Rule 67    valor -> CADENADOBLE
+Rule 68    valor -> tipo_variable
+Rule 69    valor -> tipo_variable lista_parametros
+Rule 70    valor -> READ PARIZQ PARDER
+Rule 71    valor -> ABS PARIZQ expresion PARDER
+Rule 72    if_instr -> IF PARIZQ expresion PARDER goto_instr
+
+Terminals, with rules where they appear
+
+ABS                  : 71
+AND                  : 48
+ANDBB                : 51 59
+ARRAY                : 16
+CADENA               : 66
+CADENADOBLE          : 67
+CHAR                 : 63
+CORDER               : 20
+CORIZQ               : 20
+DECIMAL              : 65
+DISTINTO             : 43
+DIVISION             : 40
+DOSPTS               : 2
+ENTERO               : 64
+EXIT                 : 30
+FLOAT                : 62
+FUNVAL               : 23
+GOTO                 : 28
+ID                   : 2 28
+IF                   : 72
+IGUAL                : 15 16 17
+IGUALQUE             : 42
+INT                  : 61
+MAS                  : 37
+MAYORIG              : 44
+MAYORQUE             : 46
+MENORIG              : 45
+MENORQUE             : 47
+MENOS                : 38 56
+MULTI                : 39
+NOT                  : 57
+NOTBB                : 58
+OR                   : 49
+ORBB                 : 52
+PARAM                : 22
+PARDER               : 16 27 29 60 70 71 72
+PARIZQ               : 16 27 29 60 70 71 72
+PRINT                : 27
+PTCOMA               : 15 16 17 27 28 29 30
+RA                   : 24
+READ                 : 70
+RESIDUO              : 41
+SHIFTDER             : 55
+SHIFTIZQ             : 54
+SP                   : 26
+STACK                : 25
+TEMPVAR              : 21
+UNSET                : 29
+XOR                  : 50
+XORBB                : 53
+error                : 5
+
+Nonterminals, with rules where they appear
+
+asignacion_arr_st    : 7
+asignacion_instr     : 6
+dec_array_instr      : 8
+def_etiqueta_instr   : 13
+def_par              : 18 19
+exit_instr           : 12
+expresion            : 15 17 20 71 72
+expresion_aritmetica : 31
+expresion_bit_a_bit  : 34
+expresion_logica     : 33
+expresion_relacional : 32
+expresion_unaria     : 35
+goto_instr           : 10 72
+if_instr             : 14
+init                 : 0
+instruccion          : 3 4
+instrucciones        : 1 3
+lista_parametros     : 17 18 69
+print_instr          : 9
+tipo                 : 60
+tipo_variable        : 15 16 17 29 68 69
+unset_instr          : 11
+valor                : 27 36 37 37 38 38 39 39 40 40 41 41 42 42 43 43 44 44 45 45 46 46 47 47 48 48 49 49 50 50 51 51 52 52 53 53 54 54 55 55 56 57 58 59 60
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . init
+    (1) init -> . instrucciones
+    (3) instrucciones -> . instrucciones instruccion
+    (4) instrucciones -> . instruccion
+    (5) instruccion -> . error
+    (6) instruccion -> . asignacion_instr
+    (7) instruccion -> . asignacion_arr_st
+    (8) instruccion -> . dec_array_instr
+    (9) instruccion -> . print_instr
+    (10) instruccion -> . goto_instr
+    (11) instruccion -> . unset_instr
+    (12) instruccion -> . exit_instr
+    (13) instruccion -> . def_etiqueta_instr
+    (14) instruccion -> . if_instr
+    (15) asignacion_instr -> . tipo_variable IGUAL expresion PTCOMA
+    (17) asignacion_arr_st -> . tipo_variable lista_parametros IGUAL expresion PTCOMA
+    (16) dec_array_instr -> . tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA
+    (27) print_instr -> . PRINT PARIZQ valor PARDER PTCOMA
+    (28) goto_instr -> . GOTO ID PTCOMA
+    (29) unset_instr -> . UNSET PARIZQ tipo_variable PARDER PTCOMA
+    (30) exit_instr -> . EXIT PTCOMA
+    (2) def_etiqueta_instr -> . ID DOSPTS
+    (72) if_instr -> . IF PARIZQ expresion PARDER goto_instr
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    error           shift and go to state 4
+    PRINT           shift and go to state 15
+    GOTO            shift and go to state 16
+    UNSET           shift and go to state 18
+    EXIT            shift and go to state 19
+    ID              shift and go to state 17
+    IF              shift and go to state 20
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    init                           shift and go to state 1
+    instrucciones                  shift and go to state 2
+    instruccion                    shift and go to state 3
+    asignacion_instr               shift and go to state 5
+    asignacion_arr_st              shift and go to state 6
+    dec_array_instr                shift and go to state 7
+    print_instr                    shift and go to state 8
+    goto_instr                     shift and go to state 9
+    unset_instr                    shift and go to state 10
+    exit_instr                     shift and go to state 11
+    def_etiqueta_instr             shift and go to state 12
+    if_instr                       shift and go to state 13
+    tipo_variable                  shift and go to state 14
+
+state 1
+
+    (0) S' -> init .
+
+
+
+state 2
+
+    (1) init -> instrucciones .
+    (3) instrucciones -> instrucciones . instruccion
+    (5) instruccion -> . error
+    (6) instruccion -> . asignacion_instr
+    (7) instruccion -> . asignacion_arr_st
+    (8) instruccion -> . dec_array_instr
+    (9) instruccion -> . print_instr
+    (10) instruccion -> . goto_instr
+    (11) instruccion -> . unset_instr
+    (12) instruccion -> . exit_instr
+    (13) instruccion -> . def_etiqueta_instr
+    (14) instruccion -> . if_instr
+    (15) asignacion_instr -> . tipo_variable IGUAL expresion PTCOMA
+    (17) asignacion_arr_st -> . tipo_variable lista_parametros IGUAL expresion PTCOMA
+    (16) dec_array_instr -> . tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA
+    (27) print_instr -> . PRINT PARIZQ valor PARDER PTCOMA
+    (28) goto_instr -> . GOTO ID PTCOMA
+    (29) unset_instr -> . UNSET PARIZQ tipo_variable PARDER PTCOMA
+    (30) exit_instr -> . EXIT PTCOMA
+    (2) def_etiqueta_instr -> . ID DOSPTS
+    (72) if_instr -> . IF PARIZQ expresion PARDER goto_instr
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    $end            reduce using rule 1 (init -> instrucciones .)
+    error           shift and go to state 4
+    PRINT           shift and go to state 15
+    GOTO            shift and go to state 16
+    UNSET           shift and go to state 18
+    EXIT            shift and go to state 19
+    ID              shift and go to state 17
+    IF              shift and go to state 20
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    instruccion                    shift and go to state 27
+    asignacion_instr               shift and go to state 5
+    asignacion_arr_st              shift and go to state 6
+    dec_array_instr                shift and go to state 7
+    print_instr                    shift and go to state 8
+    goto_instr                     shift and go to state 9
+    unset_instr                    shift and go to state 10
+    exit_instr                     shift and go to state 11
+    def_etiqueta_instr             shift and go to state 12
+    if_instr                       shift and go to state 13
+    tipo_variable                  shift and go to state 14
+
+state 3
+
+    (4) instrucciones -> instruccion .
+
+    error           reduce using rule 4 (instrucciones -> instruccion .)
+    PRINT           reduce using rule 4 (instrucciones -> instruccion .)
+    GOTO            reduce using rule 4 (instrucciones -> instruccion .)
+    UNSET           reduce using rule 4 (instrucciones -> instruccion .)
+    EXIT            reduce using rule 4 (instrucciones -> instruccion .)
+    ID              reduce using rule 4 (instrucciones -> instruccion .)
+    IF              reduce using rule 4 (instrucciones -> instruccion .)
+    TEMPVAR         reduce using rule 4 (instrucciones -> instruccion .)
+    PARAM           reduce using rule 4 (instrucciones -> instruccion .)
+    FUNVAL          reduce using rule 4 (instrucciones -> instruccion .)
+    RA              reduce using rule 4 (instrucciones -> instruccion .)
+    STACK           reduce using rule 4 (instrucciones -> instruccion .)
+    SP              reduce using rule 4 (instrucciones -> instruccion .)
+    $end            reduce using rule 4 (instrucciones -> instruccion .)
+
+
+state 4
+
+    (5) instruccion -> error .
+
+    error           reduce using rule 5 (instruccion -> error .)
+    PRINT           reduce using rule 5 (instruccion -> error .)
+    GOTO            reduce using rule 5 (instruccion -> error .)
+    UNSET           reduce using rule 5 (instruccion -> error .)
+    EXIT            reduce using rule 5 (instruccion -> error .)
+    ID              reduce using rule 5 (instruccion -> error .)
+    IF              reduce using rule 5 (instruccion -> error .)
+    TEMPVAR         reduce using rule 5 (instruccion -> error .)
+    PARAM           reduce using rule 5 (instruccion -> error .)
+    FUNVAL          reduce using rule 5 (instruccion -> error .)
+    RA              reduce using rule 5 (instruccion -> error .)
+    STACK           reduce using rule 5 (instruccion -> error .)
+    SP              reduce using rule 5 (instruccion -> error .)
+    $end            reduce using rule 5 (instruccion -> error .)
+
+
+state 5
+
+    (6) instruccion -> asignacion_instr .
+
+    error           reduce using rule 6 (instruccion -> asignacion_instr .)
+    PRINT           reduce using rule 6 (instruccion -> asignacion_instr .)
+    GOTO            reduce using rule 6 (instruccion -> asignacion_instr .)
+    UNSET           reduce using rule 6 (instruccion -> asignacion_instr .)
+    EXIT            reduce using rule 6 (instruccion -> asignacion_instr .)
+    ID              reduce using rule 6 (instruccion -> asignacion_instr .)
+    IF              reduce using rule 6 (instruccion -> asignacion_instr .)
+    TEMPVAR         reduce using rule 6 (instruccion -> asignacion_instr .)
+    PARAM           reduce using rule 6 (instruccion -> asignacion_instr .)
+    FUNVAL          reduce using rule 6 (instruccion -> asignacion_instr .)
+    RA              reduce using rule 6 (instruccion -> asignacion_instr .)
+    STACK           reduce using rule 6 (instruccion -> asignacion_instr .)
+    SP              reduce using rule 6 (instruccion -> asignacion_instr .)
+    $end            reduce using rule 6 (instruccion -> asignacion_instr .)
+
+
+state 6
+
+    (7) instruccion -> asignacion_arr_st .
+
+    error           reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    PRINT           reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    GOTO            reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    UNSET           reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    EXIT            reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    ID              reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    IF              reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    TEMPVAR         reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    PARAM           reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    FUNVAL          reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    RA              reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    STACK           reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    SP              reduce using rule 7 (instruccion -> asignacion_arr_st .)
+    $end            reduce using rule 7 (instruccion -> asignacion_arr_st .)
+
+
+state 7
+
+    (8) instruccion -> dec_array_instr .
+
+    error           reduce using rule 8 (instruccion -> dec_array_instr .)
+    PRINT           reduce using rule 8 (instruccion -> dec_array_instr .)
+    GOTO            reduce using rule 8 (instruccion -> dec_array_instr .)
+    UNSET           reduce using rule 8 (instruccion -> dec_array_instr .)
+    EXIT            reduce using rule 8 (instruccion -> dec_array_instr .)
+    ID              reduce using rule 8 (instruccion -> dec_array_instr .)
+    IF              reduce using rule 8 (instruccion -> dec_array_instr .)
+    TEMPVAR         reduce using rule 8 (instruccion -> dec_array_instr .)
+    PARAM           reduce using rule 8 (instruccion -> dec_array_instr .)
+    FUNVAL          reduce using rule 8 (instruccion -> dec_array_instr .)
+    RA              reduce using rule 8 (instruccion -> dec_array_instr .)
+    STACK           reduce using rule 8 (instruccion -> dec_array_instr .)
+    SP              reduce using rule 8 (instruccion -> dec_array_instr .)
+    $end            reduce using rule 8 (instruccion -> dec_array_instr .)
+
+
+state 8
+
+    (9) instruccion -> print_instr .
+
+    error           reduce using rule 9 (instruccion -> print_instr .)
+    PRINT           reduce using rule 9 (instruccion -> print_instr .)
+    GOTO            reduce using rule 9 (instruccion -> print_instr .)
+    UNSET           reduce using rule 9 (instruccion -> print_instr .)
+    EXIT            reduce using rule 9 (instruccion -> print_instr .)
+    ID              reduce using rule 9 (instruccion -> print_instr .)
+    IF              reduce using rule 9 (instruccion -> print_instr .)
+    TEMPVAR         reduce using rule 9 (instruccion -> print_instr .)
+    PARAM           reduce using rule 9 (instruccion -> print_instr .)
+    FUNVAL          reduce using rule 9 (instruccion -> print_instr .)
+    RA              reduce using rule 9 (instruccion -> print_instr .)
+    STACK           reduce using rule 9 (instruccion -> print_instr .)
+    SP              reduce using rule 9 (instruccion -> print_instr .)
+    $end            reduce using rule 9 (instruccion -> print_instr .)
+
+
+state 9
+
+    (10) instruccion -> goto_instr .
+
+    error           reduce using rule 10 (instruccion -> goto_instr .)
+    PRINT           reduce using rule 10 (instruccion -> goto_instr .)
+    GOTO            reduce using rule 10 (instruccion -> goto_instr .)
+    UNSET           reduce using rule 10 (instruccion -> goto_instr .)
+    EXIT            reduce using rule 10 (instruccion -> goto_instr .)
+    ID              reduce using rule 10 (instruccion -> goto_instr .)
+    IF              reduce using rule 10 (instruccion -> goto_instr .)
+    TEMPVAR         reduce using rule 10 (instruccion -> goto_instr .)
+    PARAM           reduce using rule 10 (instruccion -> goto_instr .)
+    FUNVAL          reduce using rule 10 (instruccion -> goto_instr .)
+    RA              reduce using rule 10 (instruccion -> goto_instr .)
+    STACK           reduce using rule 10 (instruccion -> goto_instr .)
+    SP              reduce using rule 10 (instruccion -> goto_instr .)
+    $end            reduce using rule 10 (instruccion -> goto_instr .)
+
+
+state 10
+
+    (11) instruccion -> unset_instr .
+
+    error           reduce using rule 11 (instruccion -> unset_instr .)
+    PRINT           reduce using rule 11 (instruccion -> unset_instr .)
+    GOTO            reduce using rule 11 (instruccion -> unset_instr .)
+    UNSET           reduce using rule 11 (instruccion -> unset_instr .)
+    EXIT            reduce using rule 11 (instruccion -> unset_instr .)
+    ID              reduce using rule 11 (instruccion -> unset_instr .)
+    IF              reduce using rule 11 (instruccion -> unset_instr .)
+    TEMPVAR         reduce using rule 11 (instruccion -> unset_instr .)
+    PARAM           reduce using rule 11 (instruccion -> unset_instr .)
+    FUNVAL          reduce using rule 11 (instruccion -> unset_instr .)
+    RA              reduce using rule 11 (instruccion -> unset_instr .)
+    STACK           reduce using rule 11 (instruccion -> unset_instr .)
+    SP              reduce using rule 11 (instruccion -> unset_instr .)
+    $end            reduce using rule 11 (instruccion -> unset_instr .)
+
+
+state 11
+
+    (12) instruccion -> exit_instr .
+
+    error           reduce using rule 12 (instruccion -> exit_instr .)
+    PRINT           reduce using rule 12 (instruccion -> exit_instr .)
+    GOTO            reduce using rule 12 (instruccion -> exit_instr .)
+    UNSET           reduce using rule 12 (instruccion -> exit_instr .)
+    EXIT            reduce using rule 12 (instruccion -> exit_instr .)
+    ID              reduce using rule 12 (instruccion -> exit_instr .)
+    IF              reduce using rule 12 (instruccion -> exit_instr .)
+    TEMPVAR         reduce using rule 12 (instruccion -> exit_instr .)
+    PARAM           reduce using rule 12 (instruccion -> exit_instr .)
+    FUNVAL          reduce using rule 12 (instruccion -> exit_instr .)
+    RA              reduce using rule 12 (instruccion -> exit_instr .)
+    STACK           reduce using rule 12 (instruccion -> exit_instr .)
+    SP              reduce using rule 12 (instruccion -> exit_instr .)
+    $end            reduce using rule 12 (instruccion -> exit_instr .)
+
+
+state 12
+
+    (13) instruccion -> def_etiqueta_instr .
+
+    error           reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    PRINT           reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    GOTO            reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    UNSET           reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    EXIT            reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    ID              reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    IF              reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    TEMPVAR         reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    PARAM           reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    FUNVAL          reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    RA              reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    STACK           reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    SP              reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+    $end            reduce using rule 13 (instruccion -> def_etiqueta_instr .)
+
+
+state 13
+
+    (14) instruccion -> if_instr .
+
+    error           reduce using rule 14 (instruccion -> if_instr .)
+    PRINT           reduce using rule 14 (instruccion -> if_instr .)
+    GOTO            reduce using rule 14 (instruccion -> if_instr .)
+    UNSET           reduce using rule 14 (instruccion -> if_instr .)
+    EXIT            reduce using rule 14 (instruccion -> if_instr .)
+    ID              reduce using rule 14 (instruccion -> if_instr .)
+    IF              reduce using rule 14 (instruccion -> if_instr .)
+    TEMPVAR         reduce using rule 14 (instruccion -> if_instr .)
+    PARAM           reduce using rule 14 (instruccion -> if_instr .)
+    FUNVAL          reduce using rule 14 (instruccion -> if_instr .)
+    RA              reduce using rule 14 (instruccion -> if_instr .)
+    STACK           reduce using rule 14 (instruccion -> if_instr .)
+    SP              reduce using rule 14 (instruccion -> if_instr .)
+    $end            reduce using rule 14 (instruccion -> if_instr .)
+
+
+state 14
+
+    (15) asignacion_instr -> tipo_variable . IGUAL expresion PTCOMA
+    (17) asignacion_arr_st -> tipo_variable . lista_parametros IGUAL expresion PTCOMA
+    (16) dec_array_instr -> tipo_variable . IGUAL ARRAY PARIZQ PARDER PTCOMA
+    (18) lista_parametros -> . lista_parametros def_par
+    (19) lista_parametros -> . def_par
+    (20) def_par -> . CORIZQ expresion CORDER
+
+    IGUAL           shift and go to state 28
+    CORIZQ          shift and go to state 31
+
+    lista_parametros               shift and go to state 29
+    def_par                        shift and go to state 30
+
+state 15
+
+    (27) print_instr -> PRINT . PARIZQ valor PARDER PTCOMA
+
+    PARIZQ          shift and go to state 32
+
+
+state 16
+
+    (28) goto_instr -> GOTO . ID PTCOMA
+
+    ID              shift and go to state 33
+
+
+state 17
+
+    (2) def_etiqueta_instr -> ID . DOSPTS
+
+    DOSPTS          shift and go to state 34
+
+
+state 18
+
+    (29) unset_instr -> UNSET . PARIZQ tipo_variable PARDER PTCOMA
+
+    PARIZQ          shift and go to state 35
+
+
+state 19
+
+    (30) exit_instr -> EXIT . PTCOMA
+
+    PTCOMA          shift and go to state 36
+
+
+state 20
+
+    (72) if_instr -> IF . PARIZQ expresion PARDER goto_instr
+
+    PARIZQ          shift and go to state 37
+
+
+state 21
+
+    (21) tipo_variable -> TEMPVAR .
+
+    IGUAL           reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    CORIZQ          reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    MAS             reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    MENOS           reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    MULTI           reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    DIVISION        reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    RESIDUO         reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    IGUALQUE        reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    DISTINTO        reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    MAYORIG         reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    MENORIG         reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    MAYORQUE        reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    MENORQUE        reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    AND             reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    OR              reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    XOR             reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    ANDBB           reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    ORBB            reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    XORBB           reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    SHIFTIZQ        reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    SHIFTDER        reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    PTCOMA          reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    CORDER          reduce using rule 21 (tipo_variable -> TEMPVAR .)
+    PARDER          reduce using rule 21 (tipo_variable -> TEMPVAR .)
+
+
+state 22
+
+    (22) tipo_variable -> PARAM .
+
+    IGUAL           reduce using rule 22 (tipo_variable -> PARAM .)
+    CORIZQ          reduce using rule 22 (tipo_variable -> PARAM .)
+    MAS             reduce using rule 22 (tipo_variable -> PARAM .)
+    MENOS           reduce using rule 22 (tipo_variable -> PARAM .)
+    MULTI           reduce using rule 22 (tipo_variable -> PARAM .)
+    DIVISION        reduce using rule 22 (tipo_variable -> PARAM .)
+    RESIDUO         reduce using rule 22 (tipo_variable -> PARAM .)
+    IGUALQUE        reduce using rule 22 (tipo_variable -> PARAM .)
+    DISTINTO        reduce using rule 22 (tipo_variable -> PARAM .)
+    MAYORIG         reduce using rule 22 (tipo_variable -> PARAM .)
+    MENORIG         reduce using rule 22 (tipo_variable -> PARAM .)
+    MAYORQUE        reduce using rule 22 (tipo_variable -> PARAM .)
+    MENORQUE        reduce using rule 22 (tipo_variable -> PARAM .)
+    AND             reduce using rule 22 (tipo_variable -> PARAM .)
+    OR              reduce using rule 22 (tipo_variable -> PARAM .)
+    XOR             reduce using rule 22 (tipo_variable -> PARAM .)
+    ANDBB           reduce using rule 22 (tipo_variable -> PARAM .)
+    ORBB            reduce using rule 22 (tipo_variable -> PARAM .)
+    XORBB           reduce using rule 22 (tipo_variable -> PARAM .)
+    SHIFTIZQ        reduce using rule 22 (tipo_variable -> PARAM .)
+    SHIFTDER        reduce using rule 22 (tipo_variable -> PARAM .)
+    PTCOMA          reduce using rule 22 (tipo_variable -> PARAM .)
+    CORDER          reduce using rule 22 (tipo_variable -> PARAM .)
+    PARDER          reduce using rule 22 (tipo_variable -> PARAM .)
+
+
+state 23
+
+    (23) tipo_variable -> FUNVAL .
+
+    IGUAL           reduce using rule 23 (tipo_variable -> FUNVAL .)
+    CORIZQ          reduce using rule 23 (tipo_variable -> FUNVAL .)
+    MAS             reduce using rule 23 (tipo_variable -> FUNVAL .)
+    MENOS           reduce using rule 23 (tipo_variable -> FUNVAL .)
+    MULTI           reduce using rule 23 (tipo_variable -> FUNVAL .)
+    DIVISION        reduce using rule 23 (tipo_variable -> FUNVAL .)
+    RESIDUO         reduce using rule 23 (tipo_variable -> FUNVAL .)
+    IGUALQUE        reduce using rule 23 (tipo_variable -> FUNVAL .)
+    DISTINTO        reduce using rule 23 (tipo_variable -> FUNVAL .)
+    MAYORIG         reduce using rule 23 (tipo_variable -> FUNVAL .)
+    MENORIG         reduce using rule 23 (tipo_variable -> FUNVAL .)
+    MAYORQUE        reduce using rule 23 (tipo_variable -> FUNVAL .)
+    MENORQUE        reduce using rule 23 (tipo_variable -> FUNVAL .)
+    AND             reduce using rule 23 (tipo_variable -> FUNVAL .)
+    OR              reduce using rule 23 (tipo_variable -> FUNVAL .)
+    XOR             reduce using rule 23 (tipo_variable -> FUNVAL .)
+    ANDBB           reduce using rule 23 (tipo_variable -> FUNVAL .)
+    ORBB            reduce using rule 23 (tipo_variable -> FUNVAL .)
+    XORBB           reduce using rule 23 (tipo_variable -> FUNVAL .)
+    SHIFTIZQ        reduce using rule 23 (tipo_variable -> FUNVAL .)
+    SHIFTDER        reduce using rule 23 (tipo_variable -> FUNVAL .)
+    PTCOMA          reduce using rule 23 (tipo_variable -> FUNVAL .)
+    CORDER          reduce using rule 23 (tipo_variable -> FUNVAL .)
+    PARDER          reduce using rule 23 (tipo_variable -> FUNVAL .)
+
+
+state 24
+
+    (24) tipo_variable -> RA .
+
+    IGUAL           reduce using rule 24 (tipo_variable -> RA .)
+    CORIZQ          reduce using rule 24 (tipo_variable -> RA .)
+    MAS             reduce using rule 24 (tipo_variable -> RA .)
+    MENOS           reduce using rule 24 (tipo_variable -> RA .)
+    MULTI           reduce using rule 24 (tipo_variable -> RA .)
+    DIVISION        reduce using rule 24 (tipo_variable -> RA .)
+    RESIDUO         reduce using rule 24 (tipo_variable -> RA .)
+    IGUALQUE        reduce using rule 24 (tipo_variable -> RA .)
+    DISTINTO        reduce using rule 24 (tipo_variable -> RA .)
+    MAYORIG         reduce using rule 24 (tipo_variable -> RA .)
+    MENORIG         reduce using rule 24 (tipo_variable -> RA .)
+    MAYORQUE        reduce using rule 24 (tipo_variable -> RA .)
+    MENORQUE        reduce using rule 24 (tipo_variable -> RA .)
+    AND             reduce using rule 24 (tipo_variable -> RA .)
+    OR              reduce using rule 24 (tipo_variable -> RA .)
+    XOR             reduce using rule 24 (tipo_variable -> RA .)
+    ANDBB           reduce using rule 24 (tipo_variable -> RA .)
+    ORBB            reduce using rule 24 (tipo_variable -> RA .)
+    XORBB           reduce using rule 24 (tipo_variable -> RA .)
+    SHIFTIZQ        reduce using rule 24 (tipo_variable -> RA .)
+    SHIFTDER        reduce using rule 24 (tipo_variable -> RA .)
+    PTCOMA          reduce using rule 24 (tipo_variable -> RA .)
+    CORDER          reduce using rule 24 (tipo_variable -> RA .)
+    PARDER          reduce using rule 24 (tipo_variable -> RA .)
+
+
+state 25
+
+    (25) tipo_variable -> STACK .
+
+    IGUAL           reduce using rule 25 (tipo_variable -> STACK .)
+    CORIZQ          reduce using rule 25 (tipo_variable -> STACK .)
+    MAS             reduce using rule 25 (tipo_variable -> STACK .)
+    MENOS           reduce using rule 25 (tipo_variable -> STACK .)
+    MULTI           reduce using rule 25 (tipo_variable -> STACK .)
+    DIVISION        reduce using rule 25 (tipo_variable -> STACK .)
+    RESIDUO         reduce using rule 25 (tipo_variable -> STACK .)
+    IGUALQUE        reduce using rule 25 (tipo_variable -> STACK .)
+    DISTINTO        reduce using rule 25 (tipo_variable -> STACK .)
+    MAYORIG         reduce using rule 25 (tipo_variable -> STACK .)
+    MENORIG         reduce using rule 25 (tipo_variable -> STACK .)
+    MAYORQUE        reduce using rule 25 (tipo_variable -> STACK .)
+    MENORQUE        reduce using rule 25 (tipo_variable -> STACK .)
+    AND             reduce using rule 25 (tipo_variable -> STACK .)
+    OR              reduce using rule 25 (tipo_variable -> STACK .)
+    XOR             reduce using rule 25 (tipo_variable -> STACK .)
+    ANDBB           reduce using rule 25 (tipo_variable -> STACK .)
+    ORBB            reduce using rule 25 (tipo_variable -> STACK .)
+    XORBB           reduce using rule 25 (tipo_variable -> STACK .)
+    SHIFTIZQ        reduce using rule 25 (tipo_variable -> STACK .)
+    SHIFTDER        reduce using rule 25 (tipo_variable -> STACK .)
+    PTCOMA          reduce using rule 25 (tipo_variable -> STACK .)
+    CORDER          reduce using rule 25 (tipo_variable -> STACK .)
+    PARDER          reduce using rule 25 (tipo_variable -> STACK .)
+
+
+state 26
+
+    (26) tipo_variable -> SP .
+
+    IGUAL           reduce using rule 26 (tipo_variable -> SP .)
+    CORIZQ          reduce using rule 26 (tipo_variable -> SP .)
+    MAS             reduce using rule 26 (tipo_variable -> SP .)
+    MENOS           reduce using rule 26 (tipo_variable -> SP .)
+    MULTI           reduce using rule 26 (tipo_variable -> SP .)
+    DIVISION        reduce using rule 26 (tipo_variable -> SP .)
+    RESIDUO         reduce using rule 26 (tipo_variable -> SP .)
+    IGUALQUE        reduce using rule 26 (tipo_variable -> SP .)
+    DISTINTO        reduce using rule 26 (tipo_variable -> SP .)
+    MAYORIG         reduce using rule 26 (tipo_variable -> SP .)
+    MENORIG         reduce using rule 26 (tipo_variable -> SP .)
+    MAYORQUE        reduce using rule 26 (tipo_variable -> SP .)
+    MENORQUE        reduce using rule 26 (tipo_variable -> SP .)
+    AND             reduce using rule 26 (tipo_variable -> SP .)
+    OR              reduce using rule 26 (tipo_variable -> SP .)
+    XOR             reduce using rule 26 (tipo_variable -> SP .)
+    ANDBB           reduce using rule 26 (tipo_variable -> SP .)
+    ORBB            reduce using rule 26 (tipo_variable -> SP .)
+    XORBB           reduce using rule 26 (tipo_variable -> SP .)
+    SHIFTIZQ        reduce using rule 26 (tipo_variable -> SP .)
+    SHIFTDER        reduce using rule 26 (tipo_variable -> SP .)
+    PTCOMA          reduce using rule 26 (tipo_variable -> SP .)
+    CORDER          reduce using rule 26 (tipo_variable -> SP .)
+    PARDER          reduce using rule 26 (tipo_variable -> SP .)
+
+
+state 27
+
+    (3) instrucciones -> instrucciones instruccion .
+
+    error           reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    PRINT           reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    GOTO            reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    UNSET           reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    EXIT            reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    ID              reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    IF              reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    TEMPVAR         reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    PARAM           reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    FUNVAL          reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    RA              reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    STACK           reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    SP              reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+    $end            reduce using rule 3 (instrucciones -> instrucciones instruccion .)
+
+
+state 28
+
+    (15) asignacion_instr -> tipo_variable IGUAL . expresion PTCOMA
+    (16) dec_array_instr -> tipo_variable IGUAL . ARRAY PARIZQ PARDER PTCOMA
+    (31) expresion -> . expresion_aritmetica
+    (32) expresion -> . expresion_relacional
+    (33) expresion -> . expresion_logica
+    (34) expresion -> . expresion_bit_a_bit
+    (35) expresion -> . expresion_unaria
+    (36) expresion -> . valor
+    (37) expresion_aritmetica -> . valor MAS valor
+    (38) expresion_aritmetica -> . valor MENOS valor
+    (39) expresion_aritmetica -> . valor MULTI valor
+    (40) expresion_aritmetica -> . valor DIVISION valor
+    (41) expresion_aritmetica -> . valor RESIDUO valor
+    (42) expresion_relacional -> . valor IGUALQUE valor
+    (43) expresion_relacional -> . valor DISTINTO valor
+    (44) expresion_relacional -> . valor MAYORIG valor
+    (45) expresion_relacional -> . valor MENORIG valor
+    (46) expresion_relacional -> . valor MAYORQUE valor
+    (47) expresion_relacional -> . valor MENORQUE valor
+    (48) expresion_logica -> . valor AND valor
+    (49) expresion_logica -> . valor OR valor
+    (50) expresion_logica -> . valor XOR valor
+    (51) expresion_bit_a_bit -> . valor ANDBB valor
+    (52) expresion_bit_a_bit -> . valor ORBB valor
+    (53) expresion_bit_a_bit -> . valor XORBB valor
+    (54) expresion_bit_a_bit -> . valor SHIFTIZQ valor
+    (55) expresion_bit_a_bit -> . valor SHIFTDER valor
+    (56) expresion_unaria -> . MENOS valor
+    (57) expresion_unaria -> . NOT valor
+    (58) expresion_unaria -> . NOTBB valor
+    (59) expresion_unaria -> . ANDBB valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    ARRAY           shift and go to state 40
+    MENOS           shift and go to state 48
+    NOT             shift and go to state 50
+    NOTBB           shift and go to state 51
+    ANDBB           shift and go to state 49
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    tipo_variable                  shift and go to state 38
+    expresion                      shift and go to state 39
+    expresion_aritmetica           shift and go to state 42
+    expresion_relacional           shift and go to state 43
+    expresion_logica               shift and go to state 44
+    expresion_bit_a_bit            shift and go to state 45
+    expresion_unaria               shift and go to state 46
+    valor                          shift and go to state 47
+
+state 29
+
+    (17) asignacion_arr_st -> tipo_variable lista_parametros . IGUAL expresion PTCOMA
+    (18) lista_parametros -> lista_parametros . def_par
+    (20) def_par -> . CORIZQ expresion CORDER
+
+    IGUAL           shift and go to state 58
+    CORIZQ          shift and go to state 31
+
+    def_par                        shift and go to state 59
+
+state 30
+
+    (19) lista_parametros -> def_par .
+
+    IGUAL           reduce using rule 19 (lista_parametros -> def_par .)
+    CORIZQ          reduce using rule 19 (lista_parametros -> def_par .)
+    MAS             reduce using rule 19 (lista_parametros -> def_par .)
+    MENOS           reduce using rule 19 (lista_parametros -> def_par .)
+    MULTI           reduce using rule 19 (lista_parametros -> def_par .)
+    DIVISION        reduce using rule 19 (lista_parametros -> def_par .)
+    RESIDUO         reduce using rule 19 (lista_parametros -> def_par .)
+    IGUALQUE        reduce using rule 19 (lista_parametros -> def_par .)
+    DISTINTO        reduce using rule 19 (lista_parametros -> def_par .)
+    MAYORIG         reduce using rule 19 (lista_parametros -> def_par .)
+    MENORIG         reduce using rule 19 (lista_parametros -> def_par .)
+    MAYORQUE        reduce using rule 19 (lista_parametros -> def_par .)
+    MENORQUE        reduce using rule 19 (lista_parametros -> def_par .)
+    AND             reduce using rule 19 (lista_parametros -> def_par .)
+    OR              reduce using rule 19 (lista_parametros -> def_par .)
+    XOR             reduce using rule 19 (lista_parametros -> def_par .)
+    ANDBB           reduce using rule 19 (lista_parametros -> def_par .)
+    ORBB            reduce using rule 19 (lista_parametros -> def_par .)
+    XORBB           reduce using rule 19 (lista_parametros -> def_par .)
+    SHIFTIZQ        reduce using rule 19 (lista_parametros -> def_par .)
+    SHIFTDER        reduce using rule 19 (lista_parametros -> def_par .)
+    PTCOMA          reduce using rule 19 (lista_parametros -> def_par .)
+    CORDER          reduce using rule 19 (lista_parametros -> def_par .)
+    PARDER          reduce using rule 19 (lista_parametros -> def_par .)
+
+
+state 31
+
+    (20) def_par -> CORIZQ . expresion CORDER
+    (31) expresion -> . expresion_aritmetica
+    (32) expresion -> . expresion_relacional
+    (33) expresion -> . expresion_logica
+    (34) expresion -> . expresion_bit_a_bit
+    (35) expresion -> . expresion_unaria
+    (36) expresion -> . valor
+    (37) expresion_aritmetica -> . valor MAS valor
+    (38) expresion_aritmetica -> . valor MENOS valor
+    (39) expresion_aritmetica -> . valor MULTI valor
+    (40) expresion_aritmetica -> . valor DIVISION valor
+    (41) expresion_aritmetica -> . valor RESIDUO valor
+    (42) expresion_relacional -> . valor IGUALQUE valor
+    (43) expresion_relacional -> . valor DISTINTO valor
+    (44) expresion_relacional -> . valor MAYORIG valor
+    (45) expresion_relacional -> . valor MENORIG valor
+    (46) expresion_relacional -> . valor MAYORQUE valor
+    (47) expresion_relacional -> . valor MENORQUE valor
+    (48) expresion_logica -> . valor AND valor
+    (49) expresion_logica -> . valor OR valor
+    (50) expresion_logica -> . valor XOR valor
+    (51) expresion_bit_a_bit -> . valor ANDBB valor
+    (52) expresion_bit_a_bit -> . valor ORBB valor
+    (53) expresion_bit_a_bit -> . valor XORBB valor
+    (54) expresion_bit_a_bit -> . valor SHIFTIZQ valor
+    (55) expresion_bit_a_bit -> . valor SHIFTDER valor
+    (56) expresion_unaria -> . MENOS valor
+    (57) expresion_unaria -> . NOT valor
+    (58) expresion_unaria -> . NOTBB valor
+    (59) expresion_unaria -> . ANDBB valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    MENOS           shift and go to state 48
+    NOT             shift and go to state 50
+    NOTBB           shift and go to state 51
+    ANDBB           shift and go to state 49
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    expresion                      shift and go to state 60
+    expresion_aritmetica           shift and go to state 42
+    expresion_relacional           shift and go to state 43
+    expresion_logica               shift and go to state 44
+    expresion_bit_a_bit            shift and go to state 45
+    expresion_unaria               shift and go to state 46
+    valor                          shift and go to state 47
+    tipo_variable                  shift and go to state 38
+
+state 32
+
+    (27) print_instr -> PRINT PARIZQ . valor PARDER PTCOMA
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 61
+    tipo_variable                  shift and go to state 38
+
+state 33
+
+    (28) goto_instr -> GOTO ID . PTCOMA
+
+    PTCOMA          shift and go to state 62
+
+
+state 34
+
+    (2) def_etiqueta_instr -> ID DOSPTS .
+
+    error           reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    PRINT           reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    GOTO            reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    UNSET           reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    EXIT            reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    ID              reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    IF              reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    TEMPVAR         reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    PARAM           reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    FUNVAL          reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    RA              reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    STACK           reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    SP              reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+    $end            reduce using rule 2 (def_etiqueta_instr -> ID DOSPTS .)
+
+
+state 35
+
+    (29) unset_instr -> UNSET PARIZQ . tipo_variable PARDER PTCOMA
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    tipo_variable                  shift and go to state 63
+
+state 36
+
+    (30) exit_instr -> EXIT PTCOMA .
+
+    error           reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    PRINT           reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    GOTO            reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    UNSET           reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    EXIT            reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    ID              reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    IF              reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    TEMPVAR         reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    PARAM           reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    FUNVAL          reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    RA              reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    STACK           reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    SP              reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+    $end            reduce using rule 30 (exit_instr -> EXIT PTCOMA .)
+
+
+state 37
+
+    (72) if_instr -> IF PARIZQ . expresion PARDER goto_instr
+    (31) expresion -> . expresion_aritmetica
+    (32) expresion -> . expresion_relacional
+    (33) expresion -> . expresion_logica
+    (34) expresion -> . expresion_bit_a_bit
+    (35) expresion -> . expresion_unaria
+    (36) expresion -> . valor
+    (37) expresion_aritmetica -> . valor MAS valor
+    (38) expresion_aritmetica -> . valor MENOS valor
+    (39) expresion_aritmetica -> . valor MULTI valor
+    (40) expresion_aritmetica -> . valor DIVISION valor
+    (41) expresion_aritmetica -> . valor RESIDUO valor
+    (42) expresion_relacional -> . valor IGUALQUE valor
+    (43) expresion_relacional -> . valor DISTINTO valor
+    (44) expresion_relacional -> . valor MAYORIG valor
+    (45) expresion_relacional -> . valor MENORIG valor
+    (46) expresion_relacional -> . valor MAYORQUE valor
+    (47) expresion_relacional -> . valor MENORQUE valor
+    (48) expresion_logica -> . valor AND valor
+    (49) expresion_logica -> . valor OR valor
+    (50) expresion_logica -> . valor XOR valor
+    (51) expresion_bit_a_bit -> . valor ANDBB valor
+    (52) expresion_bit_a_bit -> . valor ORBB valor
+    (53) expresion_bit_a_bit -> . valor XORBB valor
+    (54) expresion_bit_a_bit -> . valor SHIFTIZQ valor
+    (55) expresion_bit_a_bit -> . valor SHIFTDER valor
+    (56) expresion_unaria -> . MENOS valor
+    (57) expresion_unaria -> . NOT valor
+    (58) expresion_unaria -> . NOTBB valor
+    (59) expresion_unaria -> . ANDBB valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    MENOS           shift and go to state 48
+    NOT             shift and go to state 50
+    NOTBB           shift and go to state 51
+    ANDBB           shift and go to state 49
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    expresion                      shift and go to state 64
+    expresion_aritmetica           shift and go to state 42
+    expresion_relacional           shift and go to state 43
+    expresion_logica               shift and go to state 44
+    expresion_bit_a_bit            shift and go to state 45
+    expresion_unaria               shift and go to state 46
+    valor                          shift and go to state 47
+    tipo_variable                  shift and go to state 38
+
+state 38
+
+    (68) valor -> tipo_variable .
+    (69) valor -> tipo_variable . lista_parametros
+    (18) lista_parametros -> . lista_parametros def_par
+    (19) lista_parametros -> . def_par
+    (20) def_par -> . CORIZQ expresion CORDER
+
+    MAS             reduce using rule 68 (valor -> tipo_variable .)
+    MENOS           reduce using rule 68 (valor -> tipo_variable .)
+    MULTI           reduce using rule 68 (valor -> tipo_variable .)
+    DIVISION        reduce using rule 68 (valor -> tipo_variable .)
+    RESIDUO         reduce using rule 68 (valor -> tipo_variable .)
+    IGUALQUE        reduce using rule 68 (valor -> tipo_variable .)
+    DISTINTO        reduce using rule 68 (valor -> tipo_variable .)
+    MAYORIG         reduce using rule 68 (valor -> tipo_variable .)
+    MENORIG         reduce using rule 68 (valor -> tipo_variable .)
+    MAYORQUE        reduce using rule 68 (valor -> tipo_variable .)
+    MENORQUE        reduce using rule 68 (valor -> tipo_variable .)
+    AND             reduce using rule 68 (valor -> tipo_variable .)
+    OR              reduce using rule 68 (valor -> tipo_variable .)
+    XOR             reduce using rule 68 (valor -> tipo_variable .)
+    ANDBB           reduce using rule 68 (valor -> tipo_variable .)
+    ORBB            reduce using rule 68 (valor -> tipo_variable .)
+    XORBB           reduce using rule 68 (valor -> tipo_variable .)
+    SHIFTIZQ        reduce using rule 68 (valor -> tipo_variable .)
+    SHIFTDER        reduce using rule 68 (valor -> tipo_variable .)
+    PTCOMA          reduce using rule 68 (valor -> tipo_variable .)
+    CORDER          reduce using rule 68 (valor -> tipo_variable .)
+    PARDER          reduce using rule 68 (valor -> tipo_variable .)
+    CORIZQ          shift and go to state 31
+
+    lista_parametros               shift and go to state 65
+    def_par                        shift and go to state 30
+
+state 39
+
+    (15) asignacion_instr -> tipo_variable IGUAL expresion . PTCOMA
+
+    PTCOMA          shift and go to state 66
+
+
+state 40
+
+    (16) dec_array_instr -> tipo_variable IGUAL ARRAY . PARIZQ PARDER PTCOMA
+
+    PARIZQ          shift and go to state 67
+
+
+state 41
+
+    (60) valor -> PARIZQ . tipo PARDER valor
+    (61) tipo -> . INT
+    (62) tipo -> . FLOAT
+    (63) tipo -> . CHAR
+
+    INT             shift and go to state 69
+    FLOAT           shift and go to state 70
+    CHAR            shift and go to state 71
+
+    tipo                           shift and go to state 68
+
+state 42
+
+    (31) expresion -> expresion_aritmetica .
+
+    PTCOMA          reduce using rule 31 (expresion -> expresion_aritmetica .)
+    CORDER          reduce using rule 31 (expresion -> expresion_aritmetica .)
+    PARDER          reduce using rule 31 (expresion -> expresion_aritmetica .)
+
+
+state 43
+
+    (32) expresion -> expresion_relacional .
+
+    PTCOMA          reduce using rule 32 (expresion -> expresion_relacional .)
+    CORDER          reduce using rule 32 (expresion -> expresion_relacional .)
+    PARDER          reduce using rule 32 (expresion -> expresion_relacional .)
+
+
+state 44
+
+    (33) expresion -> expresion_logica .
+
+    PTCOMA          reduce using rule 33 (expresion -> expresion_logica .)
+    CORDER          reduce using rule 33 (expresion -> expresion_logica .)
+    PARDER          reduce using rule 33 (expresion -> expresion_logica .)
+
+
+state 45
+
+    (34) expresion -> expresion_bit_a_bit .
+
+    PTCOMA          reduce using rule 34 (expresion -> expresion_bit_a_bit .)
+    CORDER          reduce using rule 34 (expresion -> expresion_bit_a_bit .)
+    PARDER          reduce using rule 34 (expresion -> expresion_bit_a_bit .)
+
+
+state 46
+
+    (35) expresion -> expresion_unaria .
+
+    PTCOMA          reduce using rule 35 (expresion -> expresion_unaria .)
+    CORDER          reduce using rule 35 (expresion -> expresion_unaria .)
+    PARDER          reduce using rule 35 (expresion -> expresion_unaria .)
+
+
+state 47
+
+    (36) expresion -> valor .
+    (37) expresion_aritmetica -> valor . MAS valor
+    (38) expresion_aritmetica -> valor . MENOS valor
+    (39) expresion_aritmetica -> valor . MULTI valor
+    (40) expresion_aritmetica -> valor . DIVISION valor
+    (41) expresion_aritmetica -> valor . RESIDUO valor
+    (42) expresion_relacional -> valor . IGUALQUE valor
+    (43) expresion_relacional -> valor . DISTINTO valor
+    (44) expresion_relacional -> valor . MAYORIG valor
+    (45) expresion_relacional -> valor . MENORIG valor
+    (46) expresion_relacional -> valor . MAYORQUE valor
+    (47) expresion_relacional -> valor . MENORQUE valor
+    (48) expresion_logica -> valor . AND valor
+    (49) expresion_logica -> valor . OR valor
+    (50) expresion_logica -> valor . XOR valor
+    (51) expresion_bit_a_bit -> valor . ANDBB valor
+    (52) expresion_bit_a_bit -> valor . ORBB valor
+    (53) expresion_bit_a_bit -> valor . XORBB valor
+    (54) expresion_bit_a_bit -> valor . SHIFTIZQ valor
+    (55) expresion_bit_a_bit -> valor . SHIFTDER valor
+
+    PTCOMA          reduce using rule 36 (expresion -> valor .)
+    CORDER          reduce using rule 36 (expresion -> valor .)
+    PARDER          reduce using rule 36 (expresion -> valor .)
+    MAS             shift and go to state 72
+    MENOS           shift and go to state 73
+    MULTI           shift and go to state 74
+    DIVISION        shift and go to state 75
+    RESIDUO         shift and go to state 76
+    IGUALQUE        shift and go to state 77
+    DISTINTO        shift and go to state 78
+    MAYORIG         shift and go to state 79
+    MENORIG         shift and go to state 80
+    MAYORQUE        shift and go to state 81
+    MENORQUE        shift and go to state 82
+    AND             shift and go to state 83
+    OR              shift and go to state 84
+    XOR             shift and go to state 85
+    ANDBB           shift and go to state 86
+    ORBB            shift and go to state 87
+    XORBB           shift and go to state 88
+    SHIFTIZQ        shift and go to state 89
+    SHIFTDER        shift and go to state 90
+
+
+state 48
+
+    (56) expresion_unaria -> MENOS . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 91
+    tipo_variable                  shift and go to state 38
+
+state 49
+
+    (59) expresion_unaria -> ANDBB . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 92
+    tipo_variable                  shift and go to state 38
+
+state 50
+
+    (57) expresion_unaria -> NOT . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 93
+    tipo_variable                  shift and go to state 38
+
+state 51
+
+    (58) expresion_unaria -> NOTBB . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 94
+    tipo_variable                  shift and go to state 38
+
+state 52
+
+    (64) valor -> ENTERO .
+
+    MAS             reduce using rule 64 (valor -> ENTERO .)
+    MENOS           reduce using rule 64 (valor -> ENTERO .)
+    MULTI           reduce using rule 64 (valor -> ENTERO .)
+    DIVISION        reduce using rule 64 (valor -> ENTERO .)
+    RESIDUO         reduce using rule 64 (valor -> ENTERO .)
+    IGUALQUE        reduce using rule 64 (valor -> ENTERO .)
+    DISTINTO        reduce using rule 64 (valor -> ENTERO .)
+    MAYORIG         reduce using rule 64 (valor -> ENTERO .)
+    MENORIG         reduce using rule 64 (valor -> ENTERO .)
+    MAYORQUE        reduce using rule 64 (valor -> ENTERO .)
+    MENORQUE        reduce using rule 64 (valor -> ENTERO .)
+    AND             reduce using rule 64 (valor -> ENTERO .)
+    OR              reduce using rule 64 (valor -> ENTERO .)
+    XOR             reduce using rule 64 (valor -> ENTERO .)
+    ANDBB           reduce using rule 64 (valor -> ENTERO .)
+    ORBB            reduce using rule 64 (valor -> ENTERO .)
+    XORBB           reduce using rule 64 (valor -> ENTERO .)
+    SHIFTIZQ        reduce using rule 64 (valor -> ENTERO .)
+    SHIFTDER        reduce using rule 64 (valor -> ENTERO .)
+    PTCOMA          reduce using rule 64 (valor -> ENTERO .)
+    CORDER          reduce using rule 64 (valor -> ENTERO .)
+    PARDER          reduce using rule 64 (valor -> ENTERO .)
+
+
+state 53
+
+    (65) valor -> DECIMAL .
+
+    MAS             reduce using rule 65 (valor -> DECIMAL .)
+    MENOS           reduce using rule 65 (valor -> DECIMAL .)
+    MULTI           reduce using rule 65 (valor -> DECIMAL .)
+    DIVISION        reduce using rule 65 (valor -> DECIMAL .)
+    RESIDUO         reduce using rule 65 (valor -> DECIMAL .)
+    IGUALQUE        reduce using rule 65 (valor -> DECIMAL .)
+    DISTINTO        reduce using rule 65 (valor -> DECIMAL .)
+    MAYORIG         reduce using rule 65 (valor -> DECIMAL .)
+    MENORIG         reduce using rule 65 (valor -> DECIMAL .)
+    MAYORQUE        reduce using rule 65 (valor -> DECIMAL .)
+    MENORQUE        reduce using rule 65 (valor -> DECIMAL .)
+    AND             reduce using rule 65 (valor -> DECIMAL .)
+    OR              reduce using rule 65 (valor -> DECIMAL .)
+    XOR             reduce using rule 65 (valor -> DECIMAL .)
+    ANDBB           reduce using rule 65 (valor -> DECIMAL .)
+    ORBB            reduce using rule 65 (valor -> DECIMAL .)
+    XORBB           reduce using rule 65 (valor -> DECIMAL .)
+    SHIFTIZQ        reduce using rule 65 (valor -> DECIMAL .)
+    SHIFTDER        reduce using rule 65 (valor -> DECIMAL .)
+    PTCOMA          reduce using rule 65 (valor -> DECIMAL .)
+    CORDER          reduce using rule 65 (valor -> DECIMAL .)
+    PARDER          reduce using rule 65 (valor -> DECIMAL .)
+
+
+state 54
+
+    (66) valor -> CADENA .
+
+    MAS             reduce using rule 66 (valor -> CADENA .)
+    MENOS           reduce using rule 66 (valor -> CADENA .)
+    MULTI           reduce using rule 66 (valor -> CADENA .)
+    DIVISION        reduce using rule 66 (valor -> CADENA .)
+    RESIDUO         reduce using rule 66 (valor -> CADENA .)
+    IGUALQUE        reduce using rule 66 (valor -> CADENA .)
+    DISTINTO        reduce using rule 66 (valor -> CADENA .)
+    MAYORIG         reduce using rule 66 (valor -> CADENA .)
+    MENORIG         reduce using rule 66 (valor -> CADENA .)
+    MAYORQUE        reduce using rule 66 (valor -> CADENA .)
+    MENORQUE        reduce using rule 66 (valor -> CADENA .)
+    AND             reduce using rule 66 (valor -> CADENA .)
+    OR              reduce using rule 66 (valor -> CADENA .)
+    XOR             reduce using rule 66 (valor -> CADENA .)
+    ANDBB           reduce using rule 66 (valor -> CADENA .)
+    ORBB            reduce using rule 66 (valor -> CADENA .)
+    XORBB           reduce using rule 66 (valor -> CADENA .)
+    SHIFTIZQ        reduce using rule 66 (valor -> CADENA .)
+    SHIFTDER        reduce using rule 66 (valor -> CADENA .)
+    PTCOMA          reduce using rule 66 (valor -> CADENA .)
+    CORDER          reduce using rule 66 (valor -> CADENA .)
+    PARDER          reduce using rule 66 (valor -> CADENA .)
+
+
+state 55
+
+    (67) valor -> CADENADOBLE .
+
+    MAS             reduce using rule 67 (valor -> CADENADOBLE .)
+    MENOS           reduce using rule 67 (valor -> CADENADOBLE .)
+    MULTI           reduce using rule 67 (valor -> CADENADOBLE .)
+    DIVISION        reduce using rule 67 (valor -> CADENADOBLE .)
+    RESIDUO         reduce using rule 67 (valor -> CADENADOBLE .)
+    IGUALQUE        reduce using rule 67 (valor -> CADENADOBLE .)
+    DISTINTO        reduce using rule 67 (valor -> CADENADOBLE .)
+    MAYORIG         reduce using rule 67 (valor -> CADENADOBLE .)
+    MENORIG         reduce using rule 67 (valor -> CADENADOBLE .)
+    MAYORQUE        reduce using rule 67 (valor -> CADENADOBLE .)
+    MENORQUE        reduce using rule 67 (valor -> CADENADOBLE .)
+    AND             reduce using rule 67 (valor -> CADENADOBLE .)
+    OR              reduce using rule 67 (valor -> CADENADOBLE .)
+    XOR             reduce using rule 67 (valor -> CADENADOBLE .)
+    ANDBB           reduce using rule 67 (valor -> CADENADOBLE .)
+    ORBB            reduce using rule 67 (valor -> CADENADOBLE .)
+    XORBB           reduce using rule 67 (valor -> CADENADOBLE .)
+    SHIFTIZQ        reduce using rule 67 (valor -> CADENADOBLE .)
+    SHIFTDER        reduce using rule 67 (valor -> CADENADOBLE .)
+    PTCOMA          reduce using rule 67 (valor -> CADENADOBLE .)
+    CORDER          reduce using rule 67 (valor -> CADENADOBLE .)
+    PARDER          reduce using rule 67 (valor -> CADENADOBLE .)
+
+
+state 56
+
+    (70) valor -> READ . PARIZQ PARDER
+
+    PARIZQ          shift and go to state 95
+
+
+state 57
+
+    (71) valor -> ABS . PARIZQ expresion PARDER
+
+    PARIZQ          shift and go to state 96
+
+
+state 58
+
+    (17) asignacion_arr_st -> tipo_variable lista_parametros IGUAL . expresion PTCOMA
+    (31) expresion -> . expresion_aritmetica
+    (32) expresion -> . expresion_relacional
+    (33) expresion -> . expresion_logica
+    (34) expresion -> . expresion_bit_a_bit
+    (35) expresion -> . expresion_unaria
+    (36) expresion -> . valor
+    (37) expresion_aritmetica -> . valor MAS valor
+    (38) expresion_aritmetica -> . valor MENOS valor
+    (39) expresion_aritmetica -> . valor MULTI valor
+    (40) expresion_aritmetica -> . valor DIVISION valor
+    (41) expresion_aritmetica -> . valor RESIDUO valor
+    (42) expresion_relacional -> . valor IGUALQUE valor
+    (43) expresion_relacional -> . valor DISTINTO valor
+    (44) expresion_relacional -> . valor MAYORIG valor
+    (45) expresion_relacional -> . valor MENORIG valor
+    (46) expresion_relacional -> . valor MAYORQUE valor
+    (47) expresion_relacional -> . valor MENORQUE valor
+    (48) expresion_logica -> . valor AND valor
+    (49) expresion_logica -> . valor OR valor
+    (50) expresion_logica -> . valor XOR valor
+    (51) expresion_bit_a_bit -> . valor ANDBB valor
+    (52) expresion_bit_a_bit -> . valor ORBB valor
+    (53) expresion_bit_a_bit -> . valor XORBB valor
+    (54) expresion_bit_a_bit -> . valor SHIFTIZQ valor
+    (55) expresion_bit_a_bit -> . valor SHIFTDER valor
+    (56) expresion_unaria -> . MENOS valor
+    (57) expresion_unaria -> . NOT valor
+    (58) expresion_unaria -> . NOTBB valor
+    (59) expresion_unaria -> . ANDBB valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    MENOS           shift and go to state 48
+    NOT             shift and go to state 50
+    NOTBB           shift and go to state 51
+    ANDBB           shift and go to state 49
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    tipo_variable                  shift and go to state 38
+    expresion                      shift and go to state 97
+    expresion_aritmetica           shift and go to state 42
+    expresion_relacional           shift and go to state 43
+    expresion_logica               shift and go to state 44
+    expresion_bit_a_bit            shift and go to state 45
+    expresion_unaria               shift and go to state 46
+    valor                          shift and go to state 47
+
+state 59
+
+    (18) lista_parametros -> lista_parametros def_par .
+
+    IGUAL           reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    CORIZQ          reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    MAS             reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    MENOS           reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    MULTI           reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    DIVISION        reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    RESIDUO         reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    IGUALQUE        reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    DISTINTO        reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    MAYORIG         reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    MENORIG         reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    MAYORQUE        reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    MENORQUE        reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    AND             reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    OR              reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    XOR             reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    ANDBB           reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    ORBB            reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    XORBB           reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    SHIFTIZQ        reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    SHIFTDER        reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    PTCOMA          reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    CORDER          reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+    PARDER          reduce using rule 18 (lista_parametros -> lista_parametros def_par .)
+
+
+state 60
+
+    (20) def_par -> CORIZQ expresion . CORDER
+
+    CORDER          shift and go to state 98
+
+
+state 61
+
+    (27) print_instr -> PRINT PARIZQ valor . PARDER PTCOMA
+
+    PARDER          shift and go to state 99
+
+
+state 62
+
+    (28) goto_instr -> GOTO ID PTCOMA .
+
+    error           reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    PRINT           reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    GOTO            reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    UNSET           reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    EXIT            reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    ID              reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    IF              reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    TEMPVAR         reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    PARAM           reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    FUNVAL          reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    RA              reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    STACK           reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    SP              reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+    $end            reduce using rule 28 (goto_instr -> GOTO ID PTCOMA .)
+
+
+state 63
+
+    (29) unset_instr -> UNSET PARIZQ tipo_variable . PARDER PTCOMA
+
+    PARDER          shift and go to state 100
+
+
+state 64
+
+    (72) if_instr -> IF PARIZQ expresion . PARDER goto_instr
+
+    PARDER          shift and go to state 101
+
+
+state 65
+
+    (69) valor -> tipo_variable lista_parametros .
+    (18) lista_parametros -> lista_parametros . def_par
+    (20) def_par -> . CORIZQ expresion CORDER
+
+    MAS             reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    MENOS           reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    MULTI           reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    DIVISION        reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    RESIDUO         reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    IGUALQUE        reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    DISTINTO        reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    MAYORIG         reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    MENORIG         reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    MAYORQUE        reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    MENORQUE        reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    AND             reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    OR              reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    XOR             reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    ANDBB           reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    ORBB            reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    XORBB           reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    SHIFTIZQ        reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    SHIFTDER        reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    PTCOMA          reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    CORDER          reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    PARDER          reduce using rule 69 (valor -> tipo_variable lista_parametros .)
+    CORIZQ          shift and go to state 31
+
+    def_par                        shift and go to state 59
+
+state 66
+
+    (15) asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .
+
+    error           reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    PRINT           reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    GOTO            reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    UNSET           reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    EXIT            reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    ID              reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    IF              reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    TEMPVAR         reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    PARAM           reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    FUNVAL          reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    RA              reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    STACK           reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    SP              reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+    $end            reduce using rule 15 (asignacion_instr -> tipo_variable IGUAL expresion PTCOMA .)
+
+
+state 67
+
+    (16) dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ . PARDER PTCOMA
+
+    PARDER          shift and go to state 102
+
+
+state 68
+
+    (60) valor -> PARIZQ tipo . PARDER valor
+
+    PARDER          shift and go to state 103
+
+
+state 69
+
+    (61) tipo -> INT .
+
+    PARDER          reduce using rule 61 (tipo -> INT .)
+
+
+state 70
+
+    (62) tipo -> FLOAT .
+
+    PARDER          reduce using rule 62 (tipo -> FLOAT .)
+
+
+state 71
+
+    (63) tipo -> CHAR .
+
+    PARDER          reduce using rule 63 (tipo -> CHAR .)
+
+
+state 72
+
+    (37) expresion_aritmetica -> valor MAS . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 104
+    tipo_variable                  shift and go to state 38
+
+state 73
+
+    (38) expresion_aritmetica -> valor MENOS . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 105
+    tipo_variable                  shift and go to state 38
+
+state 74
+
+    (39) expresion_aritmetica -> valor MULTI . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 106
+    tipo_variable                  shift and go to state 38
+
+state 75
+
+    (40) expresion_aritmetica -> valor DIVISION . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 107
+    tipo_variable                  shift and go to state 38
+
+state 76
+
+    (41) expresion_aritmetica -> valor RESIDUO . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 108
+    tipo_variable                  shift and go to state 38
+
+state 77
+
+    (42) expresion_relacional -> valor IGUALQUE . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 109
+    tipo_variable                  shift and go to state 38
+
+state 78
+
+    (43) expresion_relacional -> valor DISTINTO . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 110
+    tipo_variable                  shift and go to state 38
+
+state 79
+
+    (44) expresion_relacional -> valor MAYORIG . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 111
+    tipo_variable                  shift and go to state 38
+
+state 80
+
+    (45) expresion_relacional -> valor MENORIG . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 112
+    tipo_variable                  shift and go to state 38
+
+state 81
+
+    (46) expresion_relacional -> valor MAYORQUE . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 113
+    tipo_variable                  shift and go to state 38
+
+state 82
+
+    (47) expresion_relacional -> valor MENORQUE . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 114
+    tipo_variable                  shift and go to state 38
+
+state 83
+
+    (48) expresion_logica -> valor AND . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 115
+    tipo_variable                  shift and go to state 38
+
+state 84
+
+    (49) expresion_logica -> valor OR . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 116
+    tipo_variable                  shift and go to state 38
+
+state 85
+
+    (50) expresion_logica -> valor XOR . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 117
+    tipo_variable                  shift and go to state 38
+
+state 86
+
+    (51) expresion_bit_a_bit -> valor ANDBB . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 118
+    tipo_variable                  shift and go to state 38
+
+state 87
+
+    (52) expresion_bit_a_bit -> valor ORBB . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 119
+    tipo_variable                  shift and go to state 38
+
+state 88
+
+    (53) expresion_bit_a_bit -> valor XORBB . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 120
+    tipo_variable                  shift and go to state 38
+
+state 89
+
+    (54) expresion_bit_a_bit -> valor SHIFTIZQ . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 121
+    tipo_variable                  shift and go to state 38
+
+state 90
+
+    (55) expresion_bit_a_bit -> valor SHIFTDER . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 122
+    tipo_variable                  shift and go to state 38
+
+state 91
+
+    (56) expresion_unaria -> MENOS valor .
+
+    PTCOMA          reduce using rule 56 (expresion_unaria -> MENOS valor .)
+    CORDER          reduce using rule 56 (expresion_unaria -> MENOS valor .)
+    PARDER          reduce using rule 56 (expresion_unaria -> MENOS valor .)
+
+
+state 92
+
+    (59) expresion_unaria -> ANDBB valor .
+
+    PTCOMA          reduce using rule 59 (expresion_unaria -> ANDBB valor .)
+    CORDER          reduce using rule 59 (expresion_unaria -> ANDBB valor .)
+    PARDER          reduce using rule 59 (expresion_unaria -> ANDBB valor .)
+
+
+state 93
+
+    (57) expresion_unaria -> NOT valor .
+
+    PTCOMA          reduce using rule 57 (expresion_unaria -> NOT valor .)
+    CORDER          reduce using rule 57 (expresion_unaria -> NOT valor .)
+    PARDER          reduce using rule 57 (expresion_unaria -> NOT valor .)
+
+
+state 94
+
+    (58) expresion_unaria -> NOTBB valor .
+
+    PTCOMA          reduce using rule 58 (expresion_unaria -> NOTBB valor .)
+    CORDER          reduce using rule 58 (expresion_unaria -> NOTBB valor .)
+    PARDER          reduce using rule 58 (expresion_unaria -> NOTBB valor .)
+
+
+state 95
+
+    (70) valor -> READ PARIZQ . PARDER
+
+    PARDER          shift and go to state 123
+
+
+state 96
+
+    (71) valor -> ABS PARIZQ . expresion PARDER
+    (31) expresion -> . expresion_aritmetica
+    (32) expresion -> . expresion_relacional
+    (33) expresion -> . expresion_logica
+    (34) expresion -> . expresion_bit_a_bit
+    (35) expresion -> . expresion_unaria
+    (36) expresion -> . valor
+    (37) expresion_aritmetica -> . valor MAS valor
+    (38) expresion_aritmetica -> . valor MENOS valor
+    (39) expresion_aritmetica -> . valor MULTI valor
+    (40) expresion_aritmetica -> . valor DIVISION valor
+    (41) expresion_aritmetica -> . valor RESIDUO valor
+    (42) expresion_relacional -> . valor IGUALQUE valor
+    (43) expresion_relacional -> . valor DISTINTO valor
+    (44) expresion_relacional -> . valor MAYORIG valor
+    (45) expresion_relacional -> . valor MENORIG valor
+    (46) expresion_relacional -> . valor MAYORQUE valor
+    (47) expresion_relacional -> . valor MENORQUE valor
+    (48) expresion_logica -> . valor AND valor
+    (49) expresion_logica -> . valor OR valor
+    (50) expresion_logica -> . valor XOR valor
+    (51) expresion_bit_a_bit -> . valor ANDBB valor
+    (52) expresion_bit_a_bit -> . valor ORBB valor
+    (53) expresion_bit_a_bit -> . valor XORBB valor
+    (54) expresion_bit_a_bit -> . valor SHIFTIZQ valor
+    (55) expresion_bit_a_bit -> . valor SHIFTDER valor
+    (56) expresion_unaria -> . MENOS valor
+    (57) expresion_unaria -> . NOT valor
+    (58) expresion_unaria -> . NOTBB valor
+    (59) expresion_unaria -> . ANDBB valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    MENOS           shift and go to state 48
+    NOT             shift and go to state 50
+    NOTBB           shift and go to state 51
+    ANDBB           shift and go to state 49
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    expresion                      shift and go to state 124
+    expresion_aritmetica           shift and go to state 42
+    expresion_relacional           shift and go to state 43
+    expresion_logica               shift and go to state 44
+    expresion_bit_a_bit            shift and go to state 45
+    expresion_unaria               shift and go to state 46
+    valor                          shift and go to state 47
+    tipo_variable                  shift and go to state 38
+
+state 97
+
+    (17) asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion . PTCOMA
+
+    PTCOMA          shift and go to state 125
+
+
+state 98
+
+    (20) def_par -> CORIZQ expresion CORDER .
+
+    IGUAL           reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    CORIZQ          reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    MAS             reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    MENOS           reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    MULTI           reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    DIVISION        reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    RESIDUO         reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    IGUALQUE        reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    DISTINTO        reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    MAYORIG         reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    MENORIG         reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    MAYORQUE        reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    MENORQUE        reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    AND             reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    OR              reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    XOR             reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    ANDBB           reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    ORBB            reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    XORBB           reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    SHIFTIZQ        reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    SHIFTDER        reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    PTCOMA          reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    CORDER          reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+    PARDER          reduce using rule 20 (def_par -> CORIZQ expresion CORDER .)
+
+
+state 99
+
+    (27) print_instr -> PRINT PARIZQ valor PARDER . PTCOMA
+
+    PTCOMA          shift and go to state 126
+
+
+state 100
+
+    (29) unset_instr -> UNSET PARIZQ tipo_variable PARDER . PTCOMA
+
+    PTCOMA          shift and go to state 127
+
+
+state 101
+
+    (72) if_instr -> IF PARIZQ expresion PARDER . goto_instr
+    (28) goto_instr -> . GOTO ID PTCOMA
+
+    GOTO            shift and go to state 16
+
+    goto_instr                     shift and go to state 128
+
+state 102
+
+    (16) dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER . PTCOMA
+
+    PTCOMA          shift and go to state 129
+
+
+state 103
+
+    (60) valor -> PARIZQ tipo PARDER . valor
+    (60) valor -> . PARIZQ tipo PARDER valor
+    (64) valor -> . ENTERO
+    (65) valor -> . DECIMAL
+    (66) valor -> . CADENA
+    (67) valor -> . CADENADOBLE
+    (68) valor -> . tipo_variable
+    (69) valor -> . tipo_variable lista_parametros
+    (70) valor -> . READ PARIZQ PARDER
+    (71) valor -> . ABS PARIZQ expresion PARDER
+    (21) tipo_variable -> . TEMPVAR
+    (22) tipo_variable -> . PARAM
+    (23) tipo_variable -> . FUNVAL
+    (24) tipo_variable -> . RA
+    (25) tipo_variable -> . STACK
+    (26) tipo_variable -> . SP
+
+    PARIZQ          shift and go to state 41
+    ENTERO          shift and go to state 52
+    DECIMAL         shift and go to state 53
+    CADENA          shift and go to state 54
+    CADENADOBLE     shift and go to state 55
+    READ            shift and go to state 56
+    ABS             shift and go to state 57
+    TEMPVAR         shift and go to state 21
+    PARAM           shift and go to state 22
+    FUNVAL          shift and go to state 23
+    RA              shift and go to state 24
+    STACK           shift and go to state 25
+    SP              shift and go to state 26
+
+    valor                          shift and go to state 130
+    tipo_variable                  shift and go to state 38
+
+state 104
+
+    (37) expresion_aritmetica -> valor MAS valor .
+
+    PTCOMA          reduce using rule 37 (expresion_aritmetica -> valor MAS valor .)
+    CORDER          reduce using rule 37 (expresion_aritmetica -> valor MAS valor .)
+    PARDER          reduce using rule 37 (expresion_aritmetica -> valor MAS valor .)
+
+
+state 105
+
+    (38) expresion_aritmetica -> valor MENOS valor .
+
+    PTCOMA          reduce using rule 38 (expresion_aritmetica -> valor MENOS valor .)
+    CORDER          reduce using rule 38 (expresion_aritmetica -> valor MENOS valor .)
+    PARDER          reduce using rule 38 (expresion_aritmetica -> valor MENOS valor .)
+
+
+state 106
+
+    (39) expresion_aritmetica -> valor MULTI valor .
+
+    PTCOMA          reduce using rule 39 (expresion_aritmetica -> valor MULTI valor .)
+    CORDER          reduce using rule 39 (expresion_aritmetica -> valor MULTI valor .)
+    PARDER          reduce using rule 39 (expresion_aritmetica -> valor MULTI valor .)
+
+
+state 107
+
+    (40) expresion_aritmetica -> valor DIVISION valor .
+
+    PTCOMA          reduce using rule 40 (expresion_aritmetica -> valor DIVISION valor .)
+    CORDER          reduce using rule 40 (expresion_aritmetica -> valor DIVISION valor .)
+    PARDER          reduce using rule 40 (expresion_aritmetica -> valor DIVISION valor .)
+
+
+state 108
+
+    (41) expresion_aritmetica -> valor RESIDUO valor .
+
+    PTCOMA          reduce using rule 41 (expresion_aritmetica -> valor RESIDUO valor .)
+    CORDER          reduce using rule 41 (expresion_aritmetica -> valor RESIDUO valor .)
+    PARDER          reduce using rule 41 (expresion_aritmetica -> valor RESIDUO valor .)
+
+
+state 109
+
+    (42) expresion_relacional -> valor IGUALQUE valor .
+
+    PTCOMA          reduce using rule 42 (expresion_relacional -> valor IGUALQUE valor .)
+    CORDER          reduce using rule 42 (expresion_relacional -> valor IGUALQUE valor .)
+    PARDER          reduce using rule 42 (expresion_relacional -> valor IGUALQUE valor .)
+
+
+state 110
+
+    (43) expresion_relacional -> valor DISTINTO valor .
+
+    PTCOMA          reduce using rule 43 (expresion_relacional -> valor DISTINTO valor .)
+    CORDER          reduce using rule 43 (expresion_relacional -> valor DISTINTO valor .)
+    PARDER          reduce using rule 43 (expresion_relacional -> valor DISTINTO valor .)
+
+
+state 111
+
+    (44) expresion_relacional -> valor MAYORIG valor .
+
+    PTCOMA          reduce using rule 44 (expresion_relacional -> valor MAYORIG valor .)
+    CORDER          reduce using rule 44 (expresion_relacional -> valor MAYORIG valor .)
+    PARDER          reduce using rule 44 (expresion_relacional -> valor MAYORIG valor .)
+
+
+state 112
+
+    (45) expresion_relacional -> valor MENORIG valor .
+
+    PTCOMA          reduce using rule 45 (expresion_relacional -> valor MENORIG valor .)
+    CORDER          reduce using rule 45 (expresion_relacional -> valor MENORIG valor .)
+    PARDER          reduce using rule 45 (expresion_relacional -> valor MENORIG valor .)
+
+
+state 113
+
+    (46) expresion_relacional -> valor MAYORQUE valor .
+
+    PTCOMA          reduce using rule 46 (expresion_relacional -> valor MAYORQUE valor .)
+    CORDER          reduce using rule 46 (expresion_relacional -> valor MAYORQUE valor .)
+    PARDER          reduce using rule 46 (expresion_relacional -> valor MAYORQUE valor .)
+
+
+state 114
+
+    (47) expresion_relacional -> valor MENORQUE valor .
+
+    PTCOMA          reduce using rule 47 (expresion_relacional -> valor MENORQUE valor .)
+    CORDER          reduce using rule 47 (expresion_relacional -> valor MENORQUE valor .)
+    PARDER          reduce using rule 47 (expresion_relacional -> valor MENORQUE valor .)
+
+
+state 115
+
+    (48) expresion_logica -> valor AND valor .
+
+    PTCOMA          reduce using rule 48 (expresion_logica -> valor AND valor .)
+    CORDER          reduce using rule 48 (expresion_logica -> valor AND valor .)
+    PARDER          reduce using rule 48 (expresion_logica -> valor AND valor .)
+
+
+state 116
+
+    (49) expresion_logica -> valor OR valor .
+
+    PTCOMA          reduce using rule 49 (expresion_logica -> valor OR valor .)
+    CORDER          reduce using rule 49 (expresion_logica -> valor OR valor .)
+    PARDER          reduce using rule 49 (expresion_logica -> valor OR valor .)
+
+
+state 117
+
+    (50) expresion_logica -> valor XOR valor .
+
+    PTCOMA          reduce using rule 50 (expresion_logica -> valor XOR valor .)
+    CORDER          reduce using rule 50 (expresion_logica -> valor XOR valor .)
+    PARDER          reduce using rule 50 (expresion_logica -> valor XOR valor .)
+
+
+state 118
+
+    (51) expresion_bit_a_bit -> valor ANDBB valor .
+
+    PTCOMA          reduce using rule 51 (expresion_bit_a_bit -> valor ANDBB valor .)
+    CORDER          reduce using rule 51 (expresion_bit_a_bit -> valor ANDBB valor .)
+    PARDER          reduce using rule 51 (expresion_bit_a_bit -> valor ANDBB valor .)
+
+
+state 119
+
+    (52) expresion_bit_a_bit -> valor ORBB valor .
+
+    PTCOMA          reduce using rule 52 (expresion_bit_a_bit -> valor ORBB valor .)
+    CORDER          reduce using rule 52 (expresion_bit_a_bit -> valor ORBB valor .)
+    PARDER          reduce using rule 52 (expresion_bit_a_bit -> valor ORBB valor .)
+
+
+state 120
+
+    (53) expresion_bit_a_bit -> valor XORBB valor .
+
+    PTCOMA          reduce using rule 53 (expresion_bit_a_bit -> valor XORBB valor .)
+    CORDER          reduce using rule 53 (expresion_bit_a_bit -> valor XORBB valor .)
+    PARDER          reduce using rule 53 (expresion_bit_a_bit -> valor XORBB valor .)
+
+
+state 121
+
+    (54) expresion_bit_a_bit -> valor SHIFTIZQ valor .
+
+    PTCOMA          reduce using rule 54 (expresion_bit_a_bit -> valor SHIFTIZQ valor .)
+    CORDER          reduce using rule 54 (expresion_bit_a_bit -> valor SHIFTIZQ valor .)
+    PARDER          reduce using rule 54 (expresion_bit_a_bit -> valor SHIFTIZQ valor .)
+
+
+state 122
+
+    (55) expresion_bit_a_bit -> valor SHIFTDER valor .
+
+    PTCOMA          reduce using rule 55 (expresion_bit_a_bit -> valor SHIFTDER valor .)
+    CORDER          reduce using rule 55 (expresion_bit_a_bit -> valor SHIFTDER valor .)
+    PARDER          reduce using rule 55 (expresion_bit_a_bit -> valor SHIFTDER valor .)
+
+
+state 123
+
+    (70) valor -> READ PARIZQ PARDER .
+
+    MAS             reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    MENOS           reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    MULTI           reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    DIVISION        reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    RESIDUO         reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    IGUALQUE        reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    DISTINTO        reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    MAYORIG         reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    MENORIG         reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    MAYORQUE        reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    MENORQUE        reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    AND             reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    OR              reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    XOR             reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    ANDBB           reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    ORBB            reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    XORBB           reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    SHIFTIZQ        reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    SHIFTDER        reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    PTCOMA          reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    CORDER          reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+    PARDER          reduce using rule 70 (valor -> READ PARIZQ PARDER .)
+
+
+state 124
+
+    (71) valor -> ABS PARIZQ expresion . PARDER
+
+    PARDER          shift and go to state 131
+
+
+state 125
+
+    (17) asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .
+
+    error           reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    PRINT           reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    GOTO            reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    UNSET           reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    EXIT            reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    ID              reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    IF              reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    TEMPVAR         reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    PARAM           reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    FUNVAL          reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    RA              reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    STACK           reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    SP              reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+    $end            reduce using rule 17 (asignacion_arr_st -> tipo_variable lista_parametros IGUAL expresion PTCOMA .)
+
+
+state 126
+
+    (27) print_instr -> PRINT PARIZQ valor PARDER PTCOMA .
+
+    error           reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    PRINT           reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    GOTO            reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    UNSET           reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    EXIT            reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    ID              reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    IF              reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    TEMPVAR         reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    PARAM           reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    FUNVAL          reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    RA              reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    STACK           reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    SP              reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+    $end            reduce using rule 27 (print_instr -> PRINT PARIZQ valor PARDER PTCOMA .)
+
+
+state 127
+
+    (29) unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .
+
+    error           reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    PRINT           reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    GOTO            reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    UNSET           reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    EXIT            reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    ID              reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    IF              reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    TEMPVAR         reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    PARAM           reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    FUNVAL          reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    RA              reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    STACK           reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    SP              reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+    $end            reduce using rule 29 (unset_instr -> UNSET PARIZQ tipo_variable PARDER PTCOMA .)
+
+
+state 128
+
+    (72) if_instr -> IF PARIZQ expresion PARDER goto_instr .
+
+    error           reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    PRINT           reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    GOTO            reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    UNSET           reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    EXIT            reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    ID              reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    IF              reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    TEMPVAR         reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    PARAM           reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    FUNVAL          reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    RA              reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    STACK           reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    SP              reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+    $end            reduce using rule 72 (if_instr -> IF PARIZQ expresion PARDER goto_instr .)
+
+
+state 129
+
+    (16) dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .
+
+    error           reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    PRINT           reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    GOTO            reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    UNSET           reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    EXIT            reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    ID              reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    IF              reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    TEMPVAR         reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    PARAM           reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    FUNVAL          reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    RA              reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    STACK           reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    SP              reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+    $end            reduce using rule 16 (dec_array_instr -> tipo_variable IGUAL ARRAY PARIZQ PARDER PTCOMA .)
+
+
+state 130
+
+    (60) valor -> PARIZQ tipo PARDER valor .
+
+    MAS             reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    MENOS           reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    MULTI           reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    DIVISION        reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    RESIDUO         reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    IGUALQUE        reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    DISTINTO        reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    MAYORIG         reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    MENORIG         reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    MAYORQUE        reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    MENORQUE        reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    AND             reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    OR              reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    XOR             reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    ANDBB           reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    ORBB            reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    XORBB           reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    SHIFTIZQ        reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    SHIFTDER        reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    PTCOMA          reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    CORDER          reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+    PARDER          reduce using rule 60 (valor -> PARIZQ tipo PARDER valor .)
+
+
+state 131
+
+    (71) valor -> ABS PARIZQ expresion PARDER .
+
+    MAS             reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    MENOS           reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    MULTI           reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    DIVISION        reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    RESIDUO         reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    IGUALQUE        reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    DISTINTO        reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    MAYORIG         reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    MENORIG         reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    MAYORQUE        reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    MENORQUE        reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    AND             reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    OR              reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    XOR             reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    ANDBB           reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    ORBB            reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    XORBB           reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    SHIFTIZQ        reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    SHIFTDER        reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    PTCOMA          reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    CORDER          reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+    PARDER          reduce using rule 71 (valor -> ABS PARIZQ expresion PARDER .)
+
