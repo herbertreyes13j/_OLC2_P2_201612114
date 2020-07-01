@@ -495,7 +495,7 @@ def p_sentencia_f(t):
         | SWITCH
         | DO_WHILE pyc
         | WHILE
-        | RETURN
+        | RETURN pyc
         | ETIQUETA
         | GOTO pyc
         | FOR'''
@@ -624,7 +624,7 @@ def p_llamada(t):
 
 def p_llamada_sinp(t):
     'LLAMADA : iden par1 par2  '
-    t[0]=Llamada(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
+    t[0]=[Llamada(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))]
 
 def p_aritmeticas(t):
     '''EXP : EXP mas EXP
@@ -710,7 +710,7 @@ def p_ELEMENTS(t):
 def p_EXPRESIONES_ESPECIALES(t):
     '''EXP : ACCESO_STRUCT
             | LLAMADA '''
-    t[0]=t[1]
+    t[0]=t[1][0]
 
 
 def p_sizeof(t):

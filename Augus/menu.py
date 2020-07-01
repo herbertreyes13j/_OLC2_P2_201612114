@@ -13,17 +13,14 @@ comando_consola=''
 ts_debug=TablaDeSimbolos()
 no_instruccion=0
 ejecucion_automatica=1
-cajaPrincipal=Tk()
-leftBOTTOM=Frame(cajaPrincipal)
-leftBOTTOM.pack(side=RIGHT)
-editor = Text(leftBOTTOM)
 
 
-def ejec_ascendente(consolas,texto):
+
+def ejec_ascendente(consolas,texto,editores):
     global ts_debug, no_instruccion, waitForCommand, ejecucion_automatica
     ejecucion_automatica=1
     waitForCommand=0
-    Inter.inicializarGUI(editor,consolas)
+    Inter.inicializarGUI(editores,consolas)
     Inter.limpiarValores()
     Inter.inicializarEjecucionAscendente(texto)
     Inter.inicializarTS()

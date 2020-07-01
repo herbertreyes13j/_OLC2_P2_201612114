@@ -13,10 +13,14 @@ class Aritmetica(Nodo.Nodo):
     def getC3D(self,TS,Global,Traductor):
         codigo=""
         temp = Traductor.getTemp()
+
         codigo+=self.Exp1.getC3D(TS,Global,Traductor)
         codigo+=self.Exp2.getC3D(TS,Global,Traductor)
         self.temporal=temp
+
         codigo+=Traductor.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
+        if TS is not None:
+            TS.almacenados.append(temp)
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -41,10 +45,14 @@ class Relacional(Nodo.Nodo):
     def getC3D(self,TS,Global,Traductor):
         codigo=""
         temp = Traductor.getTemp()
+
         codigo+=self.Exp1.getC3D(TS,Global,Traductor)
         codigo+=self.Exp2.getC3D(TS,Global,Traductor)
         self.temporal=temp
+
         codigo+=Traductor.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
+        if TS is not None:
+            TS.almacenados.append(temp)
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -107,6 +115,8 @@ class variable(Nodo.Nodo):
         temp = Traductor.getTemp()
         codigo += Traductor.getfromStack(temp, simbolo.posicion)
         self.temporal = temp
+        if TS is not None:
+            TS.almacenados.append(temp)
         return codigo
 
     def getPosicion(self,TS,Global,Traductor):
@@ -144,6 +154,8 @@ class bitabit(Nodo.Nodo):
         codigo+=self.Exp2.getC3D(TS,Global,Traductor)
         self.temporal=temp
         codigo+=Traductor.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
+        if TS is not None:
+            TS.almacenados.append(temp)
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -172,6 +184,8 @@ class logica(Nodo.Nodo):
         codigo+=self.Exp2.getC3D(TS,Global,Traductor)
         self.temporal=temp
         codigo+=Traductor.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
+        if TS is not None:
+            TS.almacenados.append(temp)
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -202,6 +216,8 @@ class incremento(Nodo.Nodo):
             codigo+=Traductor.make3d(temporal,temporal,'+',1)
             codigo+=Traductor.changestack(self.Exp1.temporal,temporal)
             self.temporal=temporal
+            if TS is not None:
+                TS.almacenados.append(temporal)
             return codigo
         else:
             codigo += self.Exp1.getC3D(TS, Global, Traductor)
@@ -211,6 +227,8 @@ class incremento(Nodo.Nodo):
             codigo += Traductor.make3d(temporal2, temporal, '+', 1)
             codigo += Traductor.changestack(self.Exp1.temporal, temporal2)
             self.temporal = temporal
+            if TS is not None:
+                TS.almacenados.append(temporal)
             return codigo
 
 
@@ -241,6 +259,8 @@ class unario(Nodo.Nodo):
         codigo+=self.Exp.getC3D(TS,Global,Traductor)
         self.temporal=temp
         codigo+=temp+' = '+ str(self.op)+' '+self.Exp.temporal+'; \n'
+        if TS is not None:
+            TS.almacenados.append(temp)
         return codigo
 
     def graficarasc(self,padre,grafica):

@@ -28,13 +28,16 @@ class Llamada(Nodo.Nodo):
             return codigo
         else:
             funcion=Global.obtenerfunc(self.nombre)
-            etiqueta=Traductor.getEtq()
+
             codigoparametros=""
-            codigo+='goto '+etiqueta+';\n'
+
             for nodo in self.elementos:
                 codigoparametros+=nodo.getC3D(TS,Global,Traductor)
 
             if not self.nombre in Global.traducidas:
+                etiqueta=Traductor.getEtq()
+                codigo+='goto '+etiqueta+';\n'
+                Global.agregartrad(self.nombre)
                 Pila=TablaDeSimbolos(self.nombre)
                 cuenta=0
                 for ele in self.elementos:
@@ -43,28 +46,49 @@ class Llamada(Nodo.Nodo):
                 codigo+=self.nombre+":\n"
                 codigo+=funcion.getC3D(Pila,Global,Traductor)
                 codigo+='goto retorno_final;\n'
-                Global.agregartrad(self.nombre)
+                codigo += etiqueta + ':\n'
 
+            conteo=0
+            codigo += codigoparametros
+            if TS.nombre!='main':
+                codigo+=Traductor.makecomentario("Almacenando temporales")
+                temp=Traductor.getTemp()
 
-            if TS.nombre!='principal':
-                pass
-            codigo+=etiqueta+':\n'
+                for temporal in TS.almacenados:
+                    codigo+=Traductor.getfromP(temp,TS.size+conteo)
+                    codigo+=Traductor.changestack(temp,temporal)
+                    conteo+=1
+
             temp=Traductor.getTemp()
             codigo+='$ra ='+str(Global.cuentatrad)+';\n'
             codigo+=Traductor.makecomentario('Simulando cambio de ambito')
             codigo+=Traductor.getfromP(temp,TS.size)
-            codigo+=codigoparametros
+
             for nodo in self.elementos:
                 codigo+=Traductor.make3d(temp,'1','+',temp)
                 codigo+=Traductor.changestack(temp,nodo.temporal)
             codigo+=Traductor.makecomentario('Cambio de ambito')
-            codigo+=Traductor.incP(TS.size)
+            codigo+=Traductor.incP(TS.size+conteo)
             codigo+='goto '+self.nombre+';\n'
-            codigo+=Traductor.makecomentario('Cambio de ambito')
-            codigo+=Traductor.decP(TS.size)
+
             Global.agregarcodigo("if($ra=="+str(Global.cuentatrad)+') goto Regreso'+str(Global.cuentatrad)+';\n')
             codigo+='Regreso'+str(Global.cuentatrad)+':\n'
+            temp = Traductor.getTemp()
+            codigo += Traductor.getfromP(temp, 0)
+            codigo += Traductor.getfromStack(temp,temp)
+            self.temporal=temp
+            codigo+=Traductor.makecomentario('Cambio de ambito')
+            codigo+=Traductor.decP(TS.size+conteo)
             Global.cuentatrad+=1
+            if TS.nombre!='main':
+                codigo+=Traductor.makecomentario("Recuperando temporales")
+                temp=Traductor.getTemp()
+                conteo=0
+                for temporal in TS.almacenados:
+                    codigo+=Traductor.getfromP(temp,TS.size+conteo)
+                    codigo+=Traductor.getfromStack(temporal,temp)
+                    conteo+=1
+
             return codigo;
 
     def graficarasc(self,padre,grafica):

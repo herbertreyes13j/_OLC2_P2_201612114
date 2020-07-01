@@ -14,12 +14,27 @@ class Lista(Nodo.Nodo):
         codigo+=temp+'= array();\n'
         contador=0
         for nodo in self.elementos:
-            codigo+=nodo.getC3D(TS,Global,Traductor)
-            codigo+=temp+'['+str(contador)+'] ='+nodo.temporal+';\n'
+            if type(nodo) == Lista:
+                codigo+=nodo.listparalist(temp+'['+str(contador)+']',TS,Global,Traductor)
+            else:
+                codigo+=nodo.getC3D(TS,Global,Traductor)
+                codigo+=temp+'['+str(contador)+'] ='+nodo.temporal+';\n'
             contador+=1
         self.temporal=temp
         return codigo
 
+    def listparalist(self,acceso,TS,Global,Traductor):
+        codigo=""
+        contador=0;
+        for nodo in self.elementos:
+            if type(nodo)==Lista:
+                var=str(acceso)+'['+str(contador)+']'
+                codigo+=nodo.listparalist(var,TS,Global,Traductor)
+            else:
+                codigo+=nodo.getC3D(TS,Global,Traductor)
+                codigo+=str(acceso)+'['+str(contador)+'] ='+nodo.temporal+';\n'
+            contador+=1
+        return codigo
     def graficarasc(self,padre,grafica):
         nombrehijo = 'Node' + str(id(self))
         grafica.node(nombrehijo, label=('Lista'))

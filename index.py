@@ -60,6 +60,7 @@ class interfaz:
 
     def __init__(self):
         self.window=Tk()
+        self.resultado=None
         self.window.title("Minor C Interpreter")
         self.window.geometry('1100x750')
         self.archivoactgual=''
@@ -105,6 +106,7 @@ class interfaz:
         ejecucioin.add_command(label="Descendente", command=self.descendente)
         self.menubar.add_cascade(label="Ejecucion", menu=ejecucioin)
         reportes= Menu(self.menubar,tearoff=0)
+        reportes.add_command(label="Reporte AST",command=self.imprimir)
         self.menubar.add_cascade(label="Reportes",menu=reportes)
         opciones = Menu(self.menubar, tearoff=0)
         opciones.add_command(label="Cambiar Color Consolas", command=self.cambiarcolor)
@@ -113,21 +115,13 @@ class interfaz:
         self.menubar.add_cascade(label="Opciones", menu=opciones)
         self.window.mainloop()
 
-    def imprimir(self,raiz):
+    def imprimir(self):
         f = graphviz.Digraph(filename='Reporte_AST.gv')
-        f.node('Node0',label='RAIZ')
-        contador=1
-        def recorrido(arbol,padre):
-            nonlocal contador
-            for x in arbol.childs:
-                nombrehijo='Node'+str(contador)
-                f.node(nombrehijo,label=str(x.tag)+' | '+str(x.value))
-                f.edge(padre,nombrehijo)
-                contador+=1
-                if(len(x.childs)!=0):
-                    recorrido(x,nombrehijo)
-            recorrido(raiz,'Node0')
-            f.view()
+        f.node('Node0', label='RAIZ')
+        if self.resultado is not None:
+            for nodo in self.resultado:
+                nodo.graficarasc('Node0', f)
+        f.view()
 
 
     def limpiar(self):
@@ -186,12 +180,9 @@ class interfaz:
         self.consola.delete('1.0',END)
         input = self.txtarea.get(1.0, END)
         resultado = g.parse(input)
+        self.resultado=resultado
         print(resultado)
-        f = graphviz.Digraph(filename='Reporte_AST.gv')
-        f.node('Node0',label='RAIZ')
-        for nodo in resultado:
-            nodo.graficarasc('Node0',f)
-        f.view()
+
         pila=TablaDeSimbolos("global")
         generador=Generador3D()
         codigo="main: \n" \
@@ -211,7 +202,7 @@ class interfaz:
         codigo+=pila.codigofinal
         self.consola.insert(INSERT,codigo)
         #self.consola.delete('1.0', END)
-        augus.ejec_ascendente(self.consola,codigo)
+        #augus.ejec_ascendente(self.consola,codigo,self.txtarea)
         '''
             if interprete.errores.principio is not None:
             errores(interprete.errores.principio)

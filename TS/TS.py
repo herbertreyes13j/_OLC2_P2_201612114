@@ -14,6 +14,9 @@ class TablaDeSimbolos():
         self.traducidas=[]
         self.cuentatrad=0
         self.codigofinal="retorno_final:\n"
+        self.reporteTS=[]
+        self.salida=""
+        self.almacenados=[]
 
 
     def insercont(self,etq):
@@ -126,6 +129,13 @@ class TablaDeSimbolos():
 
     def agregarcodigo(self,codigo):
         self.codigofinal+=codigo
+
+    def obtenerreporte(self):
+        tupla=[]
+        for muestra in self.reporteTS:
+            tupla.append((muestra.tipo,muestra.nombre,muestra.posicion,muestra.ambito,muestra.dimensiones))
+        return tupla
+
 
 
 
