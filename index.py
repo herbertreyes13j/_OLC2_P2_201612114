@@ -1,8 +1,10 @@
+import webbrowser
 from tkinter import *
 from tkinter import filedialog
 from tkinter import scrolledtext
 from tkinter import ttk
 from tkinter.ttk import *
+
 import Gramatica.Gramatica as g
 import graphviz
 import sys
@@ -13,10 +15,32 @@ from tkinter import colorchooser
 from TS.TS import *
 from AST.Declaracion import *
 from AST.Funcion import *
-from TS.Generador import *
 from AST.Asignacion import *
 from AST.Arreglo_Simple import *
+from AST.Arreglo import *
 import Augus.menu as augus
+new = 2
+head_html = '''
+<head> 
+       <style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+    </style>
+</head>
+'''
 
 if __name__=='__main__':
     from LineNumber import LineMain
@@ -40,7 +64,7 @@ class Connect:
 sys.setrecursionlimit(600000)
 print(sys.getrecursionlimit())
 threading.stack_size(250000000)
-reporte_errores = error.N_Error("","","","")
+
 class TextPad(Tkinter.Text):
     def __init__(self, *args, **kwargs):
         Tkinter.Text.__init__(self, *args, **kwargs)
@@ -84,6 +108,8 @@ class interfaz:
         self.consola.pack(side=LEFT)
         self.menubar = Menu(self.window)
         self.window.config(menu=self.menubar)
+        self.reporteg=""
+        self.errores=lista_err.L_Error()
         archivo = Menu(self.menubar, tearoff=0)
         archivo.add_command(label="Limpiar Pantalla",
                             command=self.limpiar)
@@ -107,6 +133,8 @@ class interfaz:
         self.menubar.add_cascade(label="Ejecucion", menu=ejecucioin)
         reportes= Menu(self.menubar,tearoff=0)
         reportes.add_command(label="Reporte AST",command=self.imprimir)
+        reportes.add_command(label='Reporte Gramatica',command=self.reporte_gramatica)
+        reportes.add_command(label='Reporte Errores', command=self.errores_r)
         self.menubar.add_cascade(label="Reportes",menu=reportes)
         opciones = Menu(self.menubar, tearoff=0)
         opciones.add_command(label="Cambiar Color Consolas", command=self.cambiarcolor)
@@ -174,32 +202,74 @@ class interfaz:
         except Exception as e:
             print(e)
 
+    def reporte_gramatica(self):
+
+        html = ''' 
+                <html>''' + head_html + '''
+                    <body>
+                    <h1>Reporte Gramatical</h1>
+                    <table id="t02">
+                        <tr>
+                            <th>Produccion</th>
+                            <th>Regla Semántica</th> 
+                        </tr>
+                '''
+        html+=self.reporteg
+        html += '''</table>'''
+
+        html += '''</body>
+                    </html>
+                '''
+        try:
+            file = open('Gramatical.html', 'w')
+            file.write(html)
+        except:
+            pass
+        finally:
+            file.close()
+            global new
+            webbrowser.open('Gramatical.html', new=new)
 
     def analizar(self):
 
         self.consola.delete('1.0',END)
         input = self.txtarea.get(1.0, END)
-        resultado = g.parse(input)
-        self.resultado=resultado
-        print(resultado)
+        self.errores=lista_err.L_Error()
+        resultado = g.parse(input,self.errores)
 
+        if self.errores.principio is not None:
+            self.errores_r()
+
+        self.reporteg=g.reporteg
+        self.resultado=resultado
         pila=TablaDeSimbolos("global")
-        generador=Generador3D()
         codigo="main: \n" \
                "$s0 = array(); \n" \
-               "$sp=1;\n"
+               "$s1 = array(); \n" \
+               "$ra = 0; \n" \
+               "$sp = 0;\n"
         for nodo in resultado:
             if isinstance(nodo,Funcion):
                 pila.agregarfunc(nodo)
 
+        cuenta=1
+        for fun in pila.funciones:
+            codigo+='$v'+str(cuenta)+'=0;\n'
+            cuenta+=1
         for nodo in resultado:
-            if isinstance(nodo,Declaracion) or isinstance(nodo,AsignacionOp) or isinstance(nodo,ArregloSimple):
-                codigo+=nodo.getC3D(None,pila,generador)
+            nodo.analizar(pila,self.errores)
+        for nodo in self.resultado:
+            if isinstance(nodo,Arreglo) or isinstance(nodo,Declaracion):
+                codigo+=nodo.getC3D(pila)
+        codigo+='goto main_main;\n'
+        for nodo in resultado:
+            if not (isinstance(nodo,Arreglo) or isinstance(nodo,Declaracion)):
+                codigo+=nodo.getC3D(pila)
 
-        funcion=pila.obtenerfunc('main')
-        codigo+=funcion.getC3D(TablaDeSimbolos("main"),pila,generador)
-        codigo+='exit;\n'
-        codigo+=pila.codigofinal
+        pila.funciones['main'].codigofin+='exit;\n'
+
+        for fun in pila.funciones:
+            codigo+=pila.funciones[fun].codigofin
         self.consola.insert(INSERT,codigo)
         #self.consola.delete('1.0', END)
         #augus.ejec_ascendente(self.consola,codigo,self.txtarea)
@@ -237,7 +307,7 @@ class interfaz:
             #TS(debbug.pila.obtenerreporte())
 
 
-    def TS(tupla):
+    def TS(self,tupla):
         ventana= Toplevel(self.window)
         tree_errores = ttk.Treeview(ventana)
         tree_errores["columns"] = ("Nombre", "Tipo","Dimension","Declarada","Rol")
@@ -259,7 +329,7 @@ class interfaz:
             tree_errores.insert("",cuenta,cuenta,values=x)
             cuenta+=1
 
-    def errores(self,reporte_errores):
+    def errores_r(self):
         ventana= Toplevel(self.window)
         tree_errores = ttk.Treeview(ventana)
         tree_errores["columns"] = ("Tipo", "Descripcion","Fila","Columna")
@@ -275,12 +345,14 @@ class interfaz:
         tree_errores.heading("Fila", text="Fila", anchor=W)
         tree_errores.heading("Columna", text="Columna", anchor=W)
 
-        if self.reporte_errores is not None:
+        if self.errores.principio is not None:
+            reporte_errores=self.errores.principio
             cuenta=1
             while reporte_errores is not None:
                 tree_errores.insert("",cuenta,cuenta,values=(reporte_errores.tipo,reporte_errores.descripcion,str(reporte_errores.fila),str(reporte_errores.columna)))
                 reporte_errores=reporte_errores.siguiente
                 cuenta+=1
+
     def siguiente(self):
         self.debbug.debbuger=False
 

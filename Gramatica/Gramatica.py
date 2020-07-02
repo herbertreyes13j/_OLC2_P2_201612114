@@ -195,8 +195,8 @@ def find_column(input, token):
 
 
 def t_error(t):
-#    errores.insertar(err.N_Error("Lexico", "Caracter ilegal '%s'" % t.value[0],
-                             #    t.lineno, find_column(input, t)))
+    errores.insertar(err.N_Error("Lexico", "Caracter ilegal '%s'" % t.value[0],
+                                 t.lineno, find_column(input, t)))
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
@@ -250,13 +250,12 @@ from AST.Return import *
 from TS.Tipos import *
 
 
-
+reporteg=''
 
 def p_inicio(t):
     'S         : Sentencias_G'
     t[0]=t[1]
-    print(t[1])
-    print('hola')
+    concat('<TR><TD> S -> Sentencias_G </TD><TD>t[0]=t[1]</TD></TR>')
 
 def p_inicio2(t):
     'S         : '
@@ -266,10 +265,12 @@ def p_Sentencias_G_Sentencia_G(t):
     'Sentencias_G : Sentencias_G Sentencia_G'
     t[1].extend(t[2])
     t[0]=t[1]
+    concat('<TR><TD> Sentencias_G -> Sentencias_G Sentencia_G </TD><TD>t[1].extend(t[2])<br>t[0]=t[1]</TD></TR>')
 
 def p_Sentencias_G(t):
     'Sentencias_G : Sentencia_G'
     t[0]=t[1]
+    concat('<TR><TD>Sentencias_G -> Sentencia_G  </TD><TD>t[0]=t[1]</TD></TR>')
 
 def p_Sentencia_G(t):
     '''Sentencia_G : Declaracion
@@ -277,20 +278,24 @@ def p_Sentencia_G(t):
                    | STRUCT pyc
                    | Funcion'''
     t[0]=t[1]
+    concat('<TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR>')
 
 def p_DECLARACION(t):
     'Declaracion : Tipos L_Dec pyc'
     t[0]=t[2]
     print(t[2])
+    concat('<TR><TD>Declaracion -> Tipos L_Dec pyc  </TD><TD>t[0]=t[2]</TD></TR>')
+
 
 def p_L_DEC(t):
     'L_Dec : L_Dec coma Dec'
     t[1].append(t[3])
     t[0]=t[1]
+    concat('<TR><TD>L_Dec -> L_Dec coma Dec </TD><TD>    t[1].append(t[3])<br>t[0]=t[1]</TD></TR>')
 def p_L_DEC_2(t):
     'L_Dec : Dec'
     t[0]=[t[1]]
-
+    concat('<TR><TD>L_Dec -> L_Dec Dec </TD><TD>t[0]=[t[1]]</TD></TR>')
 def p_Dec(t):
     'Dec : iden'
     fila=t.slice[1].lineno
@@ -298,6 +303,9 @@ def p_Dec(t):
     if type(t[-1])==str:t[0] = Declaracion(t[-3], t.slice[1].value, None, fila, columna)
     else:t[0] = Declaracion(t[-1],t.slice[1].value,None,fila,columna)
     print(t[0])
+    concat('''<TR><TD>Dec -> iden </TD><TD>    fila=t.slice[1].lineno<br>columna=find_column(input,t.slice[1])
+   <br> if type(t[-1])==str:t[0] = Declaracion(t[-3], t.slice[1].value, None, fila, columna)
+    <br>else:t[0] = Declaracion(t[-1],t.slice[1].value,None,fila,columna)</TD></TR>''')
 
 def p_Dec2(t):
     'Dec : iden asigna EXP'
@@ -305,14 +313,20 @@ def p_Dec2(t):
         t[0] = Declaracion(t[-3], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))
     else:
         t[0] = Declaracion(t[-1], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))
-
+    concat('''<TR><TD>Dec -> iden asigna EXP</TD><TD>     if type(t[-1]) == str:<br>
+        t[0] = Declaracion(t[-3], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))<br>
+    else:<br>
+        t[0] = Declaracion(t[-1], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))</TD></TR>''')
 def p_Dec_ArraySimple_Exp(t):
     ' Dec : iden cor1 cor2 asigna EXP'
     if type(t[-1]) == str:
         t[0] = ArregloSimple(t[-3], t.slice[1].value, t[5], t.slice[1].lineno, find_column(input, t.slice[1]))
     else:
         t[0] = ArregloSimple(t[-1], t.slice[1].value, t[5], t.slice[1].lineno, find_column(input, t.slice[1]))
-
+    concat('''<TR><TD>Dec -> iden cor1 cor2 asigna EXP</TD><TD>     if type(t[-1]) == str:<br>
+        t[0] = ArregloSimple(t[-3], t.slice[1].value, t[5], t.slice[1].lineno, find_column(input, t.slice[1]))<br>
+    else:<br>
+        t[0] = ArregloSimple(t[-1], t.slice[1].value, t[5], t.slice[1].lineno, find_column(input, t.slice[1]))</TD></TR>''')
 def p_Dec_Array(t):
     ' Dec : iden LACCESO'
     fila=t.slice[1].lineno
@@ -321,6 +335,10 @@ def p_Dec_Array(t):
         t[0] = Arreglo(t[-3],t.slice[1].value,primitivo(0,fila,columna,t[-3].tipo.name),t[2],fila,columna)
     else:
         t[0] = Arreglo(t[-1],t.slice[1].value,primitivo(0,fila,columna,t[-1].tipo.name),t[2],fila,columna)
+    concat('''<TR><TD>Dec -> iden LACCESO</TD><TD>    if type(t[-1]) == str: <br>
+        t[0] = Arreglo(t[-3],t.slice[1].value,primitivo(0,fila,columna,t[-3].tipo.name),t[2],fila,columna)<br>
+    else:<br>
+        t[0] = Arreglo(t[-1],t.slice[1].value,primitivo(0,fila,columna,t[-1].tipo.name),t[2],fila,columna)</TD></TR>''')
 
 def p_Dec_Array_Exp(t):
     ' Dec : iden LACCESO asigna EXP'
@@ -330,48 +348,61 @@ def p_Dec_Array_Exp(t):
         t[0] = Arreglo(t[-3],t.slice[1].value,t[4],t[2],fila,columna)
     else:
         t[0] = Arreglo(t[-1],t.slice[1].value,t[4],t[2],fila,columna)
+    concat('''<TR><TD>Dec -> iden LACCESO asigna EXP</TD><TD>    if type(t[-1]) == str:<br>
+        t[0] = Arreglo(t[-3],t.slice[1].value,t[4],t[2],fila,columna)<br>
+    else:<br>
+        t[0] = Arreglo(t[-1],t.slice[1].value,t[4],t[2],fila,columna)</TD></TR>''')
 
 def p_LACCESO_Acceso(t):
     ' LACCESO : LACCESO cor1 EXP cor2'
     t[1].append(t[3])
     t[0]=t[1]
-
+    concat('''<TR><TD>LACCESO -> LACCESO cor1 EXP cor2</TD><TD>    t[1].append(t[3])<br>
+    t[0]=t[1]''')
 def p_LACCESO_Acc(t):
     ' LACCESO : cor1 EXP cor2'
     t[0]=[t[2]]
-
+    concat('''<TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR>''')
 
 def p_LASIGNACION(t):
     'LASIGNACION : LASIGNACION coma ASIGNACION'
     t[1].append(t[3])
     t[0]=t[1]
+    concat('''<TR><TD>LASIGNACION -> LASIGNACION coma ASIGNACION</TD><TD>     t[1].append(t[3])<br>
+    t[0]=t[1]</TD></TR>''')
 def p_LASIGNACION_ASIGNACION(t):
     'LASIGNACION : ASIGNACION'
     t[0]=[t[1]]
+    concat('''<TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR>''')
 
 def p_ASGINACION(t):
     ' ASIGNACION : iden'
     t[0]=Asignacion(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
-
+    concat('''<TR><TD>ASIGNACION -> iden</TD><TD> t[0]=Asignacion(t[1],t.slice[1].lineno,find_column(input,t.slice[1])) </TD></TR>''')
 def p_ASIGNACION_VALOR(t):
     ' ASIGNACION : iden OP EXP'
     t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[1].lineno,find_column(input,t.slice[1]))
+    concat('<TR><TD>ASIGNACION -> iden OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR>')
 
 def p_ASIGNACION_ARREGLO(t):
     ' ASIGNACION : iden LACCESO'
     t[0]=Asignacion_Arreglo(t[1],t[2],t.slice[1].lineno,find_column(input,t.slice[1]))
+    concat('<TR><TD>ASIGNACION -> iden LACCESO </TD><TD>t[0]=Asignacion_Arreglo(t[1],t[2],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR>')
 
 def p_ASIGNACION_ARREGLO_OP(t):
     ' ASIGNACION : iden LACCESO OP EXP'
     t[0]=Asignacion_Arreglo_Op(t[1],t[3],t[4],t[2],t.slice[1].lineno,find_column(input,t.slice[1]))
+    concat('<TR><TD>ASIGNACION -> iden LACCESO OP EXP </TD><TD>t[0]=Asignacion_Arreglo_Op(t[1],t[3],t[4],t[2],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR>')
 
 def p_ASIGNACION_STRU(t):
     ' ASIGNACION : ACCESO_STRUCT OP EXP'
     t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))
+    concat('<TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR>')
 
 def p_ASIGNACION_STRU_NONE(t):
     ' ASIGNACION : ACCESO_STRUCT'
     t[0]=Asignacion(t[1],t[1].fila,t[1].columna)
+    concat('<TR><TD>ASIGNACION -> ACCESO_STRUCT </TD><TD>t[0]=Asignacion(t[1],t[1].fila,t[1].columna)</TD></TR>')
 
 def p_OPERADOR_ASIGNA(t):
     ''' OP :  andbasigna
@@ -386,104 +417,140 @@ def p_OPERADOR_ASIGNA(t):
             | xorbasinga
             | asigna'''
     t[0]=t[1]
+    concat('''<TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR>''')
+
 
 def p_struct(t):
     'STRUCT : t_struct iden llav1 ATRIBUTOS llav2'
     t[0]= [Struct(t[2],t[4],t.slice[1].lineno,find_column(input,t.slice[1]))]
+    concat('<TR><TD>STRUCT -> t_struct iden llav1 ATRIBUTOS llav2</TD><TD>t[0]= [Struct(t[2],t[4],t.slice[1].lineno,find_column(input,t.slice[1]))]</TD></TR>')
 
 
 def p_LATT(t):
     'ATRIBUTOS : ATRIBUTOS ATRIBUTO'
     t[1].extend(t[2])
     t[0]=t[1]
+    concat('''<TR><TD>ATRIBUTOS -> ATRIBUTOS ATRIBUTO</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR>''')
+
 def p_LATT2(t):
     'ATRIBUTOS : ATRIBUTO'
     t[0]=t[1]
+    concat('''<TR><TD>ATRIBUTOS -> ATRIBUTO</TD><TD>t[0]=t[1]</TD></TR>''')
+
 def p_atributo(t):
     'ATRIBUTO : Tipos LItemsStruct pyc'
     t[0]=t[2]
+    concat('''<TR><TD>ATRIBUTO -> Tipos LItemsStruct pyc</TD><TD>t[0]=t[2]</TD></TR>''')
 def p_LItemsStruct(t):
     'LItemsStruct : LItemsStruct coma ItemsStruct'
     t[1].append(t[3])
     t[0]=t[1]
+    concat('''<TR><TD>LItemsStruct -> LItemsStruct coma ItemsStruct</TD><TD>    t[1].append(t[3])<br>
+    t[0]=t[1]</TD></TR>''')
 def p_LItemsStruct_ItemsStruct(t):
     'LItemsStruct : ItemsStruct'
     t[0]=[t[1]]
-
+    concat('''<TR><TD>LItemsStruct -> ItemsStruct</TD><TD> t[0]=[t[1]]</TD></TR>''')
 def p_atributo_id(t):
     'ItemsStruct : iden'
     if type(t[-1]) == str:tipo=t[-3]
     else:tipo=t[-1]
     t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
-
+    concat('''<TR><TD>ItemsStruct -> iden</TD><TD>     if type(t[-1]) == str:tipo=t[-3]<br>
+    else:tipo=t[-1]<br>
+    t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR>''')
 def p_atributo_arr(t):
     'ItemsStruct : iden LACCESO'
     if type(t[-1]) == str:tipo=t[-3]
     else:tipo=t[-1]
-    t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2])
-
+    t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)
+    concat('''<TR><TD>ItemsStruct -> iden LACCESO</TD><TD>    if type(t[-1]) == str:tipo=t[-3],br>
+    else:tipo=t[-1]<br>
+    t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR>''')
 def p_atributo_id2(t):
     'ItemsStruct2 : iden'
-    t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]))
-
+    t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),True)
+    concat('''<TR><TD>ItemsStruct2 -> iden</TD><TD>t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),True)</TD></TR>''')
 def p_atributo_arr2(t):
     'ItemsStruct2 : iden LACCESO'
-    t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2])
-
+    t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)
+    concat('''<TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR>''')
 def p_acceso_struct(t):
     'ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2'
     t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))
-
+    concat('''ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR>''')
 def p_Tipos1(t):
     'Tipos : t_char'
     t[0] = TIPO(TIPO_DATOS.CHAR)
-
+    concat('''<TR><TD>Tipos -> t_char</TD><TD> t[0] = TIPO(TIPO_DATOS.CHAR)</TD></TR>''')
 def p_Tipos2(t):
     'Tipos : t_int'
     t[0] = TIPO(TIPO_DATOS.INT)
-
+    concat('''<TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR>''')
 def p_Tipos3(t):
     'Tipos : t_double'
     t[0] = TIPO(TIPO_DATOS.DOUBLE)
-
+    concat('''<TR><TD>Tipos -> t_double</TD><TD> t[0] = TIPO(TIPO_DATOS.DOUBLE)</TD></TR>''')
 def p_Tipos4(t):
     'Tipos : t_float'
     t[0] = TIPO(TIPO_DATOS.FLOAT)
-
+    concat('''<TR><TD>Tipos -> t_float</TD><TD> t[0] = TIPO(TIPO_DATOS.FLOAT)</TD></TR>''')
 
 def p_funcion(t):
     'Funcion : Tipos iden par1 Parametros par2 BLOQUE'
     t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]
-
+    concat('''<TR><TD>Funcion -> Tipos iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR>''')
 def p_funcion_void(t):
     'Funcion : t_void iden par1 Parametros par2 BLOQUE'
     t[0]=[Funcion(TIPO(TIPO_DATOS.VOID),t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]
+    concat('''<TR><TD>Funcion -> t_void iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(TIPO(TIPO_DATOS.VOID),t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR>''')
 
 
 
 def p_l_parametros_e(t):
     'Parametros :'
     t[0]=[]
+    concat('''<TR><TD>Parametros -> </TD><TD>t[0]=[]</TD></TR>''')
+
 
 def p_l_parametros(t):
     'Parametros : Parametros coma Parametro'
     t[1].append(t[3])
     t[0]=t[1]
+    concat('''<TR><TD>Parametros -> Parametros coma Parametro </TD><TD>    t[1].append(t[3])<br>
+    t[0]=t[1]</TD></TR>''')
 
 def p_l_parametros_p(t):
     'Parametros : Parametro'
     t[0]=[t[1]]
-
+    concat('''<TR><TD>Parametros -> Parametro </TD><TD>t[0]=[t[1]]</TD></TR>''')
 def p_sentencias_f(t):
     'SS_F : SS_F S_F'
     t[1].extend(t[2])
     t[0]=t[1]
-    print('hola')
+    concat('''<TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR>''')
+
 
 def p_sentencias_s_f(t):
     'SS_F : S_F'
     t[0]=t[1]
-    print('hola')
+    concat('''<TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR>''')
+def p_sentencia_error(t) :
+    'S_F  :   error'
+    t[0] = []
+    concat('''<TR><TD>S_F  ->   error </TD><TD>t[0] = []</TD></TR>''')
 def p_sentencia_f(t):
     '''S_F : Declaracion
          | LASIGNACION pyc
@@ -498,9 +565,30 @@ def p_sentencia_f(t):
         | RETURN pyc
         | ETIQUETA
         | GOTO pyc
-        | FOR'''
+        | FOR
+        | INSTANCIA pyc'''
     t[0]=t[1]
+    concat('''<TR><TD>S_F -> Declaracion <br>
+         | LASIGNACION pyc <br>
+        | STRUCT pyc<br>
+        | IF<br>
+        | LLAMADA pyc<br>
+        | BREAK pyc<br>
+        | CONTINUE pyc<br>
+        | SWITCH<br>
+        | DO_WHILE pyc<br>
+        | WHILE<br>
+        | RETURN pyc<br>
+        | ETIQUETA<br>
+        | GOTO pyc<br>
+        | FOR<br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR>''')
 
+def p_Instancia(t):
+    'INSTANCIA : t_struct iden iden LACCESO'
+
+def p_Instancia(t):
+    'INSTANCIA : t_struct iden iden'
 
 def p_bloque(t):
     'BLOQUE : llav1 SS_F llav2'
@@ -651,12 +739,21 @@ def p_logicos(t):
     t[0] = logica(t[1],t[3],t.slice[2].value,t.slice[2].lineno,find_column(input,t.slice[2]))
     print(t[0])
 
+def p_acceso_arr_profis(t):
+    'EXP : iden LACCESO'
+    t[0]=Asignacion_Arreglo(t[1],t[2],t.slice[1].lineno,find_column(input,t.slice[1]))
+
 def p_primitivos(t):
     '''EXP : string
            | entero
            | decimal
            | char'''
     t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)
+    concat(
+        '''<TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)''')
 
 def p_exp_id(t):
     'EXP : iden'
@@ -664,7 +761,7 @@ def p_exp_id(t):
 
 def p_exprpar(t):
     'EXP : par1 EXP par2'
-    t[0]=t[1]
+    t[0]=t[2]
 
 def p_bitabit(t):
     '''EXP : EXP shiftizq EXP
@@ -699,45 +796,46 @@ def p_inc_post(t):
 def p_lista(t):
     'EXP : llav1 ELEMENTS llav2'
     t[0]=Lista(t[2],t.slice[1].lineno,find_column(input,t.slice[1]))
+    concat('''<TR><TD>EXP -> llav1 ELEMENTS llav2</TD><TD>t[0]=Lista(t[2],t.slice[1].lineno,find_column(input,t.slice[1]))''')
 def p_ELEMS(t):
     'ELEMENTS : ELEMENTS coma EXP'
     t[1].append(t[3])
     t[0]=t[1]
+    concat('''<TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
+    t[0]=t[1]</TD></TR>''')
 def p_ELEMENTS(t):
     'ELEMENTS : EXP'
     t[0]=[t[1]]
-
+    concat('''<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR>''')
 def p_EXPRESIONES_ESPECIALES(t):
-    '''EXP : ACCESO_STRUCT
-            | LLAMADA '''
+    '''EXP : LLAMADA '''
     t[0]=t[1][0]
-
+    concat('''<TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR>''')
+def p_exp_accestostrut(t):
+    'EXP : ACCESO_STRUCT'
+    t[0]=t[1]
+    concat('''<TR><TD>EXP -> ACCESO_STRUCT</TD><TD>t[0]=t[1]</TD></TR>''')
 
 def p_sizeof(t):
     'EXP : t_sizeof par1 EXP par2'
     t[0]=sizeof(t[3],t.slice[1].lineno,find_column(input,t.slice[1]))
+    concat('''<TR><TD>EXP -> t_sizeof par1 EXP par2</TD><TD>t[0]=sizeof(t[3],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR>''')
 
 def p_error(t):
-    print(t)
-    print("Error sintáctico en '%s'" % t.value)
-    print("Columan", find_column(input,t))
-    '''
 
-        if not t:
-        errores.insertar(err.N_Error("SINTACTICO", 'Error sintactico irrecuperable',
-                                     t.lineno, find_column(input, t)))
+    if not t:
+        print('end of file')
         return
 
     errores.insertar(err.N_Error("Sintactico", str(t.value),
                                  t.lineno, find_column(input, t)))
     while True:
         tok = parser.token()
-        if not tok or tok.type == 'PTCOMA':
+        if not tok or tok.type == 'pyc':
             break
-    parser.restart()
 
 
-    '''
+
 
 
 def t_eof(t):
@@ -748,16 +846,22 @@ def t_eof(t):
         return lexer.token()
     return None
 
+def concat(cad):
+    global reporteg
+    reporteg+=cad
 
 import ply.yacc as yacc
 
 
-def parse(input1):
+def parse(input1,errores1):
     global input
     global errores
-
+    global reporteg
+    errores=errores1
+    reporteg=''
     input = input1
     global parser
     parser = yacc.yacc()
     parser.errok()
-    return parser.parse(input, tracking=True, lexer=lexer)
+    parsero= parser.parse(input, tracking=True, lexer=lexer)
+    return parsero

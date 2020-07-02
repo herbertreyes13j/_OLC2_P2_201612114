@@ -7,9 +7,11 @@ class Break(Nodo.Nodo):
         self.fila = fila
         self.columna = columna
 
-    def getC3D(self, TS, Global, Traductor):
+    def analizar(self,TS,Errores):
+        pass
+    def getC3D(self,TS):
         codigo = ""
-        codigo+=Traductor.makecomentario("Break")
+        codigo+=TS.makecomentario("Break")
         codigo += "goto " + TS.getlastes() + ';\n'
         return codigo
 
@@ -23,10 +25,12 @@ class Continue(Nodo.Nodo):
     def __init__(self,fila, columna):
         self.fila = fila
         self.columna = columna
+    def analizar(self,TS,Errores):
+        pass
 
-    def getC3D(self,TS,Global,Traductor):
+    def getC3D(self,TS):
         codigo=""
-        codigo+=Traductor.makecomentario('Continue')
+        codigo+=TS.makecomentario('Continue')
         codigo+="goto "+TS.getlastcont()+';\n'
         return codigo
 

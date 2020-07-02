@@ -4,6 +4,4 @@ class Simbolo:
         self.nombre=nombre
         self.posicion=posicion
         self.ambito=ambito
-        self.anterior=None
-        self.siguiente=None
         self.dimensiones=dimensiones

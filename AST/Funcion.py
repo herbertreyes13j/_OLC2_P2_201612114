@@ -10,11 +10,42 @@ class Funcion(Nodo.Nodo):
         self.tipo=tipo
         self.parametros=parametros
         self.sentencias=sentencias
+        self.codigofin='final_func_'+self.nombre+':\n $ra=$ra-1;\n'
+        self.cuentatrad=1
+        self.id=0
 
-    def getC3D(self,TS,Global,Traductor):
-        codigo=""
+    def analizar(self,TS,Errores):
+
+        if self.parametros is not None:
+            ambito=TS.nombre
+            TS.nombre=self.nombre
+            for nodo in self.parametros:
+                tipo=nodo.analizar(TS,Errores)
+                if tipo==TIPO_DATOS.ERROR:
+                    return TIPO_DATOS.ERROR
+            TS.nombre=ambito
+        ambito=TS.nombre
+        TS.nombre=self.nombre
+        self.id=TS.cuentafun
         for nodo in self.sentencias:
-            codigo+=nodo.getC3D(TS,Global,Traductor)
+            tipo=nodo.analizar(TS,Errores)
+            if tipo == TIPO_DATOS.ERROR:
+                return TIPO_DATOS.ERROR
+
+        TS.nombre=ambito
+        TS.cuentafun+=1
+
+    def getC3D(self,TS):
+        codigo=""
+        if self.nombre=='main':
+            codigo+='main_main: \n'
+        else: codigo+=self.nombre+':\n'
+        ambito=TS.nombre
+        TS.nombre=self.nombre
+        for nodo in self.sentencias:
+            codigo+=nodo.getC3D(TS)
+        codigo +='goto final_func_'+self.nombre+';\n'
+        TS.nombre=ambito
         return codigo
 
     def graficarasc(self,padre,grafica):

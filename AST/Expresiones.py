@@ -1,5 +1,6 @@
 import AST.Nodo as Nodo
-import TS.Tipos as Tipos
+from TS.Tipos import *
+from Errores.N_Error import *
 
 
 class Aritmetica(Nodo.Nodo):
@@ -10,17 +11,62 @@ class Aritmetica(Nodo.Nodo):
         self.fila=fila
         self.columna=col
 
-    def getC3D(self,TS,Global,Traductor):
+    def analizar(self,TS,Errores):
+        tipo1=self.Exp1.analizar(TS,Errores)
+        tipo2=self.Exp2.analizar(TS,Errores)
+
+        if self.op=='+':
+
+            if (tipo1==TIPO_DATOS.INT  or tipo1==TIPO_DATOS.CHAR or tipo1==TIPO_DATOS.FLOAT or tipo1==TIPO_DATOS.DOUBLE) and (tipo2==TIPO_DATOS.CHAR or tipo2==TIPO_DATOS.INT or tipo2==TIPO_DATOS.FLOAT or tipo2==TIPO_DATOS.DOUBLE):
+                  if tipo1==TIPO_DATOS.INT and tipo2==TIPO_DATOS.INT:
+                      return TIPO_DATOS.FLOAT
+                  elif tipo1==TIPO_DATOS.CHAR or tipo2==TIPO_DATOS.CHAR:
+                      return TIPO_DATOS.INT
+                  return TIPO_DATOS.FLOAT
+            else:
+                return TIPO_DATOS.CHAR
+
+        elif self.op=='-' or self.op=='*':
+            if (
+                    tipo1 == TIPO_DATOS.INT or tipo1 == TIPO_DATOS.CHAR or tipo1 == TIPO_DATOS.FLOAT or tipo1 == TIPO_DATOS.DOUBLE) and (
+                    tipo2 == TIPO_DATOS.CHAR or tipo2 == TIPO_DATOS.INT or tipo2 == TIPO_DATOS.FLOAT or tipo2 == TIPO_DATOS.DOUBLE):
+                if tipo1 == TIPO_DATOS.INT and tipo2 == TIPO_DATOS.INT:
+                    return TIPO_DATOS.INT
+                elif tipo1 == TIPO_DATOS.CHAR or tipo2 == TIPO_DATOS.CHAR:
+                    return TIPO_DATOS.INT
+                return TIPO_DATOS.FLOAT
+            else:
+                Errores.insertar(N_Error("Semantico","No es posible operacion entre "+str(tipo1.name)+' '+self.op
+                                         +' '+str(tipo2.name),self.fila,self.columna))
+                return TIPO_DATOS.ERROR
+
+        elif self.op=='/':
+            if (
+                    tipo1 == TIPO_DATOS.INT or tipo1 == TIPO_DATOS.CHAR or tipo1 == TIPO_DATOS.FLOAT or tipo1 == TIPO_DATOS.DOUBLE) and (
+                    tipo2 == TIPO_DATOS.CHAR or tipo2 == TIPO_DATOS.INT or tipo2 == TIPO_DATOS.FLOAT or tipo2 == TIPO_DATOS.DOUBLE):
+                return TIPO_DATOS.FLOAT
+            else:
+                Errores.insertar(N_Error("Semantico","No es posible operacion entre "+str(tipo1.nombre)+' '+self.op
+                                         +' '+str(tipo2.nombre),self.fila,self.columna))
+                return TIPO_DATOS.ERROR
+        elif self.op=='%':
+            if (tipo1==TIPO_DATOS.INT or tipo1==TIPO_DATOS.CHAR) and (tipo2 == TIPO_DATOS.CHAR or tipo2==TIPO_DATOS.INT):
+                return TIPO_DATOS.INT
+            else:
+                Errores.insertar(
+                    N_Error("Semantico", "No es posible operacion entre " + str(tipo1.nombre) + ' ' + self.op
+                            + ' ' + str(tipo2.nombre), self.fila, self.columna))
+                return TIPO_DATOS.ERROR
+
+
+    def getC3D(self,TS):
         codigo=""
-        temp = Traductor.getTemp()
 
-        codigo+=self.Exp1.getC3D(TS,Global,Traductor)
-        codigo+=self.Exp2.getC3D(TS,Global,Traductor)
+        codigo+=self.Exp1.getC3D(TS)
+        codigo+=self.Exp2.getC3D(TS)
+        temp = TS.getTemp()
         self.temporal=temp
-
-        codigo+=Traductor.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
-        if TS is not None:
-            TS.almacenados.append(temp)
+        codigo+=TS.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -42,17 +88,28 @@ class Relacional(Nodo.Nodo):
         self.fila=fila
         self.columna=col
 
-    def getC3D(self,TS,Global,Traductor):
+    def analizar(self,TS,Errores):
+        tipo1 = self.Exp1.analizar(TS, Errores)
+        tipo2 = self.Exp2.analizar(TS, Errores)
+
+        if (
+                tipo1 == TIPO_DATOS.INT  or tipo1==TIPO_DATOS.CHAR or tipo1 == TIPO_DATOS.FLOAT or tipo1 == TIPO_DATOS.DOUBLE) and (
+                tipo2 == TIPO_DATOS.INT or tipo2 == TIPO_DATOS.CHAR  or tipo2 == TIPO_DATOS.FLOAT or tipo2 == TIPO_DATOS.DOUBLE):
+            return TIPO_DATOS.INT
+        else:
+            Errores.insertar(
+                N_Error("Semantico", "No es posible operacion entre " + str(tipo1) + ' ' + self.op
+                        + ' ' + str(tipo2), self.fila, self.columna))
+            return TIPO_DATOS.ERROR
+
+
+    def getC3D(self,TS):
         codigo=""
-        temp = Traductor.getTemp()
-
-        codigo+=self.Exp1.getC3D(TS,Global,Traductor)
-        codigo+=self.Exp2.getC3D(TS,Global,Traductor)
+        codigo+=self.Exp1.getC3D(TS)
+        codigo+=self.Exp2.getC3D(TS)
+        temp = TS.getTemp()
         self.temporal=temp
-
-        codigo+=Traductor.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
-        if TS is not None:
-            TS.almacenados.append(temp)
+        codigo+=TS.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -72,15 +129,18 @@ class primitivo(Nodo.Nodo):
         self.columna=col
         self.valor=Valor
         self.temporal=""
-        if tipo == "decimal": self.tipo=Tipos.TIPO(Tipos.TIPO_DATOS.FLOAT)
-        elif tipo == "entero": self.tipo=Tipos.TIPO(Tipos.TIPO_DATOS.INT)
-        elif tipo == "char": self.tipo = Tipos.TIPO(Tipos.TIPO_DATOS.CHAR)
-        elif tipo == "string":self.tipo = Tipos.TIPO(Tipos.TIPO_DATOS.STRING)
+        if tipo == "decimal": self.tipo=TIPO_DATOS.FLOAT
+        elif tipo == "entero": self.tipo=TIPO_DATOS.INT
+        elif tipo == "char": self.tipo = TIPO_DATOS.CHAR
+        elif tipo == "string":self.tipo = TIPO_DATOS.STRING
 
-    def getC3D(self,TS,Global,Traductor):
-        if self.tipo.tipo==Tipos.TIPO_DATOS.CHAR:
+    def analizar(self,TS,Errores):
+        return  self.tipo
+
+    def getC3D(self,TS):
+        if self.tipo==TIPO_DATOS.CHAR:
             self.temporal='\''+str(self.valor)+'\''
-        elif self.tipo.tipo==Tipos.TIPO_DATOS.STRING:
+        elif self.tipo==TIPO_DATOS.STRING:
             self.temporal='\"'+str(self.valor)+'\"'
         else:
             self.temporal=str(self.valor)
@@ -100,35 +160,17 @@ class variable(Nodo.Nodo):
         self.nombre=nombre
         self.temporal=""
 
-    def getC3D(self,TS,Global,Traductor):
-        codigo=""
-        if TS is not None:
-            simbolo=TS.obtener(self.nombre)
-            if simbolo!=None:
-                temp2=Traductor.getTemp()
-                temp=Traductor.getTemp()
-                codigo+=Traductor.getfromP(temp2,simbolo.posicion)
-                codigo+=Traductor.getfromStack(temp,temp2)
-                self.temporal=temp
-                return codigo
-        simbolo = Global.obtener(self.nombre)
-        temp = Traductor.getTemp()
-        codigo += Traductor.getfromStack(temp, simbolo.posicion)
-        self.temporal = temp
-        if TS is not None:
-            TS.almacenados.append(temp)
-        return codigo
+    def analizar(self,TS,Errores):
+        simbolo=TS.obtener(self.nombre)
+        if simbolo is None:
+            Errores.insertar(
+                N_Error("Semantico", "No existe variable "+self.nombre, self.fila, self.columna))
+            return TIPO_DATOS.ERROR
+        return simbolo.tipo
 
-    def getPosicion(self,TS,Global,Traductor):
+    def getC3D(self,TS):
         codigo=""
-        if TS is not None:
-            simbolo=TS.obtener(self.nombre)
-            if simbolo is not None:
-                temp2=Traductor.getTemp()
-                codigo+=Traductor.getfromP(temp2,simbolo.posicion)
-                self.temporal=temp2
-                return codigo
-        simbolo = Global.obtener(self.nombre)
+        simbolo=TS.obtener(self.nombre)
         self.temporal = simbolo.posicion
         return codigo
 
@@ -147,15 +189,28 @@ class bitabit(Nodo.Nodo):
         self.Exp2=Exp2
         self.op=op
         self.temporal=""
-    def getC3D(self,TS,Global,Traductor):
+
+    def analizar(self,TS,Errores):
+        tipo1 = self.Exp1.analizar(TS, Errores)
+        tipo2 = self.Exp2.analizar(TS, Errores)
+
+        if (
+                tipo1 == TIPO_DATOS.INT  or tipo1==TIPO_DATOS.CHAR) and (
+                tipo2 == TIPO_DATOS.INT or tipo2 == TIPO_DATOS.CHAR):
+            return TIPO_DATOS.INT
+        else:
+            Errores.insertar(
+                N_Error("Semantico", "No es posible operacion entre " + str(tipo1.nombre) + ' ' + self.op
+                        + ' ' + str(tipo2.nombre), self.fila, self.columna))
+            return TIPO_DATOS.ERROR
+
+    def getC3D(self,TS):
         codigo=""
-        temp = Traductor.getTemp()
-        codigo+=self.Exp1.getC3D(TS,Global,Traductor)
-        codigo+=self.Exp2.getC3D(TS,Global,Traductor)
+        codigo+=self.Exp1.getC3D(TS)
+        codigo+=self.Exp2.getC3D(TS)
+        temp = TS.getTemp()
         self.temporal=temp
-        codigo+=Traductor.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
-        if TS is not None:
-            TS.almacenados.append(temp)
+        codigo+=TS.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -177,15 +232,27 @@ class logica(Nodo.Nodo):
         self.Exp2=Exp2
         self.op=op
 
-    def getC3D(self,TS,Global,Traductor):
+    def analizar(self,TS,Errores):
+        tipo1 = self.Exp1.analizar(TS, Errores)
+        tipo2 = self.Exp2.analizar(TS, Errores)
+
+        if (
+                tipo1 == TIPO_DATOS.INT  or tipo1==TIPO_DATOS.CHAR or tipo1 == TIPO_DATOS.FLOAT or tipo1 == TIPO_DATOS.DOUBLE) and (
+                tipo2 == TIPO_DATOS.INT or tipo2 == TIPO_DATOS.CHAR  or tipo2 == TIPO_DATOS.FLOAT or tipo2 == TIPO_DATOS.DOUBLE):
+            return TIPO_DATOS.INT
+        else:
+            Errores.insertar(
+                N_Error("Semantico", "No es posible operacion entre " + str(tipo1.nombre) + ' ' + self.op
+                        + ' ' + str(tipo2.nombre), self.fila, self.columna))
+            return TIPO_DATOS.ERROR
+
+    def getC3D(self,TS):
         codigo=""
-        temp = Traductor.getTemp()
-        codigo+=self.Exp1.getC3D(TS,Global,Traductor)
-        codigo+=self.Exp2.getC3D(TS,Global,Traductor)
+        codigo+=self.Exp1.getC3D(TS)
+        codigo+=self.Exp2.getC3D(TS)
+        temp = TS.getTemp()
         self.temporal=temp
-        codigo+=Traductor.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
-        if TS is not None:
-            TS.almacenados.append(temp)
+        codigo+=TS.make3d(temp,self.Exp1.temporal,self.op,self.Exp2.temporal)
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -207,28 +274,33 @@ class incremento(Nodo.Nodo):
         self.primero=primero
         self.op=op
 
-    def getC3D(self,TS,Global,Traductor):
+    def analizar(self,TS,Errores):
+        tipo=self.Exp1.analizar(TS,Errores)
+        if tipo==TIPO_DATOS.INT or tipo==TIPO_DATOS.CHAR or tipo==TIPO_DATOS.FLOAT or tipo==TIPO_DATOS.DOUBLE:
+            return tipo
+        else:
+            Errores.insertar(
+                N_Error("Semantico", "No es posible incremento/decremento", self.fila, self.columna))
+            return TIPO_DATOS.ERROR
+
+    def getC3D(self,TS):
         codigo=""
+        if self.op=='++': operador='+'
+        else: operador='-'
         if self.primero:
-            codigo+=self.Exp1.getC3D(TS,Global,Traductor)
+            codigo+=self.Exp1.getC3D(TS)
             temporal=self.Exp1.temporal;
-            codigo+=self.Exp1.getPosicion(TS,Global,Traductor)
-            codigo+=Traductor.make3d(temporal,temporal,'+',1)
-            codigo+=Traductor.changestack(self.Exp1.temporal,temporal)
+            codigo+=TS.make3d(temporal,temporal,operador,1)
             self.temporal=temporal
-            if TS is not None:
-                TS.almacenados.append(temporal)
             return codigo
         else:
-            codigo += self.Exp1.getC3D(TS, Global, Traductor)
+            codigo += self.Exp1.getC3D(TS)
             temporal = self.Exp1.temporal;
-            temporal2=Traductor.getTemp()
-            codigo += self.Exp1.getPosicion(TS, Global, Traductor)
-            codigo += Traductor.make3d(temporal2, temporal, '+', 1)
-            codigo += Traductor.changestack(self.Exp1.temporal, temporal2)
-            self.temporal = temporal
-            if TS is not None:
-                TS.almacenados.append(temporal)
+            temporal2=TS.getTemp()
+            codigo+= temporal2+'='+temporal+';\n'
+            codigo += TS.make3d(temporal, temporal,operador, 1)
+            self.temporal = temporal2
+
             return codigo
 
 
@@ -253,14 +325,32 @@ class unario(Nodo.Nodo):
         self.Exp=Exp
         self.op=op
 
-    def getC3D(self,TS,Global,Traductor):
+    def analizar(self,TS,Errores):
+        tipo=self.Exp.analizar(TS,Errores)
+        if self.op=='~':
+            if tipo==TIPO_DATOS.INT or tipo==TIPO_DATOS.CHAR:
+                return TIPO_DATOS.INT
+            else:
+                Errores.insertar(
+                    N_Error("Semantico", "No es posible operador unario "+self.op +' con tipo de dato '+
+                            str(tipo.nombre), self.fila, self.columna))
+                return TIPO_DATOS.ERROR
+        else:
+            if tipo==TIPO_DATOS.INT or tipo==TIPO_DATOS.CHAR or tipo==TIPO_DATOS.DOUBLE or tipo==TIPO_DATOS.FLOAT:
+                return TIPO_DATOS.INT
+            else:
+                Errores.insertar(
+                    N_Error("Semantico", "No es posible operador unario "+self.op +' con tipo de dato '+
+                            str(tipo.nombre), self.fila, self.columna))
+                return TIPO_DATOS.ERROR
+
+
+    def getC3D(self,TS):
         codigo=""
-        temp = Traductor.getTemp()
-        codigo+=self.Exp.getC3D(TS,Global,Traductor)
+        codigo+=self.Exp.getC3D(TS)
+        temp=TS.getTemp()
         self.temporal=temp
-        codigo+=temp+' = '+ str(self.op)+' '+self.Exp.temporal+'; \n'
-        if TS is not None:
-            TS.almacenados.append(temp)
+        codigo+=self.temporal+' = '+ str(self.op)+' '+self.Exp.temporal+'; \n'
         return codigo
 
     def graficarasc(self,padre,grafica):
@@ -281,6 +371,49 @@ class ternario(Nodo.Nodo):
         self.Cond=Cond
         self.Exp1=Exp1
         self.Exp2=Exp2
+
+    def analizar(self,TS,Errores):
+        tipo=self.analizar(TS,Errores)
+        if not (tipo == TIPO_DATOS.INT or tipo == TIPO_DATOS.CHAR or tipo == TIPO_DATOS.DOUBLE or tipo == TIPO_DATOS.FLOAT):
+            Errores.insertar(
+                N_Error("Semantico", "La el tipo de condicion no es valido en ternario " , self.fila, self.columna))
+            return TIPO_DATOS.ERROR
+        tipo2=self.Exp1.analizar(TS,Errores)
+        tipo3=self.Exp2.analizar(TS,Errores)
+        if tipo==TIPO_DATOS.ERROR or tipo2==TIPO_DATOS.ERROR or tipo3==TIPO_DATOS.ERROR:
+            return TIPO_DATOS.ERROR
+    def getC3D(self,TS):
+        codigo=""
+        V=TS.getEtq()
+        F=TS.getEtq()
+        S=TS.getEtq()
+        self.temporal=TS.getTemp()
+        codigo+=self.Cond.getC3D(TS)
+        codigo+='if ('+str(self.Cond.temporal)+') goto '+V+';\n'
+        codigo+='goto '+F+';\n'
+        codigo+=V+':\n'
+        codigo+=self.Exp1.getC3D(TS)
+        codigo+=self.temporal+'='+str(self.Exp1.temporal)+';\n'
+        codigo+='goto '+S+';\n'
+        codigo+=F+':\n'
+        codigo+=self.Exp1.getC3D(TS)
+        codigo+=self.temporal+'='+str(self.Exp1.temporal)+';\n'
+        codigo += 'goto ' + S + ';\n'
+        codigo+=S+':\n'
+        return codigo
+
+    def graficarasc(self,padre,grafica):
+        nombrehijo='Node'+str(id(self))
+        grafica.node(nombrehijo,label=('Exp'))
+        self.Cond.graficarasc(nombrehijo,grafica)
+        grafica.node('NodeE1' + str(id(self)), label="?")
+        grafica.edge(nombrehijo, 'NodeE1' + str(id(self)))
+        self.Exp1.graficarasc(nombrehijo,grafica)
+        grafica.node('NodeE2' + str(id(self)), label=":")
+        grafica.edge(nombrehijo, 'NodeE2' + str(id(self)))
+        self.Exp2.graficarasc(nombrehijo,grafica)
+
+
 
 class sizeof(Nodo.Nodo):
     def __init__(self,Exp,fila,col):

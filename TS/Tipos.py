@@ -8,6 +8,7 @@ class TIPO_DATOS(Enum):
     CHAR = 4
     STRING = 5
     VOID = 6
+    ERROR = 7
 
 
 class TIPO:

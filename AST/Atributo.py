@@ -1,19 +1,30 @@
 import AST.Nodo as Nodo
-
+from TS.Simbolo import *
+from Errores.N_Error import *
 
 class Atributo(Nodo.Nodo):
 
-    def __init__(self,tipo,nombre,fila, columna,dimensiones=[]):
+    def __init__(self,tipo,nombre,fila, columna,dimensiones=[],isstruct=False):
         self.nombre = nombre
         self.tipo=tipo
         self.fila = fila
         self.columna = columna
         self.dimensiones=dimensiones
+        self.isestruct=isstruct
 
-    def analizar(self,TS):
-        pass
-    def getC3D(self):
-        pass
+    def analizar(self,TS,Errores):
+        sim = Simbolo(self.tipo.tipo, self.nombre, "", TS.nombre)
+        if not TS.push(sim):
+            Errores.insertar(N_Error("Semantico", 'Variable ' + self.nombre + ' ya esta definida', self.fila,
+                             self.columna))
+            return
+        sim.posicion=TS.getParametro()
+
+
+    def getC3D(self,TS):
+        codigo=""
+
+        return codigo
 
     def graficarasc(self, padre, grafica):
         nombrehijo = 'Node' + str(id(self))

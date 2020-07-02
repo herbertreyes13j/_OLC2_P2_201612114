@@ -1,7 +1,7 @@
 import AST.Nodo as Nodo
 from TS.Simbolo import *
 from TS.Tipos import *
-
+from Errores.N_Error import *
 class ArregloSimple(Nodo.Nodo):
 
     def __init__(self, tipo, nombre, valor, fila, columna):
@@ -11,10 +11,25 @@ class ArregloSimple(Nodo.Nodo):
         self.columna = columna
         self.tipo = tipo
 
+    def analizar(self,TS,Errores):
+        sim = Simbolo.Simbolo(self.tipo.tipo, self.nombre, "", TS.nombre)
+        if not TS.push(sim):
+            Errores.insertar(N_Error("Semantico",'Variable '+self.nombre+' ya esta definida'),self.fila,self.columna)
+            return TIPO_DATOS.ERROR
+        if not isinstance(self.valor):
+            Errores.insertar(N_Error("Semantico", 'Solo se puede asignar tipo list a arreglo'), self.fila,
+                             self.columna)
+            return TIPO_DATOS.ERROR
 
-    def getC3D(self,TS,Global,Traductor):
+        tipo=self.valor.analizar(TS,Errores)
+        if tipo==TIPO_DATOS.ERROR:
+            return TIPO_DATOS.ERROR
+
+
+
+    def getC3D(self,TS):
         codigo = ""
-        codigo += Traductor.makecomentario("Arreglo Simple [] de " + str(self.nombre))
+        codigo += TS.makecomentario("Arreglo Simple [] de " + str(self.nombre))
         if self.valor == None:
             if self.tipo.tipo == TIPO_DATOS.INT:
                 val = 0
@@ -23,18 +38,12 @@ class ArregloSimple(Nodo.Nodo):
             elif self.tipo.tipo == TIPO_DATOS.CHAR:
                 val = '0'
         else:
-            codigo += self.valor.getC3D(TS, Global, Traductor)
+            codigo += self.valor.getC3D(TS)
             val = self.valor.temporal
-        if TS is None:
-            sim = Simbolo(self.tipo.tipo, self.nombre, Global.size, Global.nombre,1)
-            Global.push(sim)
-            codigo += Traductor.changestack(sim.posicion, val)
-        else:
-            sim = Simbolo(self.tipo.tipo, self.nombre, TS.size, TS.nombre,1)
-            TS.push(sim)
-            temp = Traductor.getTemp()
-            codigo += Traductor.getfromP(temp, sim.posicion)
-            codigo += Traductor.changestack(temp, val)
+        temp = TS.getTemp()
+        codigo+=temp+'='+str(val)+';\n'
+        sim = Simbolo(self.tipo.tipo, self.nombre, temp, TS.nombre,1)
+        TS.push(sim)
         return codigo
 
     def graficarasc(self,padre,grafica):

@@ -8,3 +8,12 @@ class Instancia(Nodo.Nodo):
         self.fila = fila
         self.columna = columna
         self.tipo = tipo
+
+    def analizar(self,TS,Errores):
+        pass
+
+    def getC3D(self,TS):
+        pass
+
+    def graficarasc(self,padre,grafica):
+        pass

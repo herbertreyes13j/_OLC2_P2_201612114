@@ -1,5 +1,5 @@
 import AST.Nodo as Nodo
-
+from TS.Tipos import *
 
 class Return(Nodo.Nodo):
 
@@ -8,17 +8,29 @@ class Return(Nodo.Nodo):
         self.columna = columna
         self.EXP=Exp
 
-    def getC3D(self,TS,Global,Traductor):
+    def analizar(self,TS,Errores):
+        if self.EXP is not None:
+            print(type(self.EXP))
+            print(self.EXP)
+            print(self.fila)
+            print(self.columna)
+            tipo=self.EXP.analizar(TS,Errores)
+            if TIPO_DATOS.ERROR==tipo:
+                return TIPO_DATOS.ERROR
+
+    def getC3D(self,TS):
         codigo=""
         if self.EXP==None:
-            codigo += 'goto retorno_final;\n'
+            codigo += 'goto final_func_'+TS.nombre+';\n'
             return codigo
         else:
-            codigo+=self.EXP.getC3D(TS,Global,Traductor)
-            temp=Traductor.getTemp()
-            codigo+=Traductor.getfromP(temp,0)
-            codigo+=Traductor.changestack(temp,self.EXP.temporal)
-            codigo += 'goto retorno_final;\n'
+            codigo+=TS.makecomentario("Return con EXP")
+            codigo+=self.EXP.getC3D(TS)
+            func=TS.obtenerfunc(TS.nombre)
+            codigo+='$v'+str(func.id)+' = '+self.EXP.temporal+';\n'
+            codigo+='$sp= $sp -'+str(len(func.parametros))+';\n'
+            codigo += 'goto final_func_' + TS.nombre + ';\n'
+            self.temporal=self.EXP.temporal
             return codigo
 
     def graficarasc(self,padre,grafica):

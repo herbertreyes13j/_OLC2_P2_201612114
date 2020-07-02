@@ -3,8 +3,6 @@ from AST.Funcion import Funcion
 class TablaDeSimbolos():
     def __init__(self,ambito):
         self.size=1
-        self.inicio=None
-        self.fin=None
         self.nombre=ambito
         self.tmp = 0
         self.etq = 0
@@ -13,10 +11,14 @@ class TablaDeSimbolos():
         self.continuel=[]
         self.traducidas=[]
         self.cuentatrad=0
-        self.codigofinal="retorno_final:\n"
         self.reporteTS=[]
         self.salida=""
         self.almacenados=[]
+        self.tmp=0
+        self.etiquetas=0
+        self.simbolos=[]
+        self.cuentafun=1
+        self.parametros=0
 
 
     def insercont(self,etq):
@@ -44,15 +46,7 @@ class TablaDeSimbolos():
     def push(self,nuevo):
         if self.existe(nuevo.nombre):
             return False
-        if self.inicio is None:
-            self.inicio=nuevo
-            self.fin=nuevo
-            self.size+=1
-            return True
-        nuevo.anterior=self.fin
-        self.fin.siguiente=nuevo
-        self.fin=nuevo
-        self.size+=1
+        self.simbolos.insert(0,nuevo)
         return True
 
     def pop(self):
@@ -71,42 +65,14 @@ class TablaDeSimbolos():
         self.pop()
 
     def existe(self,nombre):
-        if nombre == "$$" or nombre == "$":
-            return False;
-        actual = self.fin;
-
-        while actual is not None:
-            if actual.nombre == nombre:
+        for variable in self.simbolos:
+            if variable.nombre==nombre and variable.ambito==self.nombre:
                 return True
-            if actual.nombre=="$$":
-                return  False
-            actual=actual.anterior
-        return False
 
     def obtener(self,nombre):
-        actual=self.fin
-
-        if actual is None: return None
-
-        while actual is not None:
-            if actual.nombre==nombre:
-                return actual
-            actual=actual.anterior
-        return None
-
-
-    def buscarglobal(self,nombre):
-        actual=self.inicio
-        if actual=='$$':
-            actual=actual.siguiente
-
-        while actual is not None:
-            if actual.nombre=='$$' or actual.nombre=='$':
-                return None
-            elif actual.nombre ==nombre:
-                return actual
-            actual=actual.siguiente
-
+        for simbolo in self.simbolos:
+            if simbolo.nombre==nombre and (simbolo.ambito==self.nombre or simbolo.ambito=='global'):
+                return simbolo
         return None
 
     def agregarfunc(self,funcion):
@@ -135,6 +101,41 @@ class TablaDeSimbolos():
         for muestra in self.reporteTS:
             tupla.append((muestra.tipo,muestra.nombre,muestra.posicion,muestra.ambito,muestra.dimensiones))
         return tupla
+
+    def getTemp(self):
+        temp = self.tmp
+        self.tmp += 1
+        return "$t" + str(temp)
+    def getParametro(self):
+        para = self.parametros
+        self.parametros += 1
+        return "$a" + str(para)
+
+    def changestack(self,pos, valor):
+        return "$s0[" + str(pos) + "] = " + str(valor) + ";\n"
+
+    def getfromStack(self,destino,pos):
+        return str(destino) + " = $s0[" + str(pos) + "];\n"
+
+    def getfromP(self,destino,pos):
+        return str(destino) + "= $sp+" + str(pos) + ";\n"
+
+    def make3d(self,asignacion,ins1,op,ins2):
+        return str(asignacion) + " = " + str(ins1) + " " + str(op) + " " + str(ins2) + ";\n"
+
+    def makecomentario(self,comentario):
+        return "#" + comentario + "\n"
+
+    def getEtq(self):
+        etiqueta = self.etiquetas
+        self.etiquetas+=1
+        return "L" + str(etiqueta)
+
+    def incP(self,incremento):
+        return '$sp=$sp + ' + str(incremento) + ';\n'
+
+    def decP(self,decremento):
+        return '$sp=$sp - ' + str(decremento) + ';\n'
 
 
 

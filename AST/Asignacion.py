@@ -1,11 +1,19 @@
 import AST.Nodo as Nodo
 from AST.Expresiones import *
+from TS.Simbolo import *
 
 class Asignacion(Nodo.Nodo):
     def __init__(self, nombre, fila, columna):
         self.nombre = nombre
         self.fila = fila
         self.columna = columna
+
+    def analizar(self,TS,Errores):
+        hola = variable(self.nombre,self.fila,self.columna)
+        tipo=hola.analizar(TS,Errores)
+        if tipo==TIPO_DATOS.ERROR:
+            return TIPO_DATOS.ERROR
+
 
     def getC3D(self,TS,Global,Traductor):
         codigo=""
@@ -26,31 +34,39 @@ class AsignacionOp(Nodo.Nodo):
         self.valor = valor
         self.op=op
 
-    def getC3D(self,TS,Global,Traductor):
-        codigo=""
-        codigo+=Traductor.makecomentario("Asignacion tipo "+str(self.op)+' de variable '+self.nombre)
-        hola = variable(self.nombre, self.fila, self.columna)
-        codigo+=Traductor.makecomentario("Obteniendo posicion de variable")
-        codigo+=hola.getPosicion(TS,Global,Traductor)
-        pos=hola.temporal
-        codigo+=Traductor.makecomentario("Obteniendo valor de expresion")
-        codigo+=self.valor.getC3D(TS,Global,Traductor)
+    def analizar(self,TS,Errores):
+        hola = variable(self.nombre,self.fila,self.columna)
+        tipo=hola.analizar(TS,Errores)
+        if tipo==TIPO_DATOS.ERROR:
+            return TIPO_DATOS.ERROR
 
+        tipo=self.valor.analizar(TS,Errores)
+        if tipo==TIPO_DATOS.ERROR:
+            return TIPO_DATOS.ERROR
+
+
+    def getC3D(self,TS):
+        codigo=""
+        codigo+=TS.makecomentario("Asignacion tipo "+str(self.op)+' de variable '+self.nombre)
+        hola =TS.obtener(self.nombre)
+
+
+        codigo+=self.valor.getC3D(TS)
+        temp=TS.getTemp()
+        if hola.tipo==TIPO_DATOS.INT:
+            tipo="int"
+        elif hola.tipo==TIPO_DATOS.CHAR:
+            tipo="char"
+        elif hola.tipo==TIPO_DATOS.FLOAT or hola.tipo.tipo==TIPO_DATOS.DOUBLE:
+            tipo="double"
+        codigo+=temp+'= ('+tipo+')'+str(self.valor.temporal)+';\n'
         if self.op=="=":
-            codigo+=Traductor.changestack(hola.temporal,self.valor.temporal)
+
+            codigo+=hola.posicion+'='+temp+';\n'
             return codigo
         else :
-            codigo+=hola.getC3D(TS,Global,Traductor)
-            temp=Traductor.getTemp()
-            codigo+=Traductor.make3d(temp,hola.temporal,self.op.replace('=',""),self.valor.temporal)
-            codigo+=Traductor.changestack(pos,temp)
+            codigo+=TS.make3d(hola.posicion,hola.posicion,self.op.replace('=',""),temp)
             return codigo
-
-
-
-
-
-        return codigo
 
     def graficarasc(self,padre,grafica):
         nombrehijo='Node'+str(id(self))

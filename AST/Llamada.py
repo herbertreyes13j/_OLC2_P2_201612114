@@ -1,7 +1,8 @@
 import AST.Nodo as Nodo
 from TS.TS import *
 from TS.Simbolo import *
-
+from Errores.N_Error import *
+from TS.Tipos import *
 class Llamada(Nodo.Nodo):
 
     def __init__(self, nombre,fila, columna,elementos=[]):
@@ -10,16 +11,41 @@ class Llamada(Nodo.Nodo):
         self.columna = columna
         self.elementos=elementos
 
-    def getC3D(self,TS,Global,Traductor):
+    def analizar(self,TS,Errores):
+        if self.nombre=='printf':
+            return
+        funcion = TS.obtenerfunc(self.nombre)
+        if funcion is None:
+            Errores.insertar(
+                N_Error("Semantico", "No existe funcion "+self.nombre, self.fila, self.columna))
+            return TIPO_DATOS.ERROR
+        if len(funcion.parametros)==len(self.elementos):
+            cuenta=0
+            for nodo in self.elementos:
+                tipo1=nodo.analizar(TS,Errores)
+                tipo2=funcion.parametros[cuenta].tipo.tipo
+                if tipo1!=tipo2:
+                    N_Error("Semantico",
+                            "Error llamada, no coincides tipos en parametros " + self.nombre, self.fila,
+                            self.columna)
+                    return TIPO_DATOS.ERROR
+        else:
+            Errores.insertar(
+                N_Error("Semantico", "Error llamada, no posee mismo numero de parametros que funcion " + self.nombre, self.fila, self.columna))
+            return TIPO_DATOS.ERROR
+
+        return funcion.tipo.tipo
+
+    def getC3D(self,TS):
         codigo=""
         if self.nombre=='printf':
-            codigo+=Traductor.makecomentario("Printf")
-            ele=self.elementos[0].getC3D(TS,Global,Traductor)
+            codigo+=TS.makecomentario("Printf")
+            ele=self.elementos[0].getC3D(TS)
             if len(self.elementos)==1:
                 codigo += ele
                 codigo+='print('+str(self.elementos[0].temporal)+');\n'
             else:
-                ele2 = self.elementos[1].getC3D(TS, Global, Traductor)
+                ele2 = self.elementos[1].getC3D(TS)
                 codigo += ele
                 codigo += ele2
                 codigo+='print('+str(self.elementos[0].temporal.replace('%d',self.elementos[1].temporal))+');\n';
@@ -27,68 +53,48 @@ class Llamada(Nodo.Nodo):
         elif self.nombre=="scanf":
             return codigo
         else:
-            funcion=Global.obtenerfunc(self.nombre)
-
-            codigoparametros=""
-
+            funcion=TS.obtenerfunc(self.nombre)
+            conteo=funcion.cuentatrad
+            funcion.cuentatrad += 1
+            temporales=[]
+            codigo+=TS.makecomentario("Generando codigo de Parametros")
             for nodo in self.elementos:
-                codigoparametros+=nodo.getC3D(TS,Global,Traductor)
+                codigo+=nodo.getC3D(TS)
+                codigo+='$s1[$sp] = '+nodo.temporal+';\n'
+                codigo+=TS.incP(1)
+                temporales.append(nodo.temporal)
 
-            if not self.nombre in Global.traducidas:
-                etiqueta=Traductor.getEtq()
-                codigo+='goto '+etiqueta+';\n'
-                Global.agregartrad(self.nombre)
-                Pila=TablaDeSimbolos(self.nombre)
-                cuenta=0
-                for ele in self.elementos:
-                    Pila.push(Simbolo(funcion.parametros[cuenta].tipo,funcion.parametros[cuenta].nombre,Pila.size,self.nombre))
-                    cuenta+=1
-                codigo+=self.nombre+":\n"
-                codigo+=funcion.getC3D(Pila,Global,Traductor)
-                codigo+='goto retorno_final;\n'
-                codigo += etiqueta + ':\n'
-
-            conteo=0
-            codigo += codigoparametros
-            if TS.nombre!='main':
-                codigo+=Traductor.makecomentario("Almacenando temporales")
-                temp=Traductor.getTemp()
-
-                for temporal in TS.almacenados:
-                    codigo+=Traductor.getfromP(temp,TS.size+conteo)
-                    codigo+=Traductor.changestack(temp,temporal)
-                    conteo+=1
-
-            temp=Traductor.getTemp()
-            codigo+='$ra ='+str(Global.cuentatrad)+';\n'
-            codigo+=Traductor.makecomentario('Simulando cambio de ambito')
-            codigo+=Traductor.getfromP(temp,TS.size)
-
-            for nodo in self.elementos:
-                codigo+=Traductor.make3d(temp,'1','+',temp)
-                codigo+=Traductor.changestack(temp,nodo.temporal)
-            codigo+=Traductor.makecomentario('Cambio de ambito')
-            codigo+=Traductor.incP(TS.size+conteo)
+            cuenta=0
+            ambito=TS.nombre
+            TS.nombre=self.nombre
+            for nodo in funcion.parametros:
+                sim=TS.obtener(nodo.nombre)
+                codigo+=sim.posicion+'='+temporales[cuenta]+';\n'
+                cuenta+=1
+            TS.nombre=ambito
+            codigo+=TS.makecomentario("Make Call ")
+            codigo+='$s0[$ra] = '+str(conteo)+';\n'
+            codigo+='$ra = $ra + 1;\n'
             codigo+='goto '+self.nombre+';\n'
 
-            Global.agregarcodigo("if($ra=="+str(Global.cuentatrad)+') goto Regreso'+str(Global.cuentatrad)+';\n')
-            codigo+='Regreso'+str(Global.cuentatrad)+':\n'
-            temp = Traductor.getTemp()
-            codigo += Traductor.getfromP(temp, 0)
-            codigo += Traductor.getfromStack(temp,temp)
-            self.temporal=temp
-            codigo+=Traductor.makecomentario('Cambio de ambito')
-            codigo+=Traductor.decP(TS.size+conteo)
-            Global.cuentatrad+=1
-            if TS.nombre!='main':
-                codigo+=Traductor.makecomentario("Recuperando temporales")
-                temp=Traductor.getTemp()
-                conteo=0
-                for temporal in TS.almacenados:
-                    codigo+=Traductor.getfromP(temp,TS.size+conteo)
-                    codigo+=Traductor.getfromStack(temporal,temp)
-                    conteo+=1
+            codigo+=self.nombre+'_retorno_'+str(conteo)+':\n'
+            temp=TS.getTemp()
 
+            if TS.nombre==self.nombre:
+                temp=TS.getTemp()
+                codigo+=TS.makecomentario('ACA ES DONDE FALLA')
+                cuenta=0
+                for nodo in funcion.parametros:
+                    sim=TS.obtener(nodo.nombre)
+                    if cuenta==0:
+                        codigo += temp + '=' + '$sp-'+str(len(funcion.parametros))+';\n'
+                    else:
+                        codigo+=temp+'='+'$sp-1;\n'
+                    codigo+=sim.posicion+'= $s1['+temp+'];\n'
+                    cuenta+=1
+            codigo+=temp+'='+'$v'+str(funcion.id)+';\n'
+            funcion.codigofin+='if($s0[$ra]=='+str(conteo)+') goto '+self.nombre+'_retorno_'+str(conteo)+';\n'
+            self.temporal='$v'+str(funcion.id)
             return codigo;
 
     def graficarasc(self,padre,grafica):

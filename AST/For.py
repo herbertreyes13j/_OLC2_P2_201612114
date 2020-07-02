@@ -1,5 +1,6 @@
 import AST.Nodo as Nodo
-
+from TS.Tipos import *
+from Errores.N_Error import *
 
 class For(Nodo.Nodo):
 
@@ -11,29 +12,54 @@ class For(Nodo.Nodo):
         self.Incremento=Incremento
         self.Sentencias=Sentencias
 
-    def getC3D(self,TS,Global,Traductor):
-        codigo=""
-        codigo+=Traductor.makecomentario("For")
+    def analizar(self,TS,Errores):
         if self.Incial is not None:
-            codigo+=Traductor.makecomentario('Declaracion')
-            codigo+=self.Incial.getC3D(TS,Global,Traductor)
-        entrada = Traductor.getEtq()
-        salida = Traductor.getEtq()
+            tipo = self.Incial.analizar(TS,Errores)
+            if tipo==TIPO_DATOS.ERROR:
+                return TIPO_DATOS.ERROR
+        tipo=self.Condicion.analizar(TS,Errores)
+        if not (
+                tipo == TIPO_DATOS.INT or tipo == TIPO_DATOS.CHAR or tipo == TIPO_DATOS.DOUBLE or tipo == TIPO_DATOS.FLOAT):
+            Errores.insertar(
+                N_Error("Semantico", "Tipo de dato de switch no es valido ", self.fila, self.columna))
+            return TIPO_DATOS.ERROR
+
+        if self.Incremento is not None:
+            tipo = self.Incremento.analizar(TS,Errores)
+            if tipo==TIPO_DATOS.ERROR:
+                return TIPO_DATOS.ERROR
+
+
+
+        for nodo in self.Sentencias:
+            tipo=nodo.analizar(TS,Errores)
+            if tipo==TIPO_DATOS.ERROR:
+                return tipo
+
+
+    def getC3D(self,TS):
+        codigo=""
+        codigo+=TS.makecomentario("For")
+        if self.Incial is not None:
+            codigo+=TS.makecomentario('Declaracion')
+            codigo+=self.Incial.getC3D(TS)
+        entrada = TS.getEtq()
+        salida = TS.getEtq()
         TS.insercont(entrada)
         TS.inseres(salida)
-        codigo += Traductor.makecomentario("Condicion")
+        codigo += TS.makecomentario("Condicion")
         codigo += entrada + ":\n"
-        codigo += self.Condicion.getC3D(TS, Global, Traductor)
-        etqV = Traductor.getEtq()
-        etqF = Traductor.getEtq()
+        codigo += self.Condicion.getC3D(TS)
+        etqV = TS.getEtq()
+        etqF = TS.getEtq()
         codigo += 'if (' + self.Condicion.temporal + ') goto ' + etqV + ';\n'
         codigo += 'goto ' + etqF + ';\n'
         codigo += etqV + ': \n'
         for nodo in self.Sentencias:
-            codigo += nodo.getC3D(TS, Global, Traductor)
+            codigo += nodo.getC3D(TS)
         if self.Incremento is not None:
-            codigo+=Traductor.makecomentario('Incremento For')
-            codigo+=self.Incremento.getC3D(TS,Global,Traductor)
+            codigo+=TS.makecomentario('Incremento For')
+            codigo+=self.Incremento.getC3D(TS)
         codigo += 'goto ' + entrada + ';\n'
         codigo += etqF + ": \n"
         codigo += 'goto ' + salida + ';\n'
