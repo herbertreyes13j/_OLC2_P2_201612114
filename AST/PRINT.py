@@ -42,10 +42,12 @@ class Print(Nodo.Nodo):
 
     def graficarasc(self,padre,grafica):
         nombrehijo = 'Node' + str(id(self))
-        grafica.node(nombrehijo, label=('Label'))
+        grafica.node(nombrehijo, label=('Printf'))
         grafica.edge(padre, nombrehijo)
-        grafica.node('NodeV' + str(id(self)), label=(self.nombre))
+        grafica.node('NodeV' + str(id(self)), label=(self.texto))
         grafica.edge(nombrehijo, 'NodeV' + str(id(self)))
+        for nodon in self.expresiones:
+            nodon.graficarasc(nombrehijo,grafica)
 
 import AST.Nodo as Nodo
 
@@ -68,8 +70,7 @@ class Scanf(Nodo.Nodo):
 
     def graficarasc(self,padre,grafica):
         nombrehijo = 'Node' + str(id(self))
-        grafica.node(nombrehijo, label=('Label'))
+        grafica.node(nombrehijo, label=('Scanf'))
         grafica.edge(padre, nombrehijo)
-        grafica.node('NodeV' + str(id(self)), label=(self.nombre))
-        grafica.edge(nombrehijo, 'NodeV' + str(id(self)))
+
 

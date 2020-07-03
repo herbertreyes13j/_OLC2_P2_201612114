@@ -47,10 +47,12 @@ if __name__=='__main__':
     from LineNumber import LineMain
     from Graphics import Tkinter
     from ColorLight import ColorLight
+    from ColorLight2 import ColorLight2
 else:
     from .LineNumber import LineMain
     from .Graphics import Tkinter
     from .ColorLight import ColorLight
+    from .ColorLight2 import ColorLight2
 
 class Connect:
     def __init__(self, pad):
@@ -60,6 +62,15 @@ class Connect:
     def modules_connections(self):
         LineMain(self.pad)
         ColorLight(self.pad)
+        return
+
+class Connect2:
+    def __init__(self, pad):
+        self.pad = pad
+        self.modules_connections()
+
+    def modules_connections(self):
+        ColorLight2(self.pad)
         return
 
 sys.setrecursionlimit(600000)
@@ -80,6 +91,20 @@ class TextPad(Tkinter.Text):
     def _pack(self):
         self.pack(expand = True, fill = "both")
         return
+class TextPad2(Tkinter.Text):
+    def __init__(self, *args, **kwargs):
+        Tkinter.Text.__init__(self, *args, **kwargs)
+        self.storeobj = {"Root": self.master}
+        self.Connect_External_Module_Features()
+        self._pack()
+
+    def Connect_External_Module_Features(self):
+        Connect2(self)
+        return
+
+    def _pack(self):
+        self.pack(expand = True, fill = "both")
+        return
 
 class interfaz:
 
@@ -91,6 +116,7 @@ class interfaz:
         self.archivoactgual=''
         self.txtarea=TextPad(self.window)
         self.consola = scrolledtext.ScrolledText(self.window,width=70, height=18)
+
         self.debugger=ttk.Treeview(self.window)
         lbl=Label(self.window,text="Consola de Salida")
         lbl.pack(side=TOP, fill=X)
@@ -111,6 +137,7 @@ class interfaz:
         self.window.config(menu=self.menubar)
         self.reporteg=[]
         self.errores=lista_err.L_Error()
+        self.TS=TablaDeSimbolos("MUERE")
         archivo = Menu(self.menubar, tearoff=0)
         archivo.add_command(label="Limpiar Pantalla",
                             command=self.limpiar)
@@ -136,6 +163,7 @@ class interfaz:
         reportes.add_command(label="Reporte AST",command=self.imprimir)
         reportes.add_command(label='Reporte Gramatica',command=self.reporte_gramatica)
         reportes.add_command(label='Reporte Errores', command=self.errores_r)
+        reportes.add_command(label='Tabla de Simbolos',command=self.TSR)
         self.menubar.add_cascade(label="Reportes",menu=reportes)
         opciones = Menu(self.menubar, tearoff=0)
         opciones.add_command(label="Cambiar Color Consolas", command=self.cambiarcolor)
@@ -143,6 +171,8 @@ class interfaz:
         opciones.add_command(label="Cambiar Color Texto", command=self.colortexto)
         self.menubar.add_cascade(label="Opciones", menu=opciones)
         self.window.mainloop()
+
+
 
     def imprimir(self):
         f = graphviz.Digraph(filename='Reporte_AST.gv')
@@ -245,7 +275,7 @@ class interfaz:
             return
         self.reporteg=g.reporteg
         self.resultado=resultado
-        pila=TablaDeSimbolos("global")
+        self.TS=TablaDeSimbolos("global")
         codigo="main: \n" \
                "$s0 = array(); \n" \
                "$s1 = array(); \n" \
@@ -253,56 +283,43 @@ class interfaz:
                "$sp = 0;\n"
         for nodo in resultado:
             if isinstance(nodo,Funcion):
-                if not pila.agregarfunc(nodo):
+                if not self.TS.agregarfunc(nodo):
                     self.errores.insertar(N_Error("Semantico",'Funcion '+nodo.nombre+' ya existe',nodo.fila,nodo.columna))
 
-        if not 'main' in pila.funciones:
+        if not 'main' in self.TS.funciones:
             self.errores.insertar(
                 N_Error("Semantico", 'Funcion main no esta definida', 0, 0))
             self.consola.insert('end', ">>Error: Verifique errores semanticos\n>>")
             return
         for nodo in resultado:
             if isinstance(nodo,Struct):
-                if not pila.agregarstruct(nodo):
+                if not self.TS.agregarstruct(nodo):
                     self.errores.insertar(
                         N_Error("Semantico", 'Struct ' + nodo.nombre + ' ya existe', nodo.fila, nodo.columna))
                     self.consola.insert('end', ">>Error: Verifique errores semanticos\n>>")
 
 
         cuenta=1
-        for fun in pila.funciones:
+        for fun in self.TS.funciones:
             codigo+='$v'+str(cuenta)+'=0;\n'
             cuenta+=1
         for nodo in resultado:
-            nodo.analizar(pila,self.errores)
+            nodo.analizar(self.TS,self.errores)
         for nodo in self.resultado:
             if isinstance(nodo,Arreglo) or isinstance(nodo,Declaracion):
-                codigo+=nodo.getC3D(pila)
+                codigo+=nodo.getC3D(self.TS)
         codigo+='goto main_main;\n'
         for nodo in resultado:
             if not (isinstance(nodo,Arreglo) or isinstance(nodo,Declaracion)):
-                codigo+=nodo.getC3D(pila)
+                codigo+=nodo.getC3D(self.TS)
 
-        pila.funciones['main'].codigofin+='exit;\n'
+        self.TS.funciones['main'].codigofin+='exit;\n'
 
-        for fun in pila.funciones:
-            codigo+=pila.funciones[fun].codigofin
-        self.consola.insert(INSERT,codigo)
-        #self.consola.delete('1.0', END)
-        #augus.ejec_ascendente(self.consola,codigo,self.txtarea)
-        '''
-            if interprete.errores.principio is not None:
-            errores(interprete.errores.principio)
-        else:
-            imprimir(resultado)
-            thread = threading.Thread(target=interprete.analizar, args=(resultado,))
-            thread.start()
-            thread.join()
-            errores(interprete.errores.principio)
-    
-            TS(interprete.pila.obtenerreporte())
-            consola.insert(INSERT, interprete.codigo)
-        '''
+        for fun in self.TS.funciones:
+            codigo+=self.TS.funciones[fun].codigofin
+        self.mostrar_augus(codigo)
+        augus.ejec_ascendente(self.consola,codigo,self.txtarea)
+
 
 
     def debbugear(self):
@@ -324,27 +341,61 @@ class interfaz:
             #TS(debbug.pila.obtenerreporte())
 
 
-    def TS(self,tupla):
-        ventana= Toplevel(self.window)
-        tree_errores = ttk.Treeview(ventana)
-        tree_errores["columns"] = ("Nombre", "Tipo","Dimension","Declarada","Rol")
-        tree_errores.grid(column=1, row=2, sticky=S)
-        tree_errores.column("#0", width=0, stretch=NO)
-        tree_errores.column("Nombre", width=50, minwidth=50, stretch=NO)
-        tree_errores.column("Tipo", width=100, minwidth=100)
-        tree_errores.column("Dimension", width=300, minwidth=300)
-        tree_errores.column("Declarada", width=200, minwidth=200)
-        tree_errores.column("Rol", width=100, minwidth=100)
-        tree_errores.heading("#0", text="No", anchor=W)
-        tree_errores.heading("Nombre", text="Nombre", anchor=W)
-        tree_errores.heading("Tipo", text="Tipo", anchor=W)
-        tree_errores.heading("Dimension", text="Valor", anchor=W)
-        tree_errores.heading("Declarada", text="Declarada", anchor=W)
-        tree_errores.heading("Rol", text="Rol", anchor=W)
+    def TSR(self):
+        html = ''' 
+                        <html>''' + head_html + '''
+                            <body>
+                            <h1>Reporte Tabla de Simbolos</h1>
+                            <table id="t02">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tipo</th>
+                                    <th>Nombre</th>
+                                    <th>Ambito</th>
+                                    <th>Dimensiones</th> 
+                                    <th>Temporal Referencia</th>
+                                </tr>
+                        '''
         cuenta=1
-        for x in tupla:
-            tree_errores.insert("",cuenta,cuenta,values=x)
+        for sim in self.TS.simbolos:
+            html+='<tr><td>'+str(cuenta)+'</td><td>'+str(sim.tipo)+'</td><td>'+str(sim.nombre)+'</td><td>'+str(sim.ambito)+'</td><td>'+str(sim.dimensiones)+'</td><td>'+str(sim.posicion)+'</td></tr>'
             cuenta+=1
+        html += '''</table>'''
+
+        html+='''
+        <h1>Reporte Tabla de Simbolos: Funciones</h1>
+                            <table id="t02">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tipo</th>
+                                    <th>Nombre</th>
+                                    <th>Cantidad Parametros</th>
+
+                                </tr>
+                        '''
+        cuenta=1
+        for funo in self.TS.funciones:
+            fun=self.TS.funciones[funo]
+            html+='<tr><td>'+str(cuenta)+'</td><td>'+str(fun.tipo.tipo.name)+'</td><td>'+str(fun.nombre)+'</td><td>'+str(len(fun.parametros))+'</td></tr>'
+            cuenta+=1
+        html += '''</table>'''
+        html += '''</body>
+                            </html>
+                        '''
+        try:
+            file = open('TS.html', 'w')
+            file.write(html)
+        except:
+            pass
+        finally:
+            file.close()
+            global new
+            webbrowser.open('TS.html', new=new)
+
+    def mostrar_augus(self,codigo):
+        ventana = Toplevel(self.window)
+        consola=TextPad2(ventana)
+        consola.insert(INSERT,codigo)
 
     def errores_r(self):
         ventana= Toplevel(self.window)
