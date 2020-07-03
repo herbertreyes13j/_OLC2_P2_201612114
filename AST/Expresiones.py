@@ -93,8 +93,8 @@ class Relacional(Nodo.Nodo):
         tipo2 = self.Exp2.analizar(TS, Errores)
 
         if (
-                tipo1 == TIPO_DATOS.INT  or tipo1==TIPO_DATOS.CHAR or tipo1 == TIPO_DATOS.FLOAT or tipo1 == TIPO_DATOS.DOUBLE) and (
-                tipo2 == TIPO_DATOS.INT or tipo2 == TIPO_DATOS.CHAR  or tipo2 == TIPO_DATOS.FLOAT or tipo2 == TIPO_DATOS.DOUBLE):
+                tipo1 == TIPO_DATOS.STRING or tipo1 == TIPO_DATOS.INT  or tipo1==TIPO_DATOS.CHAR or tipo1 == TIPO_DATOS.FLOAT or tipo1 == TIPO_DATOS.DOUBLE) and (
+                tipo2== TIPO_DATOS.STRING or tipo2 == TIPO_DATOS.INT or tipo2 == TIPO_DATOS.CHAR  or tipo2 == TIPO_DATOS.FLOAT or tipo2 == TIPO_DATOS.DOUBLE):
             return TIPO_DATOS.INT
         else:
             Errores.insertar(
@@ -413,7 +413,31 @@ class ternario(Nodo.Nodo):
         grafica.edge(nombrehijo, 'NodeE2' + str(id(self)))
         self.Exp2.graficarasc(nombrehijo,grafica)
 
+class casteo(Nodo.Nodo):
+    def __init__(self,Cast,Exp,fila,col):
+        self.fila=fila
+        self.columna=col
+        self.Exp=Exp
+        self.cast=Cast
 
+    def analizar(self,TS,Errores):
+        self.Exp.analizar(TS,Errores)
+        if self.cast=="char":
+            self.tipo=TIPO_DATOS.CHAR
+        elif self.cast=="int":
+            self.tipo=TIPO_DATOS.INT
+        elif self.cast=="float":
+            self.tipo=TIPO_DATOS.FLOAT
+    def getC3D(self,TS):
+        codigo=""
+        codigo+=self.Exp.getC3D(TS)
+        temp=TS.getTemp()
+        codigo+=temp+'= ('+self.cast+')'+self.Exp.temporal+';\n'
+        self.temporal=temp
+
+        return codigo;
+    def graficarasc(self,padre,grafica):
+        pass
 
 class sizeof(Nodo.Nodo):
     def __init__(self,Exp,fila,col):

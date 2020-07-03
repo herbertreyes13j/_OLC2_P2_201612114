@@ -45,7 +45,7 @@ class Declaracion(Nodo.Nodo):
             elif self.tipo.tipo == TIPO_DATOS.CHAR:
                 tipo = "char"
             elif self.tipo.tipo == TIPO_DATOS.FLOAT or self.tipo.tipo == TIPO_DATOS.DOUBLE:
-                tipo = "double"
+                tipo = "float"
             codigo += temp + '= (' + tipo + ')' + str(self.valor.temporal) + ';\n'
             val=temp
         temp = TS.getTemp()

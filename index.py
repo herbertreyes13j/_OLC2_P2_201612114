@@ -18,6 +18,7 @@ from AST.Funcion import *
 from AST.Asignacion import *
 from AST.Arreglo_Simple import *
 from AST.Arreglo import *
+from AST.Struct import *
 import Augus.menu as augus
 new = 2
 head_html = '''
@@ -108,7 +109,7 @@ class interfaz:
         self.consola.pack(side=LEFT)
         self.menubar = Menu(self.window)
         self.window.config(menu=self.menubar)
-        self.reporteg=""
+        self.reporteg=[]
         self.errores=lista_err.L_Error()
         archivo = Menu(self.menubar, tearoff=0)
         archivo.add_command(label="Limpiar Pantalla",
@@ -214,7 +215,8 @@ class interfaz:
                             <th>Regla Semántica</th> 
                         </tr>
                 '''
-        html+=self.reporteg
+        for texto in self.reporteg:
+            html+=texto
         html += '''</table>'''
 
         html += '''</body>
@@ -238,8 +240,9 @@ class interfaz:
         resultado = g.parse(input,self.errores)
 
         if self.errores.principio is not None:
-            self.errores_r()
-
+            self.consola.insert('end',">>Error: Verifique errores lexicos y sintacticos\n>>")
+        if resultado is None or len(resultado)==0:
+            return
         self.reporteg=g.reporteg
         self.resultado=resultado
         pila=TablaDeSimbolos("global")
@@ -250,7 +253,21 @@ class interfaz:
                "$sp = 0;\n"
         for nodo in resultado:
             if isinstance(nodo,Funcion):
-                pila.agregarfunc(nodo)
+                if not pila.agregarfunc(nodo):
+                    self.errores.insertar(N_Error("Semantico",'Funcion '+nodo.nombre+' ya existe',nodo.fila,nodo.columna))
+
+        if not 'main' in pila.funciones:
+            self.errores.insertar(
+                N_Error("Semantico", 'Funcion main no esta definida', 0, 0))
+            self.consola.insert('end', ">>Error: Verifique errores semanticos\n>>")
+            return
+        for nodo in resultado:
+            if isinstance(nodo,Struct):
+                if not pila.agregarstruct(nodo):
+                    self.errores.insertar(
+                        N_Error("Semantico", 'Struct ' + nodo.nombre + ' ya existe', nodo.fila, nodo.columna))
+                    self.consola.insert('end', ">>Error: Verifique errores semanticos\n>>")
+
 
         cuenta=1
         for fun in pila.funciones:

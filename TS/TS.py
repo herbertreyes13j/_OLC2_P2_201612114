@@ -9,7 +9,6 @@ class TablaDeSimbolos():
         self.funciones={}
         self.escape=[]
         self.continuel=[]
-        self.traducidas=[]
         self.cuentatrad=0
         self.reporteTS=[]
         self.salida=""
@@ -19,6 +18,7 @@ class TablaDeSimbolos():
         self.simbolos=[]
         self.cuentafun=1
         self.parametros=0
+        self.structs={}
 
 
     def insercont(self,etq):
@@ -75,11 +75,28 @@ class TablaDeSimbolos():
                 return simbolo
         return None
 
-    def agregarfunc(self,funcion):
-        self.funciones[funcion.nombre]=funcion
+    def agregarstruct(self,struct):
+        if struct.nombre in self.structs:
+            return False
+        self.structs[struct.nombre]=struct
+        return True
 
-    def agregartrad(self,nombre):
-        self.traducidas.append(nombre)
+    def obtenerstruct(self,nombre):
+        if not nombre in self.structs:
+            return None
+        return self.structs[nombre]
+
+    def existestruct(self,nombre):
+        if not nombre in self.structs:
+            return True
+        return False
+
+    def agregarfunc(self,funcion):
+        if funcion.nombre in self.funciones:
+            return False
+        self.funciones[funcion.nombre]=funcion
+        return True
+
 
     def obtenerfunc(self,nombre):
         if not nombre in self.funciones:

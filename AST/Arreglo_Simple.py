@@ -1,7 +1,9 @@
 import AST.Nodo as Nodo
 from TS.Simbolo import *
 from TS.Tipos import *
+from AST.Lista import *
 from Errores.N_Error import *
+from AST.Expresiones import *
 class ArregloSimple(Nodo.Nodo):
 
     def __init__(self, tipo, nombre, valor, fila, columna):
@@ -12,13 +14,13 @@ class ArregloSimple(Nodo.Nodo):
         self.tipo = tipo
 
     def analizar(self,TS,Errores):
-        sim = Simbolo.Simbolo(self.tipo.tipo, self.nombre, "", TS.nombre)
+        sim = Simbolo(self.tipo.tipo, self.nombre, "", TS.nombre)
         if not TS.push(sim):
             Errores.insertar(N_Error("Semantico",'Variable '+self.nombre+' ya esta definida'),self.fila,self.columna)
             return TIPO_DATOS.ERROR
-        if not isinstance(self.valor):
-            Errores.insertar(N_Error("Semantico", 'Solo se puede asignar tipo list a arreglo'), self.fila,
-                             self.columna)
+        if not (isinstance(self.valor,Lista) or isinstance(self.valor,primitivo)):
+            Errores.insertar(N_Error("Semantico", 'Solo se puede asignar tipo list a arreglo', self.fila,
+                             self.columna))
             return TIPO_DATOS.ERROR
 
         tipo=self.valor.analizar(TS,Errores)
@@ -42,8 +44,8 @@ class ArregloSimple(Nodo.Nodo):
             val = self.valor.temporal
         temp = TS.getTemp()
         codigo+=temp+'='+str(val)+';\n'
-        sim = Simbolo(self.tipo.tipo, self.nombre, temp, TS.nombre,1)
-        TS.push(sim)
+        sim =TS.obtener(self.nombre)
+        sim.posicion=temp
         return codigo
 
     def graficarasc(self,padre,grafica):

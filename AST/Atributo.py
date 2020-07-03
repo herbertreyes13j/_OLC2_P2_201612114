@@ -13,6 +13,8 @@ class Atributo(Nodo.Nodo):
         self.isestruct=isstruct
 
     def analizar(self,TS,Errores):
+        if self.isestruct:
+            return
         sim = Simbolo(self.tipo.tipo, self.nombre, "", TS.nombre)
         if not TS.push(sim):
             Errores.insertar(N_Error("Semantico", 'Variable ' + self.nombre + ' ya esta definida', self.fila,
@@ -23,7 +25,10 @@ class Atributo(Nodo.Nodo):
 
     def getC3D(self,TS):
         codigo=""
-
+        if self.isestruct:
+            for nodo in self.dimensiones:
+                codigo+=nodo.getC3D(TS)
+                codigo+='['+nodo.temporal+']'
         return codigo
 
     def graficarasc(self, padre, grafica):
@@ -38,5 +43,5 @@ class Atributo(Nodo.Nodo):
         if len(self.dimensiones) >0:
             grafica.node('Noded' + str(id(self)), label=('Dimensiones'))
             grafica.edge(nombrehijo, 'Noded' + str(id(self)))
-        for node in self.dimensiones:
-            node.graficarasc('Noded' + str(id(self)), grafica)
+            for node in self.dimensiones:
+                node.graficarasc('Noded' + str(id(self)), grafica)

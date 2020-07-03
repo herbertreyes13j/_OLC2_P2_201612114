@@ -21,7 +21,7 @@ class Lista(Nodo.Nodo):
         contador=0
         for nodo in self.elementos:
             if type(nodo) == Lista:
-                codigo+=nodo.listparalist(temp+'['+str(contador)+']',TS,Global,Traductor)
+                codigo+=nodo.listparalist(temp+'['+str(contador)+']',TS)
             else:
                 codigo+=nodo.getC3D(TS)
                 codigo+=temp+'['+str(contador)+'] ='+nodo.temporal+';\n'

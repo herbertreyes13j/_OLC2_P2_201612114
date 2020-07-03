@@ -12,8 +12,6 @@ class Llamada(Nodo.Nodo):
         self.elementos=elementos
 
     def analizar(self,TS,Errores):
-        if self.nombre=='printf':
-            return
         funcion = TS.obtenerfunc(self.nombre)
         if funcion is None:
             Errores.insertar(
@@ -38,64 +36,49 @@ class Llamada(Nodo.Nodo):
 
     def getC3D(self,TS):
         codigo=""
-        if self.nombre=='printf':
-            codigo+=TS.makecomentario("Printf")
-            ele=self.elementos[0].getC3D(TS)
-            if len(self.elementos)==1:
-                codigo += ele
-                codigo+='print('+str(self.elementos[0].temporal)+');\n'
-            else:
-                ele2 = self.elementos[1].getC3D(TS)
-                codigo += ele
-                codigo += ele2
-                codigo+='print('+str(self.elementos[0].temporal.replace('%d',self.elementos[1].temporal))+');\n';
-            return codigo;
-        elif self.nombre=="scanf":
-            return codigo
-        else:
-            funcion=TS.obtenerfunc(self.nombre)
-            conteo=funcion.cuentatrad
-            funcion.cuentatrad += 1
-            temporales=[]
-            codigo+=TS.makecomentario("Generando codigo de Parametros")
-            for nodo in self.elementos:
-                codigo+=nodo.getC3D(TS)
-                codigo+='$s1[$sp] = '+nodo.temporal+';\n'
-                codigo+=TS.incP(1)
-                temporales.append(nodo.temporal)
+        funcion=TS.obtenerfunc(self.nombre)
+        conteo=funcion.cuentatrad
+        funcion.cuentatrad += 1
+        temporales=[]
+        codigo+=TS.makecomentario("Generando codigo de Parametros")
+        for nodo in self.elementos:
+            codigo+=nodo.getC3D(TS)
+            codigo+='$s1[$sp] = '+nodo.temporal+';\n'
+            codigo+=TS.incP(1)
+            temporales.append(nodo.temporal)
 
+        cuenta=0
+        ambito=TS.nombre
+        TS.nombre=self.nombre
+        for nodo in funcion.parametros:
+            sim=TS.obtener(nodo.nombre)
+            codigo+=sim.posicion+'='+temporales[cuenta]+';\n'
+            cuenta+=1
+        TS.nombre=ambito
+        codigo+=TS.makecomentario("Make Call ")
+        codigo+='$s0[$ra] = '+str(conteo)+';\n'
+        codigo+='$ra = $ra + 1;\n'
+        codigo+='goto '+self.nombre+';\n'
+
+        codigo+=self.nombre+'_retorno_'+str(conteo)+':\n'
+        temp=TS.getTemp()
+
+        if TS.nombre==self.nombre:
+            temp=TS.getTemp()
+            codigo+=TS.makecomentario('ACA ES DONDE FALLA')
             cuenta=0
-            ambito=TS.nombre
-            TS.nombre=self.nombre
             for nodo in funcion.parametros:
                 sim=TS.obtener(nodo.nombre)
-                codigo+=sim.posicion+'='+temporales[cuenta]+';\n'
+                if cuenta==0:
+                    codigo += temp + '=' + '$sp-'+str(len(funcion.parametros))+';\n'
+                else:
+                    codigo+=temp+'='+'$sp-1;\n'
+                codigo+=sim.posicion+'= $s1['+temp+'];\n'
                 cuenta+=1
-            TS.nombre=ambito
-            codigo+=TS.makecomentario("Make Call ")
-            codigo+='$s0[$ra] = '+str(conteo)+';\n'
-            codigo+='$ra = $ra + 1;\n'
-            codigo+='goto '+self.nombre+';\n'
-
-            codigo+=self.nombre+'_retorno_'+str(conteo)+':\n'
-            temp=TS.getTemp()
-
-            if TS.nombre==self.nombre:
-                temp=TS.getTemp()
-                codigo+=TS.makecomentario('ACA ES DONDE FALLA')
-                cuenta=0
-                for nodo in funcion.parametros:
-                    sim=TS.obtener(nodo.nombre)
-                    if cuenta==0:
-                        codigo += temp + '=' + '$sp-'+str(len(funcion.parametros))+';\n'
-                    else:
-                        codigo+=temp+'='+'$sp-1;\n'
-                    codigo+=sim.posicion+'= $s1['+temp+'];\n'
-                    cuenta+=1
-            codigo+=temp+'='+'$v'+str(funcion.id)+';\n'
-            funcion.codigofin+='if($s0[$ra]=='+str(conteo)+') goto '+self.nombre+'_retorno_'+str(conteo)+';\n'
-            self.temporal='$v'+str(funcion.id)
-            return codigo;
+        codigo+=temp+'='+'$v'+str(funcion.id)+';\n'
+        funcion.codigofin+='if($s0[$ra]=='+str(conteo)+') goto '+self.nombre+'_retorno_'+str(conteo)+';\n'
+        self.temporal='$v'+str(funcion.id)
+        return codigo
 
     def graficarasc(self,padre,grafica):
         nombrehijo='Node'+str(id(self))

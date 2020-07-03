@@ -57,8 +57,8 @@ class AsignacionOp(Nodo.Nodo):
             tipo="int"
         elif hola.tipo==TIPO_DATOS.CHAR:
             tipo="char"
-        elif hola.tipo==TIPO_DATOS.FLOAT or hola.tipo.tipo==TIPO_DATOS.DOUBLE:
-            tipo="double"
+        elif hola.tipo==TIPO_DATOS.FLOAT or hola.tipo==TIPO_DATOS.DOUBLE:
+            tipo="float"
         codigo+=temp+'= ('+tipo+')'+str(self.valor.temporal)+';\n'
         if self.op=="=":
 

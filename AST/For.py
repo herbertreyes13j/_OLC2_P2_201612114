@@ -45,8 +45,10 @@ class For(Nodo.Nodo):
             codigo+=self.Incial.getC3D(TS)
         entrada = TS.getEtq()
         salida = TS.getEtq()
-        TS.insercont(entrada)
+        incremento=TS.getEtq()
+        TS.insercont(incremento)
         TS.inseres(salida)
+
         codigo += TS.makecomentario("Condicion")
         codigo += entrada + ":\n"
         codigo += self.Condicion.getC3D(TS)
@@ -57,12 +59,17 @@ class For(Nodo.Nodo):
         codigo += etqV + ': \n'
         for nodo in self.Sentencias:
             codigo += nodo.getC3D(TS)
+        codigo += 'goto ' + incremento + ';\n'
+        codigo+=TS.makecomentario('FALSA')
+        codigo += etqF + ": \n"
+        codigo += 'goto ' + salida + ';\n'
+        codigo+=TS.makecomentario("Goto incrementar")
+        codigo += incremento + ':\n'
         if self.Incremento is not None:
             codigo+=TS.makecomentario('Incremento For')
             codigo+=self.Incremento.getC3D(TS)
         codigo += 'goto ' + entrada + ';\n'
-        codigo += etqF + ": \n"
-        codigo += 'goto ' + salida + ';\n'
+        codigo+=TS.makecomentario("salida")
         codigo += salida + ": \n"
         TS.popc()
         TS.popes()

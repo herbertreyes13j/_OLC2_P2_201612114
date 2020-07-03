@@ -27,61 +27,7 @@ tr:nth-child(even) {
                             <th>Produccion</th>
                             <th>Regla Semántica</th> 
                         </tr>
-                <TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Parametros -> Parametro </TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+                <TR><TD> S -> Sentencias_G </TD><TD>t[0]=t[1]</TD></TR><TR><TD> Sentencias_G -> Sentencias_G Sentencia_G </TD><TD>t[1].extend(t[2])<br>t[0]=t[1]</TD></TR><TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR><TR><TD>Funcion -> Tipos iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR><TR><TD>BLOQUE -> llav1 SS_F llav2</TD><TD>t[0]=t[2]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
     t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
@@ -96,200 +42,7 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>Funcion -> Tipos iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR><TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR><TR><TD>Sentencias_G -> Sentencia_G  </TD><TD>t[0]=t[1]</TD></TR><TR><TD>Tipos -> t_double</TD><TD> t[0] = TIPO(TIPO_DATOS.DOUBLE)</TD></TR><TR><TD>Tipos -> t_double</TD><TD> t[0] = TIPO(TIPO_DATOS.DOUBLE)</TD></TR><TR><TD>Parametros -> Parametro </TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>Tipos -> t_double</TD><TD> t[0] = TIPO(TIPO_DATOS.DOUBLE)</TD></TR><TR><TD>Parametros -> Parametros coma Parametro </TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>Funcion -> Tipos iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR><TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR><TR><TD> Sentencias_G -> Sentencias_G Sentencia_G </TD><TD>t[1].extend(t[2])<br>t[0]=t[1]</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Parametros -> Parametro </TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Parametros -> Parametros coma Parametro </TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>Funcion -> Tipos iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR><TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR><TR><TD> Sentencias_G -> Sentencias_G Sentencia_G </TD><TD>t[1].extend(t[2])<br>t[0]=t[1]</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Parametros -> Parametro </TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>FOR -> t_for par1 INICIO EXP pyc INCDC BLOQUE</TD><TD>[For(t[3],t[4],t[6],t[7],t.slice[1].lineno,find_column(input,t.slice[1]))]</TD></TR><TR><TD>BLOQUE -> llav1 SS_F llav2</TD><TD>t[0]=t[2]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
     t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
@@ -304,7 +57,10 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LLAMADA : iden par1 ELEMENTS par2  </TD><TD>t[0]=[Llamada(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[3])]</TD></TR><TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -318,13 +74,7 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>Funcion -> Tipos iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR><TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR><TR><TD> Sentencias_G -> Sentencias_G Sentencia_G </TD><TD>t[1].extend(t[2])<br>t[0]=t[1]</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Parametros -> Parametro </TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>FOR -> t_for par1 INICIO EXP pyc INCDC BLOQUE</TD><TD>[For(t[3],t[4],t[6],t[7],t.slice[1].lineno,find_column(input,t.slice[1]))]</TD></TR><TR><TD>BLOQUE -> llav1 SS_F llav2</TD><TD>t[0]=t[2]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -338,61 +88,41 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LLAMADA : iden par1 ELEMENTS par2  </TD><TD>t[0]=[Llamada(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[3])]</TD></TR><TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
+    t[0]=t[1]</TD></TR><TR><TD>EXP -> ACCESO_STRUCT</TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP : iden</TD><TD>t[0]=variable(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP : iden</TD><TD>t[0]=variable(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR><TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>INCDC -> EXP par2</TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP :  EXP incremento <br>
+            |  EXP decremento</TD><TD>t[0]=incremento(t[1],t[2],False,t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP : iden</TD><TD>t[0]=variable(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR><TR><TD>EXP : EXP mayor EXP <br>
+           | EXP mayori EXP <br>
+           | EXP menor EXP <br>
+           | EXP menori EXP <br>
+           | EXP igual EXP <br>
+           | EXP diferente EXP</TD><TD>t[0] = Relacional(t[1],t[3],t.slice[2].value,t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>EXP : iden</TD><TD>t[0]=variable(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR><TR><TD>INICIO -> Tipos Dec pyc</TD><TD>t[0]=t[2]</TD></TR><TR><TD>Dec -> iden asigna EXP</TD><TD>     if type(t[-1]) == str:<br>
+        t[0] = Declaracion(t[-3], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))<br>
+    else:<br>
+        t[0] = Declaracion(t[-1], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>INCDC -> EXP par2</TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP :  EXP incremento <br>
+            |  EXP decremento</TD><TD>t[0]=incremento(t[1],t[2],False,t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP : iden</TD><TD>t[0]=variable(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR><TR><TD>EXP : EXP mayor EXP <br>
+           | EXP mayori EXP <br>
+           | EXP menor EXP <br>
+           | EXP menori EXP <br>
+           | EXP igual EXP <br>
+           | EXP diferente EXP</TD><TD>t[0] = Relacional(t[1],t[3],t.slice[2].value,t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>EXP : iden</TD><TD>t[0]=variable(t[1],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR><TR><TD>INICIO -> Tipos Dec pyc</TD><TD>t[0]=t[2]</TD></TR><TR><TD>Dec -> iden asigna EXP</TD><TD>     if type(t[-1]) == str:<br>
+        t[0] = Declaracion(t[-3], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))<br>
+    else:<br>
+        t[0] = Declaracion(t[-1], t.slice[1].value, t[3], t.slice[1].lineno, find_column(input, t.slice[1]))</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
     t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
@@ -407,7 +137,24 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden</TD><TD>t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),True)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -421,14 +168,24 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>Funcion -> Tipos iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR><TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR><TR><TD> Sentencias_G -> Sentencias_G Sentencia_G </TD><TD>t[1].extend(t[2])<br>t[0]=t[1]</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Parametros -> Parametro </TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Parametros -> Parametros coma Parametro </TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden</TD><TD>t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),True)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>S_F -> Declaracion <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -442,20 +199,27 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>S_F -> Declaracion <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -469,15 +233,27 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>S_F -> Declaracion <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -491,7 +267,24 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden</TD><TD>t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),True)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -505,10 +298,24 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>Funcion -> Tipos iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR><TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR><TR><TD> Sentencias_G -> Sentencias_G Sentencia_G </TD><TD>t[1].extend(t[2])<br>t[0]=t[1]</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Parametros -> </TD><TD>t[0]=[]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden</TD><TD>t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),True)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -522,16 +329,27 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -545,10 +363,27 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -562,7 +397,24 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden</TD><TD>t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),True)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -576,11 +428,24 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden</TD><TD>t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),True)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -594,21 +459,27 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -622,10 +493,27 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LASIGNACION -> ASIGNACION</TD><TD>  t[0]=[t[1]]</TD></TR><TR><TD>ASIGNACION -> ACCESO_STRUCT OP EXP </TD><TD>t[0]=AsignacionOp(t[1],t[2],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>OP :  andbasigna <br>
+            | divasigna<br>
+            | masasigna<br>
+            | menosasigna<br>
+            | modasigna<br>
+            | orbasigna<br>
+            | porasigna<br>
+            | shiftizqasigna<br>
+            | shiftderasigna<br>
+            | xorbasinga<br>
+            | asigna </TD><TD>t[0]=t[1]</TD></TR><TR><TD>ACCESO_STRUCT : ItemsStruct2 punto ItemsStruct2</TD><TD> t[0]=AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(input,t.slice[2]))</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>ItemsStruct2 -> iden LACCESO</TD><TD> t[0]=Atributo(None,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -639,7 +527,10 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>INSTANCIA -> t_struct iden iden LACCESO</TD><TD> t[0]=[Instancia(t[2],t[3],t.slice[1].lineno,find_column(input,t.slice[1]),t[4])]</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
+           | entero <br>
+           | decimal <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
          | LASIGNACION pyc <br>
         | STRUCT pyc<br>
         | IF<br>
@@ -653,307 +544,20 @@ tr:nth-child(even) {
         | ETIQUETA<br>
         | GOTO pyc<br>
         | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>LLAMADA : iden par1 ELEMENTS par2  </TD><TD>t[0]=[Llamada(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[3])]</TD></TR><TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>Parametros -> </TD><TD>t[0]=[]</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>Sentencias_G -> Sentencia_G  </TD><TD>t[0]=t[1]</TD></TR><TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR><TR><TD>STRUCT -> t_struct iden llav1 ATRIBUTOS llav2</TD><TD>t[0]= [Struct(t[2],t[4],t.slice[1].lineno,find_column(input,t.slice[1]))]</TD></TR><TR><TD>ATRIBUTOS -> ATRIBUTOS ATRIBUTO</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>ATRIBUTO -> Tipos LItemsStruct pyc</TD><TD>t[0]=t[2]</TD></TR><TR><TD>LItemsStruct -> ItemsStruct</TD><TD> t[0]=[t[1]]</TD></TR><TR><TD>ItemsStruct -> iden</TD><TD>     if type(t[-1]) == str:tipo=t[-3]<br>
+    else:tipo=t[-1]<br>
+    t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>ATRIBUTOS -> ATRIBUTOS ATRIBUTO</TD><TD>    t[1].extend(t[2])<br>
+    t[0]=t[1]</TD></TR><TR><TD>ATRIBUTO -> Tipos LItemsStruct pyc</TD><TD>t[0]=t[2]</TD></TR><TR><TD>LItemsStruct -> ItemsStruct</TD><TD> t[0]=[t[1]]</TD></TR><TR><TD>ItemsStruct -> iden</TD><TD>     if type(t[-1]) == str:tipo=t[-3]<br>
+    else:tipo=t[-1]<br>
+    t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]))</TD></TR><TR><TD>Tipos -> t_int</TD><TD> t[0] = TIPO(TIPO_DATOS.INT)</TD></TR><TR><TD>ATRIBUTOS -> ATRIBUTO</TD><TD>t[0]=t[1]</TD></TR><TR><TD>ATRIBUTO -> Tipos LItemsStruct pyc</TD><TD>t[0]=t[2]</TD></TR><TR><TD>LItemsStruct -> ItemsStruct</TD><TD> t[0]=[t[1]]</TD></TR><TR><TD>ItemsStruct -> iden LACCESO</TD><TD>    if type(t[-1]) == str:tipo=t[-3],br>
+    else:tipo=t[-1]<br>
+    t[0]=Atributo(tipo,t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t[2],True)</TD></TR><TR><TD>LACCESO -> cor1 EXP cor2</TD><TD> t[0]=[t[2]]</TD></TR><TR><TD>EXP -> string <br>
            | entero <br>
            | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> ELEMENTS coma EXP</TD><TD>    t[1].append(t[3])<br>
-    t[0]=t[1]</TD></TR><TR><TD>EXP -> LLAMADA</TD><TD>t[0]=t[1][0]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>EXP -> string <br>
-           | entero <br>
-           | decimal <br>
-           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)<TR><TD>ELEMENTS -> EXP</TD><TD>t[0]=[t[1]]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> S_F </TD><TD>t[0]=t[1]</TD></TR><TR><TD>S_F -> Declaracion <br>
-         | LASIGNACION pyc <br>
-        | STRUCT pyc<br>
-        | IF<br>
-        | LLAMADA pyc<br>
-        | BREAK pyc<br>
-        | CONTINUE pyc<br>
-        | SWITCH<br>
-        | DO_WHILE pyc<br>
-        | WHILE<br>
-        | RETURN pyc<br>
-        | ETIQUETA<br>
-        | GOTO pyc<br>
-        | FOR<br>
-        | INSTANCIA pyc </TD><TD>t[0]=t[1]</TD></TR><TR><TD>SS_F -> SS_F S_F</TD><TD>    t[1].extend(t[2])<br>
-    t[0]=t[1]</TD></TR><TR><TD>Funcion -> Tipos iden par1 Parametros par2 BLOQUE</TD><TD>t[0]=[Funcion(t[1],t[2],t[4],t[6],t.slice[2].lineno,find_column(input,t.slice[2]))]</TD></TR><TR><TD>Sentencia_G -> Declaracion <br> | LASIGNACION pyc <br>| STRUCT pyc <br> | Funcion  </TD><TD>t[0]=t[1]</TD></TR><TR><TD> Sentencias_G -> Sentencias_G Sentencia_G </TD><TD>t[1].extend(t[2])<br>t[0]=t[1]</TD></TR><TR><TD> S -> Sentencias_G </TD><TD>t[0]=t[1]</TD></TR></table></body>
+           | char</TD><TD>t[0]= primitivo(t[1],t.slice[1].lineno,find_column(input,t.slice[1]),t.slice[1].type)</TD></TR><TR><TD>Tipos -> t_char</TD><TD> t[0] = TIPO(TIPO_DATOS.CHAR)</TD></TR></table></body>
                     </html>
                 
