@@ -118,7 +118,7 @@ def t_CADENA(t):
     t.value = t.value[1:-1]
     t.value = t.value.replace("\\\\", "\\")
     t.value = t.value.replace("\\\'", "\'")
-    t.value = t.value.replace("\\\"", "\"")
+    #t.value = t.value.replace("\\\"", "\"")
     t.value = t.value.replace("\\r", "\r")
     t.value = t.value.replace("\\t", "\t")
     return t 
@@ -128,8 +128,8 @@ def t_CADENADOBLE(t):
     t.value = t.value[1:-1]
     t.value = t.value.replace("\\t", "\t")
     t.value = t.value.replace("\\\\", "\\")
-    t.value = t.value.replace("\\\'", "\'")
-    t.value = t.value.replace("\\\"", "\"")
+    #t.value = t.value.replace("\\\'", "\'")
+    #t.value = t.value.replace("\\\"", "\"")
     t.value = t.value.replace("\\r", "\r")
     return t 
 

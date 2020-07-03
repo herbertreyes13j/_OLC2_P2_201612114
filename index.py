@@ -348,11 +348,11 @@ class interfaz:
         for nodo in resultado:
             nodo.analizar(self.TS,self.errores)
         for nodo in self.resultado:
-            if isinstance(nodo,Arreglo) or isinstance(nodo,Declaracion):
+            if isinstance(nodo,Arreglo) or isinstance(nodo,Declaracion) or isinstance(nodo,ArregloSimple):
                 codigo+=nodo.getC3D(self.TS)
         codigo+='goto main_main;\n'
         for nodo in resultado:
-            if not (isinstance(nodo,Arreglo) or isinstance(nodo,Declaracion)):
+            if not (isinstance(nodo,Arreglo) or isinstance(nodo,Declaracion) or isinstance(nodo,ArregloSimple)):
                 codigo+=nodo.getC3D(self.TS)
 
         self.TS.funciones['main'].codigofin+='exit;\n'
