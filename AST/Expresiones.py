@@ -444,3 +444,12 @@ class sizeof(Nodo.Nodo):
         self.fila=fila
         self.columna=col
         self.Exp=Exp
+
+    def analizar(self,TS,Errores):
+        return
+
+    def getC3D(self,TS):
+        self.temporal="3"
+        return ""
+    def graficarasc(self,padre,grafica):
+        return

@@ -116,11 +116,21 @@ def t_ENTERO(t):
 def t_CADENA(t):
     r'\'.*?\''
     t.value = t.value[1:-1]
+    t.value = t.value.replace("\\\\", "\\")
+    t.value = t.value.replace("\\\'", "\'")
+    t.value = t.value.replace("\\\"", "\"")
+    t.value = t.value.replace("\\r", "\r")
+    t.value = t.value.replace("\\t", "\t")
     return t 
 
 def t_CADENADOBLE(t):
     r'\".*?\"'
     t.value = t.value[1:-1]
+    t.value = t.value.replace("\\t", "\t")
+    t.value = t.value.replace("\\\\", "\\")
+    t.value = t.value.replace("\\\'", "\'")
+    t.value = t.value.replace("\\\"", "\"")
+    t.value = t.value.replace("\\r", "\r")
     return t 
 
 def t_ID(t):

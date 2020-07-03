@@ -1,6 +1,6 @@
 from ply.yacc import string_types
 from .errores import *
-from .ts import *
+import Augus.ts as TS
 from .instrucciones import *
 from .expresiones import*
 import Augus.gramatica as g
@@ -47,7 +47,7 @@ def procesar_variable(tipoVar,ts) :
         newErr=ErrorRep('Semantico','Variable no declarada: '+str(tipoVar.id),indice)
         LisErr.agregar(newErr)
         return None
-    if val.tipo==TIPO_DATO.ARREGLO:
+    if val.tipo==TS.TIPO_DATO.ARREGLO:
         consola.insert('end','>>Error: No se pueden imprimir arreglos '+str(tipoVar.id)+'\n>>')
         newErr=ErrorRep('Semantico','No se pueden imprimir arreglos: '+str(tipoVar.id),indice)
         LisErr.agregar(newErr)
@@ -71,23 +71,23 @@ def procesar_definicion(asig, ts) :
     simbolo=ts.obtener(asig.variable.id)
     tipo_dato=0
 
-    if isinstance(valor,int): tipo_dato = TIPO_DATO.ENTERO
-    elif isinstance(valor,float): tipo_dato = TIPO_DATO.FLOTANTE
-    elif isinstance(valor,string_types): tipo_dato = TIPO_DATO.CADENA
-    
+    if isinstance(valor,int): tipo_dato = TS.TIPO_DATO.ENTERO
+    elif isinstance(valor,float): tipo_dato = TS.TIPO_DATO.FLOTANTE
+    elif isinstance(valor,string_types): tipo_dato = TS.TIPO_DATO.CADENA
+
     if valor is not None:
-        if isinstance(valor,Simbolo):
-            newsimbolo = Simbolo(asig.variable.id, TIPO_DATO.REFERENCIA,valor,valor.dimension,tag,[indice])
+        if isinstance(valor, TS.Simbolo):
+            newsimbolo = TS.Simbolo(asig.variable.id, TS.TIPO_DATO.REFERENCIA, valor, valor.dimension, tag, [indice])
             ts.agregar(newsimbolo)
 
-        elif simbolo is None :        
-            newsimbolo = Simbolo(asig.variable.id, tipo_dato, valor,[],tag,[indice])
+        elif simbolo is None:
+            newsimbolo = TS.Simbolo(asig.variable.id, tipo_dato, valor, [], tag, [indice])
             ts.agregar(newsimbolo)
         else:
-            ref=simbolo.referencia
+            ref = simbolo.referencia
             if indice not in ref:
                 simbolo.referencia.append(indice)
-            ts.actualizar(asig.variable.id,tipo_dato,valor)
+            ts.actualizar(asig.variable.id, tipo_dato, valor)
             #condiciones para cambiar el tipo de dato
             #if simbolo.tipo != tipo_dato :
             #    print('No puede cambiar el tipo de dato')
@@ -99,7 +99,7 @@ def procesar_definicion_arr(asig,ts):
     tipo_var=asig.id
     simbolo=ts.obtener(tipo_var.id)
     if simbolo is None :        
-        newsimbolo = Simbolo(tipo_var.id, TIPO_DATO.ARREGLO, {},[],tag,[indice])
+        newsimbolo = TS.Simbolo(tipo_var.id, TIPO_DATO.ARREGLO, {},[],tag,[indice])
         ts.agregar(newsimbolo)
     else:
         if indice not in simbolo.referencia:
@@ -767,11 +767,11 @@ def save_tag(parametros,etiq,ts,indexS) :
         if fun is not None:
             ts.actualizarFuncionPar(etiq,parametros)
         else:
-            simbolo=Funcion(etiq,'procedimiento',parametros,[indexS])
+            simbolo=TS.Funcion(etiq,'procedimiento',parametros,[indexS])
             ts.agregarFuncion(simbolo)
 
 def save_main(etiq,ts,indexS) :
-    simbolo=Funcion(etiq,'procedimiento',[],[indexS])
+    simbolo=TS.Funcion(etiq,'procedimiento',[],[indexS])
     ts.agregarFuncion(simbolo)
 
 def change_proc_to_fun(tags, ts) :
@@ -823,7 +823,7 @@ def comprobarMain(instrucciones):
 
 
 ##------------------------------------------
-ts_global = TablaDeSimbolos()
+ts_global = TS.TablaDeSimbolos()
 instrucciones = []
 editor=None
 consola=None
@@ -831,7 +831,7 @@ content=''
 ##------------------------------------------
 def limpiarValores():
     global ts_global, instrucciones,indice,tag,LisErr, dot
-    ts_global=TablaDeSimbolos
+    ts_global=TS.TablaDeSimbolos
     instrucciones= []
     indice = 0
     tag=''
@@ -841,7 +841,7 @@ def limpiarValores():
 def inicializarEjecucionAscendente(contenido) :
     global LisErr, instrucciones, ts_global
 
-    ts_global = TablaDeSimbolos()
+    ts_global = TS.TablaDeSimbolos()
     instrucciones = g.parse(contenido,LisErr)
 
 
@@ -1039,11 +1039,11 @@ def graficar_accesoarray(expresion):
     
 def get_tipo_dato(tipo):
 
-    if tipo==TIPO_DATO.ENTERO:
+    if tipo==TS.TIPO_DATO.ENTERO:
         return 'int'
-    elif tipo==TIPO_DATO.FLOTANTE:
+    elif tipo==TS.TIPO_DATO.FLOTANTE:
         return 'float'
-    elif tipo==TIPO_DATO.CHAR:
+    elif tipo==TS.TIPO_DATO.CHAR:
         return 'char'
     else:
         return 'TIPODATO'

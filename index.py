@@ -20,6 +20,8 @@ from AST.Arreglo_Simple import *
 from AST.Arreglo import *
 from AST.Struct import *
 import Augus.menu as augus
+import Optimizacion.gramatica as gramaticaop
+import Optimizacion.instrucciones as instop
 new = 2
 head_html = '''
 <head> 
@@ -116,22 +118,8 @@ class interfaz:
         self.archivoactgual=''
         self.txtarea=TextPad(self.window)
         self.consola = scrolledtext.ScrolledText(self.window,width=70, height=18)
-
-        self.debugger=ttk.Treeview(self.window)
         lbl=Label(self.window,text="Consola de Salida")
         lbl.pack(side=TOP, fill=X)
-        self.debugger["columns"]=("Nombre", "Tipo","Dimension","Rol")
-        self.debugger.column("#0", width=0, stretch=NO)
-        self.debugger.column("Nombre", width=150, minwidth=150, stretch=NO)
-        self.debugger.column("Tipo", width=50, minwidth=50)
-        self.debugger.column("Dimension", width=150, minwidth=150)
-        self.debugger.column("Rol", width=100, minwidth=100)
-        self.debugger.pack(side=RIGHT)
-        self.debugger.heading("#0", text="No", anchor=W)
-        self.debugger.heading("Nombre", text="Nombre", anchor=W)
-        self.debugger.heading("Tipo", text="Tipo", anchor=W)
-        self.debugger.heading("Dimension", text="Valor", anchor=W)
-        self.debugger.heading("Rol", text="Rol", anchor=W)
         self.consola.pack(side=LEFT)
         self.menubar = Menu(self.window)
         self.window.config(menu=self.menubar)
@@ -152,18 +140,14 @@ class interfaz:
         self.menubar.add_cascade(label="Archivo", menu=archivo)
         ejecucioin = Menu(self.menubar, tearoff=0)
         ejecucioin.add_command(label="Ejecutar Ascendente", command=self.analizar)
-        ejecucioin.add_separator()
-        ejecucioin.add_command(label="Debbuggear", command=self.debbugear)
-        ejecucioin.add_command(label="Siguiente", command=self.siguiente)
-        ejecucioin.add_command(label="Detener", command=self.detener)
-        ejecucioin.add_separator()
-        ejecucioin.add_command(label="Descendente", command=self.descendente)
+
         self.menubar.add_cascade(label="Ejecucion", menu=ejecucioin)
         reportes= Menu(self.menubar,tearoff=0)
         reportes.add_command(label="Reporte AST",command=self.imprimir)
         reportes.add_command(label='Reporte Gramatica',command=self.reporte_gramatica)
         reportes.add_command(label='Reporte Errores', command=self.errores_r)
         reportes.add_command(label='Tabla de Simbolos',command=self.TSR)
+        reportes.add_command(label='Reporte de Optimizacion', command=self.Optimizar)
         self.menubar.add_cascade(label="Reportes",menu=reportes)
         opciones = Menu(self.menubar, tearoff=0)
         opciones.add_command(label="Cambiar Color Consolas", command=self.cambiarcolor)
@@ -171,6 +155,8 @@ class interfaz:
         opciones.add_command(label="Cambiar Color Texto", command=self.colortexto)
         self.menubar.add_cascade(label="Opciones", menu=opciones)
         self.window.mainloop()
+        self.aoptimizar=""
+
 
 
 
@@ -262,6 +248,62 @@ class interfaz:
             global new
             webbrowser.open('Gramatical.html', new=new)
 
+
+    def Optimizar(self):
+        self.consola.delete('1.0', END)
+
+        resultado=gramaticaop.parse(self.aoptimizar)
+        codigo="#OPTIMIZADO"
+        reporte=[]
+        alcanzable=True
+        aux=''
+        for nodo in resultado:
+            if isinstance(nodo,instop.GoTo):
+                alcanzable=False
+                codigo+=nodo.Optimizar(reporte,"")
+            elif isinstance(nodo,instop.Etiqueta):
+                alcanzable=True
+                if aux !='':
+                    reporte.append(aux)
+                    aux=''
+            if alcanzable:
+                print(nodo)
+                codigo+=nodo.Optimizar(reporte,"")
+            else:
+                if aux=='':
+                    aux = 'Regla 2: Eliminando codigo inalcanzable \n'
+                aux+=nodo.Optimizar(reporte,"")
+        self.mostrar_augus(codigo)
+
+        html = ''' 
+                       <html>''' + head_html + '''
+                           <body>
+                           <h1>Reporte Optimizacion</h1>
+                           <table id="t02">
+                               <tr>
+                                   <th>No</th>
+                                   <th>Descripcion</th> 
+                               </tr>
+                       '''
+        cuenta=1
+        for texto in reporte:
+            html += '<tr><td>'+str(cuenta)+'</td><td>'+texto+'</td></tr>'
+            cuenta+=1
+        html += '''</table>'''
+
+        html += '''</body>
+                           </html>
+                       '''
+        try:
+            file = open('Optimizacion.html', 'w')
+            file.write(html)
+        except:
+            pass
+        finally:
+            file.close()
+            global new
+            webbrowser.open('Optimizacion.html', new=new)
+
     def analizar(self):
 
         self.consola.delete('1.0',END)
@@ -318,27 +360,13 @@ class interfaz:
         for fun in self.TS.funciones:
             codigo+=self.TS.funciones[fun].codigofin
         self.mostrar_augus(codigo)
+        self.aoptimizar=codigo
+
         augus.ejec_ascendente(self.consola,codigo,self.txtarea)
 
 
 
-    def debbugear(self):
-        self.debugger.delete(*self.debugger.get_children())
-        self.consola.delete('1.0',END)
-        input = self.txtarea.get(1.0,END)
-        erris=lista_err.L_Error()
-        resultado=g.parse(input,erris)
-        global debbug
-        if erris.principio is not None:
-            self.errores(erris.principio)
 
-        else:
-            debbug = self.Debbuger.Debbugger(resultado,self.consola,self.txtarea,self.debugger)
-            thread = threading.Thread(target=debbug.start)
-            thread.start()
-            thread.join()
-            #errores(debbug.errores.principio)
-            #TS(debbug.pila.obtenerreporte())
 
 
     def TSR(self):
